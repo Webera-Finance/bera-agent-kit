@@ -1,12 +1,13 @@
 import { Address, parseUnits, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { CONTRACT, TOKEN } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
+// import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import {
-  checkAndApproveAllowance,
+  // checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { InfraredVaultABI } from '../../constants/infraredABI';
+import { createViemPublicClient } from 'bera-agent-kit/utils';
 
 interface InfraredWithdrawStakedIBGTArgs {
   withdrawAmount: number;
@@ -39,7 +40,7 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         if (!walletClient || !walletClient.account) {
           throw new Error('Wallet client is not provided');
         }
-
+        const publicClient = createViemPublicClient();
         // constants
         const ibgtTokenAddress = TOKEN.IBGT;
         const infraredIBGTVaultAddress = CONTRACT.InfraredIBGTVault;
@@ -53,7 +54,7 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
 
         // check staked iBGT amount
-        const stakedIBGT = (await walletClient.readContract({
+        const stakedIBGT = (await publicClient.readContract({
           address: infraredIBGTVaultAddress,
           abi: InfraredVaultABI,
           functionName: 'balanceOf',
