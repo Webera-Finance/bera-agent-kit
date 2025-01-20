@@ -20,7 +20,6 @@ export const TOKEN: { [tokenName: string]: `0x${string}` } = {
   IBGT: '0x46eFC86F0D7455F135CC9df501673739d513E982' as `0x${string}`,
   HONEY: '0x0E4aaF1351de4c0264C5c7056Ef3777b41BD8e03' as `0x${string}`,
   BGT: '0xbDa130737BDd9618301681329bF2e46A016ff9Ad' as `0x${string}`,
-  BERA: '0x0000000000000000000000000000000000000000' as `0x${string}`,
 } as const;
 
 export const URL = {

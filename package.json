@@ -1,45 +1,10 @@
 {
   "name": "bera-agent-kit",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "Open-source agent kit for interacting with Berachain protocols",
   "main": "index.js",
   "module": "index.mjs",
   "types": "index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "require": "./index.js",
-      "default": "./index.js"
-    },
-    "./package.json": "./package.json",
-    "./utils": {
-      "types": "./utils/index.d.ts",
-      "import": "./utils/index.mjs",
-      "require": "./utils/index.js"
-    },
-    "./utils/createViemWalletClient": {
-      "types": "./utils/createViemWalletClient.d.ts",
-      "import": "./utils/createViemWalletClient.mjs",
-      "require": "./utils/createViemWalletClient.js"
-    },
-    "./tools": {
-      "types": "./tools/index.d.ts",
-      "import": "./tools/index.mjs",
-      "require": "./tools/index.js"
-    },
-    "./ai-agents": {
-      "types": "./ai-agents/index.d.ts",
-      "import": "./ai-agents/index.mjs",
-      "require": "./ai-agents/index.js"
-    }
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE",
-    "examples"
-  ],
   "engines": {
     "node": ">=22.0.0"
   },

@@ -12,33 +12,11 @@ Open-source agent kit for interacting with Berachain protocols using AI and bloc
 ## 📦 Installation
 
 ```bash
-npm install bera-agent-kit
+yarn install Webera-Finance/bera-agent-kit#releases
 ```
 
 ## 🚀 Quick Start
-
-```typescript
-import { BeraAgent } from 'bera-agent-kit';
-import { createViemWalletClient } from 'bera-agent-kit/utils/createViemWalletClient';
-
-async function main() {
-  // Create wallet client
-  const walletClient = createViemWalletClient();
-
-  // Initialize BeraAgent
-  const agent = new BeraAgent({
-    openAIConfig: {
-      apiKey: process.env.OPENAI_API_KEY || "",
-    },
-    walletClient,
-  });
-
-  // Initialize and interact
-  await agent.initialize();
-  const response = await agent.sendMessage('Check my wallet balance');
-  console.log(response);
-}
-```
+See [here](./guides/usage-guide.md)
 
 ## 🔧 Prerequisites
 
