@@ -10,6 +10,12 @@ export const fetchTokenDecimals = async (
   walletClient: any,
   token: Address,
 ): Promise<number> => {
+  console.log('token', token);
+
+  if (!token || token === TOKEN.BERA) {
+    return 18;
+  }
+
   if (!tokenDecimalsCache.has(token)) {
     if (token) {
       log.info(`[INFO] Fetching token decimals for ${token}`);
@@ -56,7 +62,7 @@ export const checkAndApproveAllowance = async (
   spender: Address,
   amount: bigint,
 ): Promise<void> => {
-  if (!token) {
+  if (!token || token === TOKEN.BERA) {
     return;
   }
 

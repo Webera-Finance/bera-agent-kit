@@ -16,16 +16,21 @@ async function example() {
     // await agent1.initialize();
     await agent.initialize();
 
-    const balanceResponse = await agent.sendMessage(
-      `Check my wallet balance with the wallet address ${agent.getWalletClient().account!.address}`,
+    // const balanceResponse = await agent.sendMessage(
+    //   `Check my wallet balance with the wallet address ${agent.getWalletClient().account!.address}`,
+    // );
+    // log.info(`Balance Check Response (Agent): ${balanceResponse}`);
+
+    const transfer = await agent.sendMessage(
+      `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
     );
-    log.info(`Balance Check Response (Agent): ${balanceResponse}`);
+    log.info(`Transfer Response (Agent): ${transfer}`);
 
     // // Send a general message about Berachain
-    const response = await agent.sendMessage(
-      "What can you help me with on Berachain?",
-    );
-    log.info(`Berachain Capabilities Response: ${response}`);
+    // const response = await agent.sendMessage(
+    //   'What can you help me with on Berachain?',
+    // );
+    // log.info(`Berachain Capabilities Response: ${response}`);
   } catch (error) {
     console.error("Error:", error);
   }

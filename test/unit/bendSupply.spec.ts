@@ -11,6 +11,9 @@ const mockWalletClient = {
   account: {
     address: '0x1234567890123456789012345678901234567890',
   },
+  chain: {
+    id: 1,
+  },
   writeContract: sinon.stub(),
 };
 
@@ -57,11 +60,14 @@ describe('bendSupply Tool', () => {
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
+    console.log(mockWalletClient.writeContract.firstCall.args[0]);
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
       address: CONTRACT.Bend,
       abi: BEND_ABI,
       functionName: 'supply',
       args: [testAsset, parseEther('100'), mockWalletClient.account.address, 0],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 

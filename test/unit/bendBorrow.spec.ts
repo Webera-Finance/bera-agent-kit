@@ -11,6 +11,9 @@ const mockWalletClient = {
   account: {
     address: '0x1234567890123456789012345678901234567890',
   },
+  chain: {
+    id: 1,
+  },
   writeContract: sinon.stub(),
 };
 
@@ -65,6 +68,8 @@ describe('bendBorrow Tool', () => {
         0, // referralCode
         mockWalletClient.account.address,
       ],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 
@@ -98,6 +103,8 @@ describe('bendBorrow Tool', () => {
         0, // referralCode
         mockWalletClient.account.address,
       ],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 

@@ -11,6 +11,9 @@ const mockWalletClient = {
   account: {
     address: '0x1234567890123456789012345678901234567890',
   },
+  chain: {
+    id: 1,
+  },
   writeContract: sinon.stub(),
 };
 
@@ -65,6 +68,8 @@ describe('bendRepay Tool', () => {
         BigInt(2), // Default variable rate
         mockWalletClient.account.address,
       ],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 
@@ -97,6 +102,8 @@ describe('bendRepay Tool', () => {
         BigInt(stableRateMode),
         mockWalletClient.account.address,
       ],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 
