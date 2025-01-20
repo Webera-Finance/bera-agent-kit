@@ -6,7 +6,7 @@ Please follow the steps below to setup **Bera Agent Kit** locally on your machin
 
 1. **Install the Package**
    ```bash
-   yarn install Webera-Finance/bera-agent-kit#releases
+   yarn install bera-agent-kit
    ```
    Or if you want to develop locally:
    ```bash
