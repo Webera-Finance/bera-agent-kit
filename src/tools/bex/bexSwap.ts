@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { Address, parseUnits, WalletClient } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BeraCrocMultiSwapABI } from '../../constants/bexABI';
 import { CONTRACT, TOKEN, URL } from '../../constants';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { createViemPublicClient } from 'bera-agent-kit/utils';
 
 interface BexSwapArgs {
   base: Address;
@@ -25,16 +25,18 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       parameters: {
         type: 'object',
         properties: {
-          base: {
+          quote: {
+            // from
             type: 'string',
             pattern: '^0x[a-fA-F0-9]{40}$',
             description:
-              'Base token address. If null/undefined, default is BERA native token',
+              'Quote token address. If null/undefined, default is BERA native token',
           },
-          quote: {
+          base: {
+            // to
             type: 'string',
             pattern: '^0x[a-fA-F0-9]{40}$',
-            description: 'Quote token address',
+            description: 'Base token address',
           },
           amount: {
             type: 'number',
@@ -51,23 +53,28 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
         throw new Error('Wallet client is not provided');
       }
 
+      const publicClient = createViemPublicClient();
+
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
         walletClient,
-        args.base,
+        args.quote,
         args.amount,
       );
 
-      log.info(`[INFO] Checking allowance for ${args.base}`);
+      log.info(`[INFO] Checking allowance for ${args.quote}`);
 
       await checkAndApproveAllowance(
         walletClient,
-        args.base,
+        args.quote,
         CONTRACT.BeraCrocMultiSwap,
         parsedAmount,
       );
 
+      const quoteBexRouteAddress =
+        args.quote === TOKEN.BERA ? TOKEN.WBERA : args.quote;
+
       // Fetch swap route
-      const routeApiUrl = `${URL.BEXRouteURL}?fromAsset=${args.base}&toAsset=${args.quote}&amount=${parsedAmount.toString()}`;
+      const routeApiUrl = `${URL.BEXRouteURL}?fromAsset=${quoteBexRouteAddress}&toAsset=${args.base}&amount=${parsedAmount.toString()}`;
       log.info(`[INFO] request route: ${routeApiUrl}`);
       const response = await axios.get(routeApiUrl);
 
@@ -78,7 +85,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       const steps = response.data.steps.map((step: any) => ({
         poolIdx: step.poolIdx,
         base: step.base,
-        quote: step.quote,
+        quote: args.quote === TOKEN.BERA ? TOKEN.BERA : step.quote,
         isBuy: step.isBuy,
       }));
 
@@ -88,7 +95,18 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
 
       log.info(`[INFO] Swap steps fetched:`, steps);
 
-      const parsedMinOut = BigInt(0); //TODO: calculate min out
+      const parsedMinOut = BigInt('0'); //TODO: calculate min out
+
+      const estimatedGas = await publicClient.estimateContractGas({
+        address: CONTRACT.BeraCrocMultiSwap,
+        abi: BeraCrocMultiSwapABI,
+        functionName: 'multiSwap',
+        args: [steps, parsedAmount, parsedMinOut],
+        account: walletClient.account,
+        value: steps.some((step: any) => step.quote === TOKEN.BERA)
+          ? parsedAmount
+          : undefined,
+      });
 
       const tx = await walletClient.writeContract({
         address: CONTRACT.BeraCrocMultiSwap,
@@ -97,9 +115,10 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
         args: [steps, parsedAmount, parsedMinOut],
         chain: walletClient.chain,
         account: walletClient.account,
-        value: steps.some((step: any) => step.base === TOKEN.WBERA)
+        value: steps.some((step: any) => step.quote === TOKEN.BERA)
           ? parsedAmount
           : undefined,
+        gas: estimatedGas,
       });
 
       log.info(`[INFO] Swap successful: Transaction hash: ${tx}`);
