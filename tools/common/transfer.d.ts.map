@@ -1,0 +1,1 @@
+{"version":3,"file":"transfer.d.ts","sourceRoot":"","sources":["../../../src/tools/common/transfer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAA4B,MAAM,MAAM,CAAC;AAEzD,OAAO,EAAE,UAAU,EAAE,MAAM,aAAa,CAAC;AAOzC,UAAU,YAAY;IACpB,EAAE,EAAE,OAAO,CAAC;IACZ,MAAM,EAAE,MAAM,CAAC;IACf,YAAY,CAAC,EAAE,OAAO,CAAC;CACxB;AAED,eAAO,MAAM,YAAY,EAAE,UAAU,CAAC,YAAY,CAgFjD,CAAC"}

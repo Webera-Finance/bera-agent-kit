@@ -1,0 +1,62 @@
+{
+  "name": "bera-agent-kit",
+  "version": "0.1.0",
+  "description": "Open-source agent kit for interacting with Berachain protocols",
+  "main": "index.js",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.js"
+    },
+    "./package.json": "./package.json",
+    "./utils": {
+      "types": "./utils/index.d.ts",
+      "import": "./utils/index.mjs",
+      "require": "./utils/index.js"
+    },
+    "./utils/createViemWalletClient": {
+      "types": "./utils/createViemWalletClient.d.ts",
+      "import": "./utils/createViemWalletClient.mjs",
+      "require": "./utils/createViemWalletClient.js"
+    },
+    "./tools": {
+      "types": "./tools/index.d.ts",
+      "import": "./tools/index.mjs",
+      "require": "./tools/index.js"
+    },
+    "./ai-agents": {
+      "types": "./ai-agents/index.d.ts",
+      "import": "./ai-agents/index.mjs",
+      "require": "./ai-agents/index.js"
+    }
+  },
+  "dependencies": {
+    "openai": "^4.73.1",
+    "viem": "^2.21.57",
+    "@langchain/core": "^0.3.27",
+    "@langchain/community": "^0.3.22",
+    "@langchain/langgraph": "^0.2.39",
+    "@langchain/openai": "^0.3.17"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Webera-Finance/bera-agent-kit.git"
+  },
+  "keywords": [
+    "berachain",
+    "agent",
+    "blockchain",
+    "defi",
+    "automation"
+  ],
+  "author": "Webera Finance",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Webera-Finance/bera-agent-kit/issues"
+  },
+  "homepage": "https://github.com/Webera-Finance/bera-agent-kit#readme"
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"bendBorrow.d.ts","sourceRoot":"","sources":["../../../src/tools/bend/bendBorrow.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAgB,MAAM,MAAM,CAAC;AAC7C,OAAO,EAAE,UAAU,EAAE,MAAM,aAAa,CAAC;AAOzC,UAAU,cAAc;IACtB,KAAK,EAAE,OAAO,CAAC;IACf,MAAM,EAAE,MAAM,CAAC;IACf,gBAAgB,CAAC,EAAE,MAAM,CAAC;CAC3B;AAED,eAAO,MAAM,cAAc,EAAE,UAAU,CAAC,cAAc,CAuErD,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"bgtStationDelegateBGT.d.ts","sourceRoot":"","sources":["../../../src/tools/bgtStation/bgtStationDelegateBGT.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAgB,MAAM,MAAM,CAAC;AAC7C,OAAO,EAAE,UAAU,EAAE,MAAM,aAAa,CAAC;AAMzC,UAAU,sBAAsB;IAC9B,SAAS,EAAE,OAAO,CAAC;IACnB,MAAM,EAAE,MAAM,CAAC;CAChB;AAED,eAAO,MAAM,sBAAsB,EAAE,UAAU,CAAC,sBAAsB,CAqErE,CAAC"}

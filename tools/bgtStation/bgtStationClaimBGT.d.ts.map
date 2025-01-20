@@ -1,0 +1,1 @@
+{"version":3,"file":"bgtStationClaimBGT.d.ts","sourceRoot":"","sources":["../../../src/tools/bgtStation/bgtStationClaimBGT.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAgB,MAAM,MAAM,CAAC;AAC7C,OAAO,EAAE,UAAU,EAAE,MAAM,aAAa,CAAC;AAKzC,UAAU,yBAAyB;IACjC,KAAK,CAAC,EAAE,OAAO,CAAC;IAChB,KAAK,CAAC,EAAE,OAAO,CAAC;CACjB;AAED,eAAO,MAAM,yBAAyB,EAAE,UAAU,CAAC,yBAAyB,CA2EzE,CAAC"}
