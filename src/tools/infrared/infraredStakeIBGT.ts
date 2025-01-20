@@ -1,4 +1,4 @@
-import { Address, parseUnits } from 'viem';
+import { Address, parseUnits, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { CONTRACT, TOKEN } from '../../constants/index';
 import { createViemWalletClient } from '../../utils/createViemWalletClient';
@@ -30,9 +30,11 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
       },
     },
   },
-  handler: async (args: InfraredStakeIBGTArgs) => {
+  handler: async (args: InfraredStakeIBGTArgs, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
 
       // constants
       const ibgtTokenAddress = TOKEN.IBGT;
@@ -61,17 +63,19 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
         abi: InfraredVaultABI,
         functionName: 'stake',
         args: [parsedStakeAmount],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
-      const receipt = await walletClient.waitForTransactionReceipt({
-        hash: tx as `0x${string}`,
-      });
+      // const receipt = await walletClient.waitForTransactionReceipt({
+      //   hash: tx as `0x${string}`,
+      // });
 
-      if (receipt.status !== 'success') {
-        throw new Error(
-          `Stake transaction failed with status: ${receipt.status}`,
-        );
-      }
+      // if (receipt.status !== 'success') {
+      //   throw new Error(
+      //     `Stake transaction failed with status: ${receipt.status}`,
+      //   );
+      // }
 
       console.log(`[INFO] Stake successful: Transaction hash: ${tx}`);
       return tx;

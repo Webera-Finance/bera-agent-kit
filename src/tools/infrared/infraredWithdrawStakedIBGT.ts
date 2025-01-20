@@ -1,4 +1,4 @@
-import { Address, parseUnits } from 'viem';
+import { Address, parseUnits, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { CONTRACT, TOKEN } from '../../constants/index';
 import { createViemWalletClient } from '../../utils/createViemWalletClient';
@@ -31,9 +31,14 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         },
       },
     },
-    handler: async (args: InfraredWithdrawStakedIBGTArgs) => {
+    handler: async (
+      args: InfraredWithdrawStakedIBGTArgs,
+      walletClient?: WalletClient,
+    ) => {
       try {
-        const walletClient = createViemWalletClient();
+        if (!walletClient || !walletClient.account) {
+          throw new Error('Wallet client is not provided');
+        }
 
         // constants
         const ibgtTokenAddress = TOKEN.IBGT;
@@ -72,17 +77,19 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
           abi: InfraredVaultABI,
           functionName: 'withdraw',
           args: [parsedWithdrawAmount],
+          chain: walletClient.chain,
+          account: walletClient.account,
         });
 
-        const receipt = await walletClient.waitForTransactionReceipt({
-          hash: tx as `0x${string}`,
-        });
+        // const receipt = await walletClient.waitForTransactionReceipt({
+        //   hash: tx as `0x${string}`,
+        // });
 
-        if (receipt.status !== 'success') {
-          throw new Error(
-            `Withdraw transaction failed with status: ${receipt.status}`,
-          );
-        }
+        // if (receipt.status !== 'success') {
+        //   throw new Error(
+        //     `Withdraw transaction failed with status: ${receipt.status}`,
+        //   );
+        // }
 
         console.log(`[INFO] Withdraw successful: Transaction hash: ${tx}`);
         return tx;

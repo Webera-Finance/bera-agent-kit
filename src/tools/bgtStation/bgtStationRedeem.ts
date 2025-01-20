@@ -1,9 +1,9 @@
 import { ToolConfig } from '../allTools';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { BGTABI } from '../../constants/tokenABI';
 import { TOKEN } from '../../constants';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { WalletClient } from 'viem';
 
 interface BGTStationRedeemArgs {
   receiver?: string; // Address of the receiver for redemption (optional)
@@ -35,13 +35,15 @@ export const bgtStationRedeemTool: ToolConfig<BGTStationRedeemArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
+
       if (args.amount === undefined || args.amount <= 0) {
         throw new Error('A positive amount is required.');
       }
-
-      const walletClient = createViemWalletClient();
 
       const receiver = args.receiver || walletClient.account.address;
 
@@ -58,21 +60,21 @@ export const bgtStationRedeemTool: ToolConfig<BGTStationRedeemArgs> = {
         abi: BGTABI,
         functionName: 'redeem',
         args: [receiver as `0x${string}`, parsedAmount],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
-      log.info('[INFO] Waiting for transaction receipt...');
-      const receipt = await walletClient.waitForTransactionReceipt({
-        hash: redeemTx as `0x${string}`,
-      });
+      // log.info('[INFO] Waiting for transaction receipt...');
+      // const receipt = await walletClient.waitForTransactionReceipt({
+      //   hash: redeemTx as `0x${string}`,
+      // });
 
-      if (receipt.status !== 'success') {
-        throw new Error('Redemption transaction failed.');
-      }
+      // if (receipt.status !== 'success') {
+      //   throw new Error('Redemption transaction failed.');
+      // }
 
-      log.info(
-        `[INFO] Redemption successful. Transaction Hash: ${receipt.transactionHash}`,
-      );
-      return receipt.transactionHash;
+      log.info(`[INFO] Redemption successful. Transaction Hash: ${redeemTx}`);
+      return redeemTx;
     } catch (error: any) {
       log.error(`[ERROR] Failed to redeem BGT: ${error.message}`);
       throw new Error(`Failed to redeem BGT: ${error.message}`);

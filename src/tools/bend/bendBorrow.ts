@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BEND_ABI } from '../../constants/bendABI';
 import { CONTRACT } from '../../constants/index';
@@ -41,9 +41,12 @@ export const bendBorrowTool: ToolConfig<BendBorrowArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
+
       const onBehalfOf = walletClient.account.address;
       const referralCode = 0;
       const interestRateMode = BigInt(args.interestRateMode || 2); // Default to variable rate
@@ -67,6 +70,8 @@ export const bendBorrowTool: ToolConfig<BendBorrowArgs> = {
           referralCode,
           onBehalfOf,
         ],
+        account: walletClient.account,
+        chain: walletClient.chain,
       });
 
       log.info(

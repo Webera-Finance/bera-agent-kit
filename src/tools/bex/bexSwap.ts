@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Address, parseUnits } from 'viem';
+import { Address, parseUnits, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BeraCrocMultiSwapABI } from '../../constants/bexABI';
 import { CONTRACT, TOKEN, URL } from '../../constants';
@@ -28,7 +28,8 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
           base: {
             type: 'string',
             pattern: '^0x[a-fA-F0-9]{40}$',
-            description: 'Base token address',
+            description:
+              'Base token address. If null/undefined, default is BERA native token',
           },
           quote: {
             type: 'string',
@@ -44,10 +45,11 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       },
     },
   },
-  handler: async args => {
-    // TODO: Detect the "native token" automatically so that users do not need to provide the BERA address.
+  handler: async (args, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
 
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
         walletClient,
@@ -93,20 +95,12 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
         abi: BeraCrocMultiSwapABI,
         functionName: 'multiSwap',
         args: [steps, parsedAmount, parsedMinOut],
+        chain: walletClient.chain,
+        account: walletClient.account,
         value: steps.some((step: any) => step.base === TOKEN.WBERA)
           ? parsedAmount
           : undefined,
       });
-
-      const receipt = await walletClient.waitForTransactionReceipt({
-        hash: tx as `0x${string}`,
-      });
-
-      if (receipt.status !== 'success') {
-        throw new Error(
-          `Swap transaction failed with status: ${receipt.status}`,
-        );
-      }
 
       log.info(`[INFO] Swap successful: Transaction hash: ${tx}`);
       return tx;

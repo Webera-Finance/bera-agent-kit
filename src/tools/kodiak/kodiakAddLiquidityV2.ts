@@ -1,4 +1,4 @@
-import { Address, parseUnits } from 'viem';
+import { Address, parseUnits, WalletClient } from 'viem';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { ToolConfig } from '../allTools';
@@ -72,10 +72,13 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
-      const publicClient = createViemPublicClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
+
+      // const publicClient = createViemPublicClient();
 
       const recipient = args.to || walletClient.account.address;
 
@@ -137,17 +140,19 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
           recipient,
           BigInt(deadline),
         ],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
-      const receipt = await walletClient.waitForTransactionReceipt({
-        hash: tx as `0x${string}`,
-      });
+      // const receipt = await walletClient.waitForTransactionReceipt({
+      //   hash: tx as `0x${string}`,
+      // });
 
-      if (receipt.status !== 'success') {
-        throw new Error(
-          `Add liquidity transaction failed with status: ${receipt.status}`,
-        );
-      }
+      // if (receipt.status !== 'success') {
+      //   throw new Error(
+      //     `Add liquidity transaction failed with status: ${receipt.status}`,
+      //   );
+      // }
 
       log.info(`[INFO] Liquidity added successfully: Transaction hash: ${tx}`);
       return tx;
