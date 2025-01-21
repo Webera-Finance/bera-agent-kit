@@ -2,9 +2,9 @@
   "name": "bera-agent-kit",
   "version": "1.0.0",
   "description": "Open-source agent kit for interacting with Berachain protocols",
-  "main": "index.js",
-  "module": "index.mjs",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -24,6 +24,9 @@
   "bugs": {
     "url": "https://github.com/Webera-Finance/bera-agent-kit/issues"
   },
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/Webera-Finance/bera-agent-kit#readme",
   "scripts": {
     "clean": "rm -rf dist",
