@@ -13,6 +13,10 @@ export const CONTRACT = {
   InfraredIBGTVault:
     '0x31E6458C83C4184A23c761fDAffb61941665E012' as `0x${string}`,
   Bend: '0x30A3039675E5b5cbEA49d9a5eacbc11f9199B86D' as `0x${string}`,
+  Pot2PumpFactory: '0x30DbCcdFE17571c2Cec5caB61736a5AF194b1593' as `0x${string}`,
+  Pot2PumpFacade: '0x29F4D4511dA9771F0529872923fb48F4ACfEDcc2' as `0x${string}`,
+  HoneypotNonfungiblePositionManager:
+    '0x29a738deAFdd2c6806e2f66891D812A311799828' as `0x${string}`,
 } as const;
 
 export const TOKEN: { [tokenName: string]: `0x${string}` } = {
