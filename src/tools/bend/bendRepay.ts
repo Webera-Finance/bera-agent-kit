@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BEND_ABI } from '../../constants/bendABI';
 import { CONTRACT } from '../../constants/index';
@@ -44,9 +44,12 @@ export const bendRepayTool: ToolConfig<BendRepayArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
+
       const onBehalfOf = walletClient.account.address;
       const interestRateMode = BigInt(args.interestRateMode || 2); // Default to variable rate
 
@@ -71,6 +74,8 @@ export const bendRepayTool: ToolConfig<BendRepayArgs> = {
         abi: BEND_ABI,
         functionName: 'repay',
         args: [args.asset, parsedAmount, interestRateMode, onBehalfOf],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
       log.info(`Successfully repaid tokens to Bend. Transaction hash: ${hash}`);

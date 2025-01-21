@@ -1,8 +1,9 @@
-import { Address, formatUnits, parseUnits } from 'viem';
+import { Address, formatUnits, parseUnits, WalletClient } from 'viem';
 import { TokenABI } from '../constants/tokenABI';
 import axios from 'axios';
 import { TOKEN, URL } from '../constants';
 import { log } from './logger';
+import { createViemPublicClient } from './createViemPublicClient';
 
 const tokenDecimalsCache: Map<string, number> = new Map();
 
@@ -10,6 +11,12 @@ export const fetchTokenDecimals = async (
   walletClient: any,
   token: Address,
 ): Promise<number> => {
+  console.log('token', token);
+
+  if (!token || token === TOKEN.BERA) {
+    return 18;
+  }
+
   if (!tokenDecimalsCache.has(token)) {
     if (token) {
       log.info(`[INFO] Fetching token decimals for ${token}`);
@@ -51,23 +58,25 @@ export const fetchTokenDecimalsAndParseAmount = async (
 };
 
 export const checkAndApproveAllowance = async (
-  walletClient: any,
+  walletClient: WalletClient,
   token: Address,
   spender: Address,
   amount: bigint,
 ): Promise<void> => {
-  if (!token) {
+  if (!token || token === TOKEN.BERA) {
     return;
   }
+
+  const publicClient = createViemPublicClient();
 
   log.info(`[INFO] Checking allowance for ${token} to spender ${spender}`);
 
   // Fetch current allowance
-  const allowance = await walletClient.readContract({
+  const allowance = await publicClient.readContract({
     address: token,
     abi: TokenABI,
     functionName: 'allowance',
-    args: [walletClient.account.address, spender],
+    args: [walletClient.account!.address, spender],
   });
 
   if (BigInt(allowance) < amount) {
@@ -81,9 +90,11 @@ export const checkAndApproveAllowance = async (
       abi: TokenABI,
       functionName: 'approve',
       args: [spender, amount],
+      chain: walletClient.chain,
+      account: walletClient.account!.address,
     });
 
-    const approvalReceipt = await walletClient.waitForTransactionReceipt({
+    const approvalReceipt = await publicClient.waitForTransactionReceipt({
       hash: approvalTx as `0x${string}`,
     });
 

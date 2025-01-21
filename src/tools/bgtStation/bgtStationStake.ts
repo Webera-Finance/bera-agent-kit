@@ -1,6 +1,6 @@
-import { Address, parseUnits } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
+
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
@@ -44,13 +44,15 @@ export const bgtStationStakeTool: ToolConfig<BGTStationStakeArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
+
       if (!args.token && !args.vault) {
         throw new Error('Either token or vault address must be provided.');
       }
-
-      const walletClient = createViemWalletClient();
 
       const primaryAddress = args.token || args.vault;
       const isVault = !!args.vault;
@@ -82,20 +84,20 @@ export const bgtStationStakeTool: ToolConfig<BGTStationStakeArgs> = {
         abi: BerachainRewardsVaultABI,
         functionName: 'stake',
         args: [parsedAmount],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
-      const stakeReceipt = await walletClient.waitForTransactionReceipt({
-        hash: stakeTx as `0x${string}`,
-      });
+      // const stakeReceipt = await walletClient.waitForTransactionReceipt({
+      //   hash: stakeTx as `0x${string}`,
+      // });
 
-      if (stakeReceipt.status !== 'success') {
-        throw new Error('Stake transaction failed.');
-      }
+      // if (stakeReceipt.status !== 'success') {
+      //   throw new Error('Stake transaction failed.');
+      // }
 
-      log.info(
-        `[INFO] Stake successful. Transaction Hash: ${stakeReceipt.transactionHash}`,
-      );
-      return stakeReceipt.transactionHash;
+      log.info(`[INFO] Stake successful. Transaction Hash: ${stakeTx}`);
+      return stakeTx;
     } catch (error: any) {
       log.error(`[ERROR] ${error.message}`);
       throw error;

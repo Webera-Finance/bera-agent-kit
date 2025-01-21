@@ -47,19 +47,18 @@ jobs:
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: | 
           git remote set-url origin git@github.com:Webera-Finance/bera-agent-kit.git
           npx semantic-release -r git@github.com:Webera-Finance/bera-agent-kit.git
 
-
       - name: Build SDK
         run: yarn build 
 
-      - name: Deploy Code 
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: releases
-          force_orphan: true
+      # - name: Deploy Code 
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     deploy_key: ${{ secrets.GH_TOKEN }}
+      #     publish_dir: ./dist
+      #     publish_branch: releases
+      #     force_orphan: true

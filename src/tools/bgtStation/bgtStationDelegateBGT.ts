@@ -1,6 +1,5 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { BGTABI } from '../../constants/tokenABI';
 import { TOKEN } from '../../constants';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
@@ -35,15 +34,17 @@ export const bgtStationDelegateTool: ToolConfig<BGTStationDelegateArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
+
       if (!args.validator || args.amount === undefined || args.amount <= 0) {
         throw new Error(
           'Validator address and a positive amount are required.',
         );
       }
-
-      const walletClient = createViemWalletClient();
 
       log.info('[INFO] Parsing amount based on token decimals...');
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
@@ -58,21 +59,21 @@ export const bgtStationDelegateTool: ToolConfig<BGTStationDelegateArgs> = {
         abi: BGTABI,
         functionName: 'queueBoost',
         args: [args.validator, parsedAmount],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
-      log.info('[INFO] Waiting for transaction receipt...');
-      const receipt = await walletClient.waitForTransactionReceipt({
-        hash: delegateTx as `0x${string}`,
-      });
+      // log.info('[INFO] Waiting for transaction receipt...');
+      // const receipt = await walletClient.waitForTransactionReceipt({
+      //   hash: delegateTx as `0x${string}`,
+      // });
 
-      if (receipt.status !== 'success') {
-        throw new Error('Delegation transaction failed.');
-      }
+      // if (receipt.status !== 'success') {
+      //   throw new Error('Delegation transaction failed.');
+      // }
 
-      log.info(
-        `[INFO] Delegation successful. Transaction Hash: ${receipt.transactionHash}`,
-      );
-      return receipt.transactionHash;
+      log.info(`[INFO] Delegation successful. Transaction Hash: ${delegateTx}`);
+      return delegateTx;
     } catch (error: any) {
       log.error(`[ERROR] Failed to delegate BGT: ${error.message}`);
       throw new Error(`Failed to delegate BGT: ${error.message}`);

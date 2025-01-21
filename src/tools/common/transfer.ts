@@ -4,6 +4,8 @@ import { ToolConfig } from '../allTools';
 import { parseEther } from 'viem/utils';
 import { TokenABI } from '../../constants/tokenABI';
 import { log } from '../../utils/logger';
+import { TOKEN } from '../../constants';
+import { fetchTokenDecimals } from '../../utils/helpers';
 
 interface TransferArgs {
   to: Address;
@@ -49,11 +51,11 @@ export const transferTool: ToolConfig<TransferArgs> = {
       }
 
       console.info(
-        `[INFO] Start transfer ${amount} ${tokenAddress || 'BERA'} from ${walletClient.account?.address} to ${to} `,
+        `[INFO] Start transfer ${amount} ${tokenAddress === TOKEN.BERA ? 'BERA' : tokenAddress} from ${walletClient.account?.address} to ${to} `,
       );
       let tx: string;
 
-      if (!tokenAddress) {
+      if (!tokenAddress || tokenAddress === TOKEN.BERA) {
         tx = await walletClient.sendTransaction({
           to,
           value: parseEther(amount.toString()),
@@ -61,14 +63,7 @@ export const transferTool: ToolConfig<TransferArgs> = {
           chain: walletClient.chain,
         });
       } else {
-        const publicClient = createViemPublicClient();
-
-        const decimals = await publicClient.readContract({
-          address: tokenAddress,
-          abi: TokenABI,
-          functionName: 'decimals',
-          args: [],
-        });
+        const decimals = await fetchTokenDecimals(walletClient, tokenAddress);
 
         const parsedAmount = parseUnits(amount.toString(), decimals);
         tx = await walletClient.writeContract({

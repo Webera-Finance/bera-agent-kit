@@ -1,12 +1,12 @@
 import { Address, parseUnits, WalletClient } from 'viem';
-import { createViemPublicClient } from '../../utils/createViemPublicClient';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
+// import { createViemPublicClient } from '../../utils/createViemPublicClient';
+// import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { ToolConfig } from '../allTools';
 import {
   KodiakSwapRouter02ABI,
   KodiakUniswapV2Router02ABI,
 } from '../../constants/kodiakABI';
-import { TokenABI } from '../../constants/tokenABI';
+// import { TokenABI } from '../../constants/tokenABI';
 import { CONTRACT, TOKEN } from '../../constants';
 import {
   checkAndApproveAllowance,
@@ -44,7 +44,7 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
             type: ['string'],
             pattern: '^0x[a-fA-F0-9]{40}$',
             description:
-              'Address of the input token (optional, defaults to native token if null)',
+              'Address of the input token (optional, defaults to bera native token if null)',
           },
           tokenOut: {
             type: 'string',
@@ -78,8 +78,16 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
       const deadline = Math.floor(Date.now() / 1000) + 1200;
 
       let tx;
+      const inputTokenDecimals = await fetchTokenDecimals(
+        walletClient,
+        args.tokenIn!,
+      );
+
       if (isNativeSwap) {
-        const parsedAmountOutMin = parseUnits(args.amountOutMin.toString(), 18);
+        const parsedAmountOutMin = parseUnits(
+          args.amountOutMin.toString(),
+          Number(inputTokenDecimals),
+        );
         tx = await walletClient.writeContract({
           address: CONTRACT.KodiakUniswapV2Router02,
           abi: KodiakUniswapV2Router02ABI,
@@ -92,14 +100,12 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
           ],
           chain: walletClient.chain,
           account: walletClient.account,
-          value: parseUnits(args.amountIn.toString(), 18),
+          value: parseUnits(
+            args.amountIn.toString(),
+            Number(inputTokenDecimals),
+          ),
         });
       } else {
-        const inputTokenDecimals = await fetchTokenDecimals(
-          walletClient,
-          args.tokenIn!,
-        );
-
         const parsedAmountIn = parseUnits(
           args.amountIn.toString(),
           Number(inputTokenDecimals),

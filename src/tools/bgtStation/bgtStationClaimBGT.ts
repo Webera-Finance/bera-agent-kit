@@ -1,6 +1,5 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { fetchVaultAndTokenAddress } from '../../utils/helpers';
 import { BerachainRewardsVaultABI } from '../../constants/bgtStationABI';
 import { log } from '../../utils/logger';
@@ -37,13 +36,15 @@ export const bgtStationClaimRewardTool: ToolConfig<BGTStationClaimRewardArgs> =
         },
       },
     },
-    handler: async args => {
+    handler: async (args, walletClient?: WalletClient) => {
       try {
+        if (!walletClient || !walletClient.account) {
+          throw new Error('Wallet client is not provided');
+        }
+
         if (!args.token && !args.vault) {
           throw new Error('Either token or vault address must be provided.');
         }
-
-        const walletClient = createViemWalletClient();
 
         const primaryAddress = args.token || args.vault;
         const isVault = !!args.vault;
@@ -62,20 +63,22 @@ export const bgtStationClaimRewardTool: ToolConfig<BGTStationClaimRewardArgs> =
           abi: BerachainRewardsVaultABI,
           functionName: 'getReward',
           args: [walletClient.account.address],
+          chain: walletClient.chain,
+          account: walletClient.account,
         });
 
-        const receipt = await walletClient.waitForTransactionReceipt({
-          hash: claimRewardTx as `0x${string}`,
-        });
+        // const receipt = await walletClient.waitForTransactionReceipt({
+        //   hash: claimRewardTx as `0x${string}`,
+        // });
 
-        if (receipt.status !== 'success') {
-          throw new Error('Claim reward transaction failed.');
-        }
+        // if (receipt.status !== 'success') {
+        //   throw new Error('Claim reward transaction failed.');
+        // }
 
         log.info(
-          `[INFO] Claim reward successful. Transaction Hash: ${receipt.transactionHash}`,
+          `[INFO] Claim reward successful. Transaction Hash: ${claimRewardTx}`,
         );
-        return receipt.transactionHash;
+        return claimRewardTx;
       } catch (error: any) {
         log.error(`[ERROR] Failed to claim rewards: ${error.message}`);
         throw new Error(`Failed to claim rewards: ${error.message}`);

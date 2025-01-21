@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { formatEther } from 'viem';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
@@ -28,10 +28,13 @@ export const getBalanceTool: ToolConfig<GetBalanceArgs> = {
       },
     },
   },
-  handler: async ({ wallet }) => {
-    console.log('Getting balance for wallet', wallet);
+  handler: async (args, walletClient?: WalletClient) => {
     const publicClient = createViemPublicClient();
-    const balance = await publicClient.getBalance({ address: wallet });
+
+    const address = args.wallet || walletClient?.account?.address;
+
+    console.log('Getting balance for wallet', address);
+    const balance = await publicClient.getBalance({ address });
     return formatEther(balance);
   },
 };

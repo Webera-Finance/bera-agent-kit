@@ -1,12 +1,13 @@
-import { Address, parseUnits } from 'viem';
+import { Address, parseUnits, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { CONTRACT, TOKEN } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
+// import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import {
-  checkAndApproveAllowance,
+  // checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { InfraredVaultABI } from '../../constants/infraredABI';
+import { createViemPublicClient } from '../../utils/createViemPublicClient';
 
 interface InfraredWithdrawStakedIBGTArgs {
   withdrawAmount: number;
@@ -31,10 +32,15 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         },
       },
     },
-    handler: async (args: InfraredWithdrawStakedIBGTArgs) => {
+    handler: async (
+      args: InfraredWithdrawStakedIBGTArgs,
+      walletClient?: WalletClient,
+    ) => {
       try {
-        const walletClient = createViemWalletClient();
-
+        if (!walletClient || !walletClient.account) {
+          throw new Error('Wallet client is not provided');
+        }
+        const publicClient = createViemPublicClient();
         // constants
         const ibgtTokenAddress = TOKEN.IBGT;
         const infraredIBGTVaultAddress = CONTRACT.InfraredIBGTVault;
@@ -48,7 +54,7 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
 
         // check staked iBGT amount
-        const stakedIBGT = (await walletClient.readContract({
+        const stakedIBGT = (await publicClient.readContract({
           address: infraredIBGTVaultAddress,
           abi: InfraredVaultABI,
           functionName: 'balanceOf',
@@ -72,17 +78,19 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
           abi: InfraredVaultABI,
           functionName: 'withdraw',
           args: [parsedWithdrawAmount],
+          chain: walletClient.chain,
+          account: walletClient.account,
         });
 
-        const receipt = await walletClient.waitForTransactionReceipt({
-          hash: tx as `0x${string}`,
-        });
+        // const receipt = await walletClient.waitForTransactionReceipt({
+        //   hash: tx as `0x${string}`,
+        // });
 
-        if (receipt.status !== 'success') {
-          throw new Error(
-            `Withdraw transaction failed with status: ${receipt.status}`,
-          );
-        }
+        // if (receipt.status !== 'success') {
+        //   throw new Error(
+        //     `Withdraw transaction failed with status: ${receipt.status}`,
+        //   );
+        // }
 
         console.log(`[INFO] Withdraw successful: Transaction hash: ${tx}`);
         return tx;
