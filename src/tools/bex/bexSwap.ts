@@ -8,7 +8,7 @@ import {
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
-import { createViemPublicClient } from 'bera-agent-kit/utils';
+import { createViemPublicClient } from '../../utils/createViemPublicClient';
 
 interface BexSwapArgs {
   base: Address;

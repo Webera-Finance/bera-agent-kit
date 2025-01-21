@@ -7,7 +7,7 @@ import {
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { InfraredVaultABI } from '../../constants/infraredABI';
-import { createViemPublicClient } from 'bera-agent-kit/utils';
+import { createViemPublicClient } from '../../utils/createViemPublicClient';
 
 interface InfraredWithdrawStakedIBGTArgs {
   withdrawAmount: number;
