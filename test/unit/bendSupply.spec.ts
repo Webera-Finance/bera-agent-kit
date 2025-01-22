@@ -60,7 +60,6 @@ describe('bendSupply Tool', () => {
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
-    console.log(mockWalletClient.writeContract.firstCall.args[0]);
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
       address: CONTRACT.Bend,
       abi: BEND_ABI,

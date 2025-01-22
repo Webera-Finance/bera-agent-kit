@@ -40,7 +40,6 @@ Please follow the steps below to setup **Bera Agent Kit** locally on your machin
      // Initialize and interact
      await agent.initialize();
      const response = await agent.sendMessage('Check my wallet balance');
-     console.log(response);
    }
    ```
 
