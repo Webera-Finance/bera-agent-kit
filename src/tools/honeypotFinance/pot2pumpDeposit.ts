@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { CONTRACT } from '../../constants/index';
 import { createViemWalletClient } from '../../utils/createViemWalletClient';
@@ -43,9 +43,11 @@ export const pot2pumpDepositTool: ToolConfig<Pot2PumpDepositArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
 
       // Parse amount with correct decimals
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
@@ -68,6 +70,8 @@ export const pot2pumpDepositTool: ToolConfig<Pot2PumpDepositArgs> = {
         abi: pot2pumpFacadeABI,
         functionName: 'deposit',
         args: [args.launchedToken, parsedAmount],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
       log.info(

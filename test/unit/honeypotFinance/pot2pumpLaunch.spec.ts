@@ -9,7 +9,10 @@ import { pot2pumpFactoryABI } from "../../../src/constants/honeypotFinanceABI";
 
 const mockWalletClient = {
   account: {
-    address: "0x1234567890123456789012345678901234567890",
+    address: '0x1234567890123456789012345678901234567890',
+  },
+  chain: {
+    id: 1,
   },
   writeContract: sinon.stub(),
 };
@@ -40,27 +43,32 @@ describe("pot2pumpLaunch Tool", () => {
 
     mockWalletClient.writeContract.resolves(mockTxHash);
 
-    const result = await pot2pumpLaunchTool.handler({
-      raisedToken: testAsset,
-      name: "testLaunch",
-      symbol: "TEST",
-      swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
-    });
+    const result = await pot2pumpLaunchTool.handler(
+      {
+        raisedToken: testAsset,
+        name: 'testLaunch',
+        symbol: 'TEST',
+        swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
+      },
+      mockWalletClient as any,
+    );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
       address: CONTRACT.Pot2PumpFactory,
       abi: pot2pumpFactoryABI,
-      functionName: "createPair",
+      functionName: 'createPair',
       args: [
         {
           raisedToken: testAsset,
-          name: "testLaunch",
-          symbol: "TEST",
+          name: 'testLaunch',
+          symbol: 'TEST',
           swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
         },
       ],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 
@@ -71,12 +79,15 @@ describe("pot2pumpLaunch Tool", () => {
     mockWalletClient.writeContract.rejects(new Error(errorMessage));
 
     try {
-      await pot2pumpLaunchTool.handler({
-        raisedToken: testAsset,
-        name: "testLaunch",
-        symbol: "TEST",
-        swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
-      });
+      await pot2pumpLaunchTool.handler(
+        {
+          raisedToken: testAsset,
+          name: 'testLaunch',
+          symbol: 'TEST',
+          swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
+        },
+        mockWalletClient as any,
+      );
       expect.fail("Should have thrown an error");
     } catch (error: any) {
       expect(error.message).to.include(errorMessage);

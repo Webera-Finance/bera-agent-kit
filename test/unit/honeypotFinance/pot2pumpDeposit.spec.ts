@@ -9,7 +9,10 @@ import { pot2pumpFacadeABI } from "../../../src/constants/honeypotFinanceABI";
 
 const mockWalletClient = {
   account: {
-    address: "0x1234567890123456789012345678901234567890",
+    address: '0x1234567890123456789012345678901234567890',
+  },
+  chain: {
+    id: 1,
   },
   writeContract: sinon.stub(),
 };
@@ -45,22 +48,24 @@ describe("pot2pumpDeposit Tool", () => {
 
     mockWalletClient.writeContract.resolves(mockTxHash);
 
-    const result = await pot2pumpDepositTool.handler({
-      launchedToken: testLaunchedToken,
-      raisedToken: testRaisedToken,
-      raisedTokenAmount: 100,
-    });
+    const result = await pot2pumpDepositTool.handler(
+      {
+        launchedToken: testLaunchedToken,
+        raisedToken: testRaisedToken,
+        raisedTokenAmount: 100,
+      },
+      mockWalletClient as any,
+    );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
       address: CONTRACT.Pot2PumpFacade,
       abi: pot2pumpFacadeABI,
-      functionName: "deposit",
-      args: [
-        testLaunchedToken,
-        parseEther('100'),
-      ],
+      functionName: 'deposit',
+      args: [testLaunchedToken, parseEther('100')],
+      chain: mockWalletClient.chain,
+      account: mockWalletClient.account,
     });
   });
 
@@ -72,11 +77,14 @@ describe("pot2pumpDeposit Tool", () => {
     mockWalletClient.writeContract.rejects(new Error(errorMessage));
 
     try {
-      await pot2pumpDepositTool.handler({
-        launchedToken: testLaunchedToken,
-        raisedToken: testRaisedToken,
-        raisedTokenAmount: 100,
-      });
+      await pot2pumpDepositTool.handler(
+        {
+          launchedToken: testLaunchedToken,
+          raisedToken: testRaisedToken,
+          raisedTokenAmount: 100,
+        },
+        mockWalletClient as any,
+      );
       expect.fail("Should have thrown an error");
     } catch (error: any) {
       expect(error.message).to.include(errorMessage);

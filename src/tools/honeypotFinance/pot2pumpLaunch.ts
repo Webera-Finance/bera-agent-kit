@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { CONTRACT } from '../../constants/index';
 import { createViemWalletClient } from '../../utils/createViemWalletClient';
@@ -44,9 +44,11 @@ export const pot2pumpLaunchTool: ToolConfig<Pot2PumpLaunchArgs> = {
       },
     },
   },
-  handler: async args => {
+  handler: async (args, walletClient?: WalletClient) => {
     try {
-      const walletClient = createViemWalletClient();
+      if (!walletClient || !walletClient.account) {
+        throw new Error('Wallet client is not provided');
+      }
 
       // Execute launch
       const hash = await walletClient.writeContract({
@@ -61,6 +63,8 @@ export const pot2pumpLaunchTool: ToolConfig<Pot2PumpLaunchArgs> = {
             swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
           },
         ],
+        chain: walletClient.chain,
+        account: walletClient.account,
       });
 
       log.info(
