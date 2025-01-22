@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.0.1...v1.0.2) (2025-01-22)
+
+
+### Bug Fixes
+
+* on tag release pineline ([#75](https://github.com/Webera-Finance/bera-agent-kit/issues/75)) ([185911f](https://github.com/Webera-Finance/bera-agent-kit/commit/185911fcfa2209948ca4de4a9585eacfd3d4e79c))
+
 # 1.0.0 (2025-01-21)
 
 
