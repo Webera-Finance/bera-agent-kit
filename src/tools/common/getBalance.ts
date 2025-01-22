@@ -33,7 +33,6 @@ export const getBalanceTool: ToolConfig<GetBalanceArgs> = {
 
     const address = args.wallet || walletClient?.account?.address;
 
-    console.log('Getting balance for wallet', address);
     const balance = await publicClient.getBalance({ address });
     return formatEther(balance);
   },

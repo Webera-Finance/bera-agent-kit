@@ -35,11 +35,9 @@ export const liveSearchTool: ToolConfig<{ query: string }> = {
   handler: async (args: { query: string }) => {
     const { query } = args;
     try {
-      //   console.log("Sending request to Tavily API with query:", query);
       const results = await generalAgent.invoke({
         messages: [{ role: 'user', content: query }],
       });
-      // log.info(`Received response from Tavily API:`, results);
 
       // Extract the relevant information from the results
       interface SearchResultMessage {
