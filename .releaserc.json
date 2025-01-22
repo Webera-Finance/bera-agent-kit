@@ -18,13 +18,7 @@
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
-    [
-      "@semantic-release/github",
-      {
-        "assets": [{ "path": "dist/**", "label": "Distribution" }],
-        "removeAssets": ["dist/**"]
-      }
-    ]
+    ["@semantic-release/github"]
   ],
   "repositoryUrl": "https://github.com/Webera-Finance/bera-agent-kit.git"
 }
