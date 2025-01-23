@@ -12,7 +12,7 @@ Open-source agent kit for interacting with Berachain protocols using AI and bloc
 ## 📦 Installation
 
 ```bash
-yarn install Webera-Finance/bera-agent-kit#releases
+yarn install bera-agent-kit
 ```
 
 ## 🚀 Quick Start
@@ -30,7 +30,7 @@ Full documentation available in the [docs](./docs) directory.
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md)
+See [CONTRIBUTING.md](./guides/contribute-guide.md)
 
 ## 📄 License
 

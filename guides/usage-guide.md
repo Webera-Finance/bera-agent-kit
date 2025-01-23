@@ -1,58 +1,49 @@
-# How to Setup Locally
+# Bera Agent Kit: User Guide
 
-Please follow the steps below to setup **Bera Agent Kit** locally on your machine.
+## Installation
 
-## Step-by-Step Guide
+Install the package via yarn:
+```bash
+yarn add bera-agent-kit
+```
 
-1. **Install the Package**
-   ```bash
-   yarn install bera-agent-kit
-   ```
-   Or if you want to develop locally:
-   ```bash
-   git clone https://github.com/webera-finance/bera-agent-kit.git
-   cd bera-agent-kit
-   yarn install
-   ```
+## Basic Usage
 
-2. **Configure Environment Variables**
-   Create a `.env` file in the root directory of the project to store your environment variables securely. Example at "[.env.example](../.env.example)"
+Refer to the `examples/basic-usage.ts` for a comprehensive example of how to use the Bera Agent Kit.
 
-   RPC addresses are defined at [this](../src/constants/index.ts)
+### Quick Start Example
+```typescript
+import { BeraAgent, createViemWalletClient } from "bera-agent-kit";
 
-3. **Basic Usage**
-   ```typescript
-   import { BeraAgent } from 'bera-agent-kit';
-   import { createViemWalletClient } from 'bera-agent-kit/utils/createViemWalletClient';
+async function example() {
+  const walletClient = createViemWalletClient();
+  const agent = new BeraAgent({
+    openAIConfig: {
+      apiKey: process.env.OPENAI_API_KEY || "",
+    },
+    walletClient,
+  });
 
-   async function main() {
-     // Create wallet client
-     const walletClient = createViemWalletClient();
+  try {
+    // Initialize the agents
+    await agent.initialize();
 
-     // Initialize BeraAgent
-     const agent = new BeraAgent({
-       openAIConfig: {
-         apiKey: process.env.OPENAI_API_KEY || "",
-       },
-       walletClient,
-     });
+    const response = await agent.sendMessage(
+      'What can you help me with on Berachain?',
+    );
+    console.info(`Berachain Capabilities Response: ${response}`);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
 
-     // Initialize and interact
-     await agent.initialize();
-     const response = await agent.sendMessage('Check my wallet balance');
-   }
-   ```
+// Run the example if this file is executed directly
+if (require.main === module) {
+  example().catch(console.error);
+}
 
-4. **Local Development**
-   If you're developing locally, build the project:
-   ```bash
-   npm run build
-   ```
-   This will generate the compiled files in the `dist/` directory.
+```
 
-5. **Generate Documentation (Optional)**
-   If you wish to generate the project documentation, use the following command:
-   ```bash
-   npm run docs
-   ```
-   The documentation will be available in the `docs/` directory.
+## Contributing
+
+See [here](./contribute-guide.md)

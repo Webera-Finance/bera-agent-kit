@@ -1,12 +1,10 @@
-import { BeraAgent } from "../src";
-import { createViemWalletClient } from "../src/utils/createViemWalletClient";
-import { log } from "../src/utils/logger";
+import { BeraAgent, createViemWalletClient } from '../src';
 
 async function example() {
   const walletClient = createViemWalletClient();
   const agent = new BeraAgent({
     openAIConfig: {
-      apiKey: process.env.OPENAI_API_KEY || "",
+      apiKey: process.env.OPENAI_API_KEY || '',
     },
     walletClient,
   });
@@ -24,7 +22,7 @@ async function example() {
     const transfer = await agent.sendMessage(
       `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
     );
-    log.info(`Transfer Response (Agent): ${transfer}`);
+    console.info(`Transfer Response (Agent): ${transfer}`);
 
     // // Send a general message about Berachain
     // const response = await agent.sendMessage(
@@ -32,7 +30,7 @@ async function example() {
     // );
     // log.info(`Berachain Capabilities Response: ${response}`);
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
   }
 }
 
