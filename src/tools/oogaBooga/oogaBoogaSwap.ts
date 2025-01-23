@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { Address, WalletClient } from 'viem';
+import { Address, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
-// import { createViemWalletClient } from "../../utils/createViemWalletClient";
+import { sleep } from 'openai/core';
 import { URL } from '../../constants';
+import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 
@@ -10,29 +11,62 @@ interface OogaBoogaSwapArgs {
   base: Address; // Token to swap from
   quote: Address; // Token to swap to
   amount: number; // Human-readable amount to swap
-  slippage: number; // Slippage tolerance, e.g., 0.01 for 1%
+  maxSlippage: string; // Slippage tolerance, e.g., 0.01 for 1%
 }
 
-const checkAndApproveAllowance = async (
-  walletClient: any,
+const getAllowance = async (
+  walletClient: WalletClient,
   base: Address,
-  parsedAmount: bigint,
   headers: any,
-): Promise<void> => {
-  log.info(`[INFO] Checking allowance for ${base}`);
+): Promise<bigint> => {
   const allowanceResponse = await axios.get(
     `${URL.OogaBoogaURL}/v1/approve/allowance`,
     {
       headers,
       params: {
         token: base,
-        from: walletClient.account.address,
+        from: walletClient.account?.address,
       },
     },
   );
-  log.info(`[DEBUG] Allowance API response:`, allowanceResponse.data);
+  return allowanceResponse.data.allowance;
+};
 
-  if (BigInt(allowanceResponse.data.allowance) < parsedAmount) {
+async function checkAllowanceAfterApproval(
+  walletClient: WalletClient,
+  base: Address,
+  headers: any,
+  parsedAmount: bigint,
+) {
+  for (let i = 0; i < 10; i++) {
+    const allowance = await getAllowance(walletClient, base, headers);
+    if (BigInt(allowance) >= parsedAmount) {
+      return true;
+    }
+    await sleep(300);
+  }
+
+  return false;
+}
+
+const checkAndApproveAllowance = async (
+  walletClient: WalletClient,
+  base: Address,
+  parsedAmount: bigint,
+  headers: any,
+): Promise<void> => {
+  log.info(`[INFO] Checking allowance for ${base}`);
+
+  if (base === zeroAddress) {
+    log.info(`[INFO] Skipping allowance check for zero address`);
+    return;
+  }
+  const publicClient = createViemPublicClient();
+
+  const allowance = await getAllowance(walletClient, base, headers);
+  log.info(`[DEBUG] Allowance API response:`, allowance);
+
+  if (BigInt(allowance) < parsedAmount) {
     log.info(`[INFO] Insufficient allowance. Approving ${parsedAmount}`);
     const approveResponse = await axios.get(`${URL.OogaBoogaURL}/v1/approve`, {
       headers,
@@ -49,10 +83,11 @@ const checkAndApproveAllowance = async (
       account: tx.from as Address,
       to: tx.to as Address,
       data: tx.data as `0x${string}`,
+      chain: walletClient.chain,
     });
 
     log.info(`[INFO] Sent approve transaction. Hash: ${hash}`);
-    const receipt = await walletClient.waitForTransactionReceipt({ hash });
+    const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
     log.info(`[DEBUG] Approval Receipt:`, receipt);
     if (receipt.status !== 'success') {
@@ -61,52 +96,78 @@ const checkAndApproveAllowance = async (
     log.info(
       `[INFO] Approval complete: ${receipt.transactionHash} ${receipt.status}`,
     );
+
+    const isAllowanceSufficient = await checkAllowanceAfterApproval(
+      walletClient,
+      base,
+      headers,
+      parsedAmount,
+    );
+    if (!isAllowanceSufficient) {
+      throw new Error('Allowance not updated');
+    }
   } else {
     log.info(`[INFO] Sufficient allowance available.`);
   }
 };
 
 const performSwap = async (
-  walletClient: any,
+  walletClient: WalletClient,
   base: Address,
   quote: Address,
   parsedAmount: bigint,
-  slippage: number,
+  maxSlippage: string,
   headers: any,
 ): Promise<string> => {
   try {
     log.info(`[INFO] Fetching swap details from OogaBooga API`);
+    const params = {
+      tokenIn: base,
+      amount: parsedAmount.toString(),
+      tokenOut: quote,
+      to: walletClient.account?.address,
+      maxSlippage,
+    };
+
+    log.debug(`[DEBUG] swap params:`, params);
+
     const swapResponse = await axios.get(`${URL.OogaBoogaURL}/v1/swap`, {
       headers,
-      params: {
-        tokenIn: base,
-        amount: parsedAmount.toString(),
-        tokenOut: quote,
-        to: walletClient.account.address,
-        slippage,
-      },
+      params,
     });
-    const { tx: swapTx } = swapResponse.data;
 
-    log.info('Submitting swap transaction...');
-    log.info(`[DEBUG] swap transaction params:`);
-    const swapHash = await walletClient.sendTransaction({
-      account: walletClient.account.address,
+    const to = swapResponse.data?.tx?.to;
+
+    if (!to) {
+      throw new Error('Swap transaction to address is missing');
+    }
+
+    const { tx: swapTx } = swapResponse.data;
+    log.debug(`[DEBUG] swap transaction params:`, swapTx);
+
+    const args = {
       to: swapTx.to as Address,
       data: swapTx.data as `0x${string}`,
       value: swapTx.value ? BigInt(swapTx.value) : 0n,
+    };
+    const publicClient = createViemPublicClient();
+    const gas = await publicClient.estimateGas({
+      account: walletClient.account?.address as Address,
+      ...args,
     });
 
-    // log.info(`[INFO] Sent swap transaction. Hash: ${swapHash}`);
-    // const swapReceipt = await walletClient.waitForTransactionReceipt({
-    //   hash: swapHash,
-    // });
+    // Add 10% gas buffer
+    const gasWithBuffer = (gas * 11n) / 10n;
 
-    // log.info(`[DEBUG] Swap Receipt: ${swapReceipt}`);
-    // if (swapReceipt.status !== "success") {
-    //   throw new Error("Swap transaction failed");
-    // }
-    // log.info(`[INFO] Swap successful: Transaction hash: ${swapHash}`);
+    log.debug(`[DEBUG] swap gas:`, gas);
+
+    const swapHash = await walletClient.sendTransaction({
+      ...args,
+      gas: gasWithBuffer,
+      account: swapTx.from as Address,
+      chain: walletClient.chain,
+    });
+
     return swapHash;
   } catch (error: any) {
     log.error(`[ERROR] Swap failed: ${error.message}`);
@@ -138,8 +199,8 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
             type: 'number',
             description: 'The amount of tokens to swap',
           },
-          slippage: {
-            type: 'number',
+          maxSlippage: {
+            type: 'string',
             description: 'The allowed slippage tolerance (0.01 = 1%)',
           },
         },
@@ -181,7 +242,7 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       args.base,
       args.quote,
       parsedAmount,
-      args.slippage,
+      args.maxSlippage,
       headers,
     );
   },
