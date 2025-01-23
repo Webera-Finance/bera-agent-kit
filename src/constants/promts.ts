@@ -40,7 +40,17 @@ You have access to these tools:
 - "bgt_station_claim_reward": Stake tokens into a vault in the BGT Station
 - "bgt_station_delegate": Delegate BGT to validator
 - "bgt_station_redeem": Redeem BGT to receiver, defaults to wallet client account
+- "infrared_stake_ibgt": Stake IBGT tokens into a vault in the Infrared protocol
+- "infrared_withdraw_staked_ibgt": Withdraw staked IBGT tokens from the Infrared protocol
+- "get_token_balance": Check the balance of a specific ERC20 token
+- "bend_supply": Supply tokens to the Bend protocol
+- "bend_withdraw": Withdraw tokens from the Bend protocol
+- "bend_borrow": Borrow tokens from the Bend protocol
+- "bend_repay": Repay tokens to the Bend protocol
 - "liveSearch": Search live data on internet
+- "pot2pump_launch": Launch a new pot2pump contract
+- "pot2pump_claim": Claim pot2pump tokens
+- "pot2pump_deposit": Deposit pot2pump tokens
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://bartio.beratrail.io/tx/{txHash}.

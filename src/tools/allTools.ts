@@ -16,6 +16,9 @@ import { bendRepayTool } from './bend/bendRepay';
 import { bgtStationDelegateTool } from './bgtStation/bgtStationDelegateBGT';
 import { bgtStationRedeemTool } from './bgtStation/bgtStationRedeem';
 import { liveSearchTool } from './tavilySearch/liveSearch';
+import { pot2pumpLaunchTool } from './honeypotFinance/pot2pumpLaunch';
+import { pot2pumpClaimTool } from './honeypotFinance/pot2pumpClaim';
+import { pot2pumpDepositTool } from './honeypotFinance/pot2pumpDeposit';
 
 export interface ToolConfig<T = any, W = WalletClient> {
   definition: {
@@ -44,6 +47,8 @@ export function createTools(
     ooga_booga_swap: oogaBoogaSwapTool,
     bgt_station_stake: bgtStationStakeTool,
     bgt_station_claim_reward: bgtStationClaimRewardTool,
+    bgt_station_delegate: bgtStationDelegateTool,
+    bgt_station_redeem: bgtStationRedeemTool,
     infrared_stake_ibgt: infraredStakeIBGTTool,
     infrared_withdraw_staked_ibgt: infraredWithdrawStakedIBGTTool,
     get_token_balance: getTokenBalanceTool,
@@ -51,8 +56,9 @@ export function createTools(
     bend_withdraw: bendWithdrawTool,
     bend_borrow: bendBorrowTool,
     bend_repay: bendRepayTool,
-    bgt_station_delegate: bgtStationDelegateTool,
-    bgt_station_redeem: bgtStationRedeemTool,
     liveSearch: liveSearchTool,
+    pot2pump_launch: pot2pumpLaunchTool,
+    pot2pump_claim: pot2pumpClaimTool,
+    pot2pump_deposit: pot2pumpDepositTool,
   };
 }
