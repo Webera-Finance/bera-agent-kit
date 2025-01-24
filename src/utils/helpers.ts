@@ -1,7 +1,13 @@
-import { Address, formatUnits, parseUnits, WalletClient } from 'viem';
+import {
+  Address,
+  formatUnits,
+  parseUnits,
+  WalletClient,
+  zeroAddress,
+} from 'viem';
 import { TokenABI } from '../constants/tokenABI';
 import axios from 'axios';
-import { TOKEN, URL } from '../constants';
+import { URL } from '../constants';
 import { log } from './logger';
 import { createViemPublicClient } from './createViemPublicClient';
 
@@ -13,7 +19,7 @@ export const fetchTokenDecimals = async (
 ): Promise<number> => {
   console.log('token', token);
 
-  if (!token || token === TOKEN.BERA) {
+  if (!token || token === zeroAddress) {
     return 18;
   }
 
@@ -63,7 +69,7 @@ export const checkAndApproveAllowance = async (
   spender: Address,
   amount: bigint,
 ): Promise<void> => {
-  if (!token || token === TOKEN.BERA) {
+  if (!token || token === zeroAddress) {
     return;
   }
 

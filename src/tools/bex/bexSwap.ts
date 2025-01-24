@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Address, WalletClient } from 'viem';
+import { Address, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BeraCrocMultiSwapABI } from '../../constants/bexABI';
 import { CONTRACT, TOKEN, URL } from '../../constants';
@@ -71,7 +71,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       );
 
       const quoteBexRouteAddress =
-        args.quote === TOKEN.BERA ? TOKEN.WBERA : args.quote;
+        args.quote === zeroAddress ? TOKEN.WBERA : args.quote;
 
       // Fetch swap route
       const routeApiUrl = `${URL.BEXRouteURL}?fromAsset=${quoteBexRouteAddress}&toAsset=${args.base}&amount=${parsedAmount.toString()}`;
@@ -85,7 +85,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       const steps = response.data.steps.map((step: any) => ({
         poolIdx: step.poolIdx,
         base: step.base,
-        quote: args.quote === TOKEN.BERA ? TOKEN.BERA : step.quote,
+        quote: args.quote === zeroAddress ? zeroAddress : step.quote,
         isBuy: step.isBuy,
       }));
 
@@ -103,7 +103,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
         functionName: 'multiSwap',
         args: [steps, parsedAmount, parsedMinOut],
         account: walletClient.account,
-        value: steps.some((step: any) => step.quote === TOKEN.BERA)
+        value: steps.some((step: any) => step.quote === zeroAddress)
           ? parsedAmount
           : undefined,
       });
@@ -115,7 +115,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
         args: [steps, parsedAmount, parsedMinOut],
         chain: walletClient.chain,
         account: walletClient.account,
-        value: steps.some((step: any) => step.quote === TOKEN.BERA)
+        value: steps.some((step: any) => step.quote === zeroAddress)
           ? parsedAmount
           : undefined,
         gas: estimatedGas,

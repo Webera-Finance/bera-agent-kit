@@ -1,10 +1,8 @@
-import { Address, parseUnits, WalletClient } from 'viem';
-import { createViemPublicClient } from '../../utils/createViemPublicClient';
+import { Address, parseUnits, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { parseEther } from 'viem/utils';
 import { TokenABI } from '../../constants/tokenABI';
 import { log } from '../../utils/logger';
-import { TOKEN } from '../../constants';
 import { fetchTokenDecimals } from '../../utils/helpers';
 
 interface TransferArgs {
@@ -51,11 +49,11 @@ export const transferTool: ToolConfig<TransferArgs> = {
       }
 
       console.info(
-        `[INFO] Start transfer ${amount} ${tokenAddress === TOKEN.BERA ? 'BERA' : tokenAddress} from ${walletClient.account?.address} to ${to} `,
+        `[INFO] Start transfer ${amount} ${tokenAddress === zeroAddress ? 'BERA' : tokenAddress} from ${walletClient.account?.address} to ${to} `,
       );
       let tx: string;
 
-      if (!tokenAddress || tokenAddress === TOKEN.BERA) {
+      if (!tokenAddress || tokenAddress === zeroAddress) {
         tx = await walletClient.sendTransaction({
           to,
           value: parseEther(amount.toString()),
