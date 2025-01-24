@@ -143,7 +143,3 @@ export const fetchVaultAndTokenAddress = async (
     throw error;
   }
 };
-
-export const sleep = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
