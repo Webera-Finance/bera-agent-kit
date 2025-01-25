@@ -1,4 +1,4 @@
-import { Address, parseUnits, WalletClient } from 'viem';
+import { Address, parseUnits, WalletClient, zeroAddress } from 'viem';
 // import { createViemPublicClient } from '../../utils/createViemPublicClient';
 // import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { ToolConfig } from '../allTools';
@@ -55,7 +55,7 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
             type: 'string',
             pattern: '^0x[a-fA-F0-9]{40}$',
             description:
-              "The optional recipient's public address for the output tokens",
+              "The optional recipient's public address for the output tokens. Default is the wallet address",
           },
         },
         required: ['amountIn', 'amountOutMin', 'tokenOut'],
@@ -68,8 +68,11 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
         throw new Error('Wallet client is not provided');
       }
 
-      const recipient = args.to || walletClient.account.address;
-      const isNativeSwap = !args.tokenIn;
+      const recipient =
+        args.to && args.to !== zeroAddress
+          ? args.to
+          : walletClient.account.address;
+      const isNativeSwap = !args.tokenIn || args.tokenIn === zeroAddress;
 
       log.info(
         `[INFO] Initiating Kodiak swap: ${args.amountIn} ${isNativeSwap ? 'BERA' : args.tokenIn} for ${args.tokenOut} to ${recipient}`,
