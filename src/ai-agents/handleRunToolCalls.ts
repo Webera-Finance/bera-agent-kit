@@ -10,6 +10,7 @@ export async function handleRunToolCalls(
   client: OpenAI,
   thread: Thread,
   walletClient: WalletClient,
+  toolEnvConfigs?: Record<string, unknown>,
 ): Promise<Run> {
   const toolCalls = run.required_action?.submit_tool_outputs?.tool_calls;
   if (!toolCalls || toolCalls.length === 0) return run;
@@ -28,7 +29,7 @@ export async function handleRunToolCalls(
 
       try {
         const args = JSON.parse(tool.function.arguments);
-        const output = await toolConfig.handler(args, walletClient);
+        const output = await toolConfig.handler(args, walletClient, toolEnvConfigs);
         return {
           tool_call_id: tool.id,
           output: String(output),

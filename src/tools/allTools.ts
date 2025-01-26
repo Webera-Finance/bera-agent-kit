@@ -33,7 +33,11 @@ export interface ToolConfig<T = any, W = WalletClient> {
       };
     };
   };
-  handler: (args: T, walletClient?: W) => Promise<any>;
+  handler: (
+    args: T,
+    walletClient?: W,
+    toolEnvConfigs?: Record<string, unknown>,
+  ) => Promise<any>;
 }
 
 export function createTools(

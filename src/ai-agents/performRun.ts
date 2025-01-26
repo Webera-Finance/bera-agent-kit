@@ -9,6 +9,7 @@ export async function performRun(
   client: OpenAI,
   thread: Thread,
   walletClient: WalletClient,
+  toolEnvConfigs?: Record<string, unknown>,
 ): Promise<{ type: string; text: { value: string } } | null> {
   let currentRun = run;
 
@@ -16,7 +17,13 @@ export async function performRun(
     currentRun.status === 'requires_action' &&
     currentRun.required_action?.type === 'submit_tool_outputs'
   ) {
-    currentRun = await handleRunToolCalls(run, client, thread, walletClient);
+    currentRun = await handleRunToolCalls(
+      run,
+      client,
+      thread,
+      walletClient,
+      toolEnvConfigs,
+    );
   }
 
   if (currentRun.status === 'completed') {

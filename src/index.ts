@@ -16,6 +16,7 @@ import { createViemWalletClient } from './utils/createViemWalletClient';
 export interface BeraAgentConfig {
   walletClient: WalletClient;
   openAIConfig?: ClientOptions;
+  toolEnvConfigs?: Record<string, unknown>;
 }
 
 export class BeraAgent {
@@ -23,12 +24,13 @@ export class BeraAgent {
   private assistant: Assistant | null = null;
   private thread: Thread | null = null;
   private walletClient: WalletClient;
-
+  private toolEnvConfigs: Record<string, unknown> = {};
   constructor(config: BeraAgentConfig) {
     this.openAIClient = new OpenAI(config.openAIConfig);
 
     // Use provided wallet client or create a default one
     this.walletClient = config.walletClient || createViemWalletClient();
+    this.toolEnvConfigs = config.toolEnvConfigs || {};
   }
 
   async initialize(): Promise<void> {
@@ -62,6 +64,7 @@ export class BeraAgent {
       this.openAIClient,
       this.thread,
       this.walletClient,
+      this.toolEnvConfigs,
     );
 
     if (result?.type === 'text') {
