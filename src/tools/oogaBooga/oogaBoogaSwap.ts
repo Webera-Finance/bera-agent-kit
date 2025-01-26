@@ -14,6 +14,10 @@ interface OogaBoogaSwapArgs {
   maxSlippage: string; // Slippage tolerance, e.g., 0.01 for 1%
 }
 
+interface OogaBoogaSwapToolEnvConfigs {
+  OOGA_BOOGA_API_KEY: string;
+}
+
 const getAllowance = async (
   walletClient: WalletClient,
   base: Address,
@@ -208,8 +212,17 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
-    if (!process.env.OOGA_BOOGA_API_KEY) {
+  handler: async (
+    args,
+    walletClient?: WalletClient,
+    toolEnvConfigs?: Record<string, unknown>,
+  ) => {
+    const configs: OogaBoogaSwapToolEnvConfigs = {
+      OOGA_BOOGA_API_KEY: process.env.OOGA_BOOGA_API_KEY || '',
+      ...toolEnvConfigs,
+    };
+
+    if (!configs.OOGA_BOOGA_API_KEY) {
       throw new Error('OOGA_BOOGA_API_KEY is required.');
     }
 
@@ -217,8 +230,7 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       throw new Error('Wallet client is not provided');
     }
 
-    const OOGA_BOOGA_API_KEY = process.env.OOGA_BOOGA_API_KEY;
-    const headers = { Authorization: `Bearer ${OOGA_BOOGA_API_KEY}` };
+    const headers = { Authorization: `Bearer ${configs.OOGA_BOOGA_API_KEY}` };
 
     log.info(
       `[INFO] Starting OogaBooga Swap for ${args.amount} of ${args.base} to ${args.quote}`,
