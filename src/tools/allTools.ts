@@ -40,9 +40,7 @@ export interface ToolConfig<T = any, W = WalletClient> {
   ) => Promise<any>;
 }
 
-export function createTools(
-  walletClient?: WalletClient,
-): Record<string, ToolConfig<any, WalletClient>> {
+export function createTools(): Record<string, ToolConfig<any, WalletClient>> {
   return {
     get_balance: getBalanceTool,
     transfer: transferTool,

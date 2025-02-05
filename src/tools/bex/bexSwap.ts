@@ -54,7 +54,9 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       }
 
       const publicClient = createViemPublicClient();
-
+      log.info(
+        `[INFO] Initiating Bex swap: ${args.amount} ${args.quote} for ${args.base}`,
+      );
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
         walletClient,
         args.quote,
@@ -80,6 +82,10 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
 
       if (response.status !== 200 || !response.data) {
         throw new Error(`Failed to fetch swap steps from API`);
+      }
+
+      if (response.data.steps.length === 0) {
+        throw new Error(`No valid swap steps returned from the API`);
       }
 
       const steps = response.data.steps.map((step: any) => ({

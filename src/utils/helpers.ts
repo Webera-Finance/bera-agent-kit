@@ -17,15 +17,12 @@ export const fetchTokenDecimals = async (
   walletClient: any,
   token: Address,
 ): Promise<number> => {
-  console.log('token', token);
-
   if (!token || token === zeroAddress) {
     return 18;
   }
 
   if (!tokenDecimalsCache.has(token)) {
     if (token) {
-      log.info(`[INFO] Fetching token decimals for ${token}`);
       const tokenDecimals = await walletClient.readContract({
         address: token,
         abi: TokenABI,
@@ -48,7 +45,6 @@ export const fetchTokenDecimalsAndFormatAmount = async (
 ): Promise<string> => {
   const tokenDecimals = await fetchTokenDecimals(walletClient, token);
   const formattedAmount = formatUnits(amount, tokenDecimals);
-  console.log(`[INFO] Formatted amount: ${formattedAmount.toString()} units`);
   return formattedAmount;
 };
 
@@ -59,7 +55,6 @@ export const fetchTokenDecimalsAndParseAmount = async (
 ): Promise<bigint> => {
   const tokenDecimals = await fetchTokenDecimals(walletClient, token);
   const parsedAmount = parseUnits(amount.toString(), tokenDecimals);
-  log.info(`[INFO] Parsed amount: ${parsedAmount.toString()} units`);
   return parsedAmount;
 };
 

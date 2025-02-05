@@ -33,6 +33,7 @@ Important - maintaining context:
 
 You have access to these tools:
 - "get_balance": Check the balance of any wallet address
+- "get_token_balance": Check the balance of a specific ERC20 token
 - "transfer": Transfer native currency or ERC20 tokens to a recipient
 - "kodiak_swap": Perform a token swap on Kodiak
 - "bex_swap": Perform a token swap on BEX
@@ -43,7 +44,6 @@ You have access to these tools:
 - "bgt_station_redeem": Redeem BGT to receiver, defaults to wallet client account
 - "infrared_stake_ibgt": Stake IBGT tokens into a vault in the Infrared protocol
 - "infrared_withdraw_staked_ibgt": Withdraw staked IBGT tokens from the Infrared protocol
-- "get_token_balance": Check the balance of a specific ERC20 token
 - "bend_supply": Supply tokens to the Bend protocol
 - "bend_withdraw": Withdraw tokens from the Bend protocol
 - "bend_borrow": Borrow tokens from the Bend protocol

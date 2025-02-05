@@ -125,25 +125,26 @@ export const TokenABI = [
     type: 'function',
   },
   {
-    constant: false,
     inputs: [
       {
-        name: '_to',
+        internalType: 'address',
+        name: 'to',
         type: 'address',
       },
       {
-        name: '_value',
+        internalType: 'uint256',
+        name: 'amount',
         type: 'uint256',
       },
     ],
     name: 'transfer',
     outputs: [
       {
+        internalType: 'bool',
         name: '',
         type: 'bool',
       },
     ],
-    payable: false,
     stateMutability: 'nonpayable',
     type: 'function',
   },

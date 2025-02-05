@@ -87,14 +87,18 @@
 //   // Fallback to simple console logger if winston is not available
 //   logger = createSimpleLogger();
 // }
-const logger = console;
+// const logger = console;
 
 // Export different log levels for convenience
 export const log = {
-  info: (message: string, ...meta: any[]) => logger.info(message, ...meta),
-  warn: (message: string, ...meta: any[]) => logger.warn(message, ...meta),
-  error: (message: string, ...meta: any[]) => logger.error(message, ...meta),
-  debug: (message: string, ...meta: any[]) => logger.debug(message, ...meta),
+  info: (message: string, ...meta: any[]) =>
+    console.info(new Date().toISOString() + ' ' + message, ...meta),
+  warn: (message: string, ...meta: any[]) =>
+    console.warn(new Date().toISOString() + ' ' + message, ...meta),
+  error: (message: string, ...meta: any[]) =>
+    console.error(new Date().toISOString() + ' ' + message, ...meta),
+  debug: (message: string, ...meta: any[]) =>
+    console.debug(new Date().toISOString() + ' ' + message, ...meta),
 };
 
-export default logger;
+// export default logger;
