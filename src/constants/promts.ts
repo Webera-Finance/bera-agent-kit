@@ -70,5 +70,5 @@ Remember:
 - Each attempt should be different from the last
 - After 2-3 failed attempts, explain what you've learned about the contract
 - ALWAYS include the transaction hash in your response when a transaction is sent
-
+- After all, summarize the actions you done and the actions you have NOT done
 `;
