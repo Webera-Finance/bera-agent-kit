@@ -2,7 +2,6 @@ import OpenAI from 'openai';
 import { Assistant } from 'openai/resources/beta/assistants';
 import { createTools } from '../tools/allTools';
 import { promts } from '../constants/promts';
-import { WalletClient } from 'viem';
 
 /**
  * This function creates an assistant using OpenAI's Beta Assistants API
@@ -10,11 +9,8 @@ import { WalletClient } from 'viem';
  * @param walletClient - Viem wallet client for blockchain interactions
  * @returns - The created assistant
  */
-export async function createAssistant(
-  client: OpenAI,
-  walletClient: WalletClient,
-): Promise<Assistant> {
-  const tools = createTools(walletClient);
+export async function createAssistant(client: OpenAI): Promise<Assistant> {
+  const tools = createTools();
 
   return await client.beta.assistants.create({
     model: 'gpt-4o-mini',

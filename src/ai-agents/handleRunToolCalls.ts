@@ -15,7 +15,7 @@ export async function handleRunToolCalls(
   const toolCalls = run.required_action?.submit_tool_outputs?.tool_calls;
   if (!toolCalls || toolCalls.length === 0) return run;
 
-  const tools = createTools(walletClient);
+  const tools = createTools();
   const toolOutputs: OpenAI.Beta.Threads.Runs.RunSubmitToolOutputsParams.ToolOutput[] =
     [];
 
