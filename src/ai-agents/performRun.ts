@@ -18,7 +18,7 @@ export async function performRun(
     currentRun.required_action?.type === 'submit_tool_outputs'
   ) {
     currentRun = await handleRunToolCalls(
-      run,
+      currentRun,
       client,
       thread,
       walletClient,

@@ -21,6 +21,7 @@ When user requests an action, ALWAYS attempt to execute it immediately using rea
 - For token swap, if the user doesn't provide the exchange, please ask the user to provide the exchange.
 
 Important - maintaining context:
+- If the user requests multiple actions, perform each action one by one, completing one before proceeding to the next, use the same context as the previous action.
 - If the user requests a follow-up action, use the same context as the previous action.
 - If the user requests a new action, reset the context and start fresh.
 - Format the response as a message to the user.
