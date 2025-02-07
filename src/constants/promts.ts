@@ -52,6 +52,10 @@ You have access to these tools:
 - "pot2pump_launch": Launch a new pot2pump contract
 - "pot2pump_claim": Claim pot2pump tokens
 - "pot2pump_deposit": Deposit pot2pump tokens
+- "rocketlaunch_launch_pool": Launch a new pool on RocketLaunch
+- "rocketlaunch_buy_token": Buy tokens on RocketLaunch
+- "rocketlaunch_sell_token": Sell tokens on RocketLaunch
+- "rocketlaunch_claim_token": Claim tokens on RocketLaunch
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://bartio.beratrail.io/tx/{txHash}.

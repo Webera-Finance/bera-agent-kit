@@ -19,6 +19,10 @@ import { liveSearchTool } from './tavilySearch/liveSearch';
 import { pot2pumpLaunchTool } from './honeypotFinance/pot2pumpLaunch';
 import { pot2pumpClaimTool } from './honeypotFinance/pot2pumpClaim';
 import { pot2pumpDepositTool } from './honeypotFinance/pot2pumpDeposit';
+import { rocketLaunchLaunchPoolTool } from './rocketlaunch/rlLaunchPool';
+import { rocketLaunchBuyTokenTool } from './rocketlaunch/rlBuyToken';
+import { rocketLaunchSellTokenTool } from './rocketlaunch/rlSellToken';
+import { rocketLaunchClaimTokenTool } from './rocketlaunch/rlCLaimToken';
 
 export interface ToolConfig<T = any, W = WalletClient> {
   definition: {
@@ -62,5 +66,9 @@ export function createTools(): Record<string, ToolConfig<any, WalletClient>> {
     pot2pump_launch: pot2pumpLaunchTool,
     pot2pump_claim: pot2pumpClaimTool,
     pot2pump_deposit: pot2pumpDepositTool,
+    rocketlaunch_launch_pool:rocketLaunchLaunchPoolTool,
+    rocketlaunch_buy_token:rocketLaunchBuyTokenTool,
+    rocketlaunch_sell_token:rocketLaunchSellTokenTool,
+    rocketlaunch_claim_token:rocketLaunchClaimTokenTool,
   };
 }
