@@ -29,7 +29,7 @@ export const TOKEN: { [tokenName: string]: `0x${string}` } = {
 
 export const URL = {
   BEXRouteURL: 'https://bartio-bex-router.berachain.com/dex/route',
-  OogaBoogaURL: 'https://bartio.api.oogabooga.io',
+  OogaBoogaURL: 'https://mainnet.api.oogabooga.io',
   BGTVaultURL:
     'https://bartio-pol-indexer.berachain.com/berachain/v1alpha1/beacon/vaults?pageSize=9999',
 };
