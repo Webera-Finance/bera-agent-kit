@@ -1,10 +1,11 @@
-import { Address, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { TOKEN } from '../../constants/index';
 import { TokenABI } from '../../constants/tokenABI';
 import { fetchTokenDecimalsAndFormatAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface GetTokenBalanceArgs {
   wallet: Address;
@@ -35,7 +36,12 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
       },
     },
   },
-  handler: async (args: GetTokenBalanceArgs, walletClient?: WalletClient) => {
+  handler: async (
+    args: GetTokenBalanceArgs,
+    walletClient?: WalletClient,
+    publicClient?: PublicClient,
+    config?: ConfigChain,
+  ) => {
     try {
       const { wallet, tokenName } = args;
       const address = wallet || walletClient?.account?.address;
@@ -46,10 +52,9 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
 
       log.info(`[INFO] Getting balance for ${address} with token ${tokenName}`);
 
-      const publicClient = createViemPublicClient();
-
+      const newPublicClient = publicClient || createViemPublicClient();
       // find the token address from the token name
-      const foundTokenName = Object.keys(TOKEN).find(
+      const foundTokenName = Object.keys(config?.TOKEN ?? {}).find(
         key => key.toLowerCase() === tokenName.toLowerCase(),
       );
 
@@ -63,7 +68,7 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
         throw new Error(`Token ${foundTokenName} address not found`);
       }
 
-      const rawTokenBalanceOfWallet = await publicClient.readContract({
+      const rawTokenBalanceOfWallet = await newPublicClient.readContract({
         address: tokenAddress,
         abi: TokenABI,
         functionName: 'balanceOf',

@@ -1,14 +1,17 @@
 import OpenAI from 'openai';
 import { Run } from 'openai/resources/beta/threads/runs';
 import { Thread } from 'openai/resources/beta/threads';
-import { WalletClient } from 'viem';
+import { PublicClient, WalletClient } from 'viem';
 import { handleRunToolCalls } from './handleRunToolCalls';
+import { ConfigChain } from '../constants/chain';
 
 export async function performRun(
   run: Run,
   client: OpenAI,
   thread: Thread,
   walletClient: WalletClient,
+  publicClient: PublicClient,
+  config?: ConfigChain,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<{ type: string; text: { value: string } } | null> {
   let currentRun = run;
@@ -22,6 +25,8 @@ export async function performRun(
       client,
       thread,
       walletClient,
+      publicClient,
+      config,
       toolEnvConfigs,
     );
   }

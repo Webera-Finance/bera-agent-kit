@@ -1,12 +1,18 @@
-import { BeraAgent, createViemWalletClient } from '../src';
+import {
+  BeraAgent,
+  createViemPublicClient,
+  createViemWalletClient,
+} from '../src';
 
 async function example() {
   const walletClient = createViemWalletClient();
+  const publicClient = createViemPublicClient();
   const agent = new BeraAgent({
     openAIConfig: {
       apiKey: process.env.OPENAI_API_KEY || '',
     },
     walletClient,
+    publicClient,
   });
 
   try {
@@ -20,11 +26,11 @@ async function example() {
     // log.info(`Balance Check Response (Agent): ${balanceResponse}`);
 
     const transfer = await agent.sendMessage(
-      // `check my balance`,
+      `check my balance`,
       // `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap and send all the honey received to address 0x7xxx`
-      `check my bera balance and swap 0.0001 bera to honey at bexswap, swap 0.0001 bera to honey at kodiak, then send all the honey received to address 0x7xxx`
+      // `check my bera balance and swap 0.0001 bera to honey at bexswap, swap 0.0001 bera to honey at kodiak, then send all the honey received to address 0x7xxx`,
     );
     console.info(`Transfer Response (Agent): ${transfer}`);
 

@@ -1,4 +1,4 @@
-import { WalletClient } from 'viem';
+import { PublicClient, WalletClient } from 'viem';
 import { getBalanceTool } from './common/getBalance';
 import { transferTool } from './common/transfer';
 import { kodiakSwapTool } from './kodiak/kodiakSwap';
@@ -19,8 +19,9 @@ import { liveSearchTool } from './tavilySearch/liveSearch';
 import { pot2pumpLaunchTool } from './honeypotFinance/pot2pumpLaunch';
 import { pot2pumpClaimTool } from './honeypotFinance/pot2pumpClaim';
 import { pot2pumpDepositTool } from './honeypotFinance/pot2pumpDeposit';
+import { ConfigChain } from '../constants/chain';
 
-export interface ToolConfig<T = any, W = WalletClient> {
+export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
     type: 'function';
     function: {
@@ -36,6 +37,8 @@ export interface ToolConfig<T = any, W = WalletClient> {
   handler: (
     args: T,
     walletClient?: W,
+    publicClient?: P,
+    config?: ConfigChain,
     toolEnvConfigs?: Record<string, unknown>,
   ) => Promise<any>;
 }
