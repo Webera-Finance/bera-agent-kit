@@ -1,9 +1,9 @@
 import { ToolConfig } from '../allTools';
 import { BGTABI } from '../../constants/tokenABI';
-import { TOKEN } from '../../constants';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { WalletClient } from 'viem';
+import { ConfigChain } from '../../constants/chain';
 
 interface BGTStationRedeemArgs {
   receiver?: string; // Address of the receiver for redemption (optional)
@@ -35,7 +35,7 @@ export const bgtStationRedeemTool: ToolConfig<BGTStationRedeemArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -50,13 +50,13 @@ export const bgtStationRedeemTool: ToolConfig<BGTStationRedeemArgs> = {
       log.info('[INFO] Parsing amount based on token decimals...');
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
         walletClient,
-        TOKEN.BGT,
+        config.TOKEN.BGT,
         args.amount,
       );
 
       log.info(`[INFO] Redeeming BGT to receiver: ${receiver}...`);
       const redeemTx = await walletClient.writeContract({
-        address: TOKEN.BGT,
+        address: config.TOKEN.BGT,
         abi: BGTABI,
         functionName: 'redeem',
         args: [receiver as `0x${string}`, parsedAmount],

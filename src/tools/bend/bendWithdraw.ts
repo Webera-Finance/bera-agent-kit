@@ -1,4 +1,4 @@
-import { Address, PublicClient, WalletClient } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BEND_ABI } from '../../constants/bendABI';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
@@ -33,12 +33,7 @@ export const bendWithdrawTool: ToolConfig<BendWithdrawArgs> = {
       },
     },
   },
-  handler: async (
-    args,
-    config: ConfigChain,
-    walletClient?: WalletClient,
-    _publicClient?: PublicClient,
-  ) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');

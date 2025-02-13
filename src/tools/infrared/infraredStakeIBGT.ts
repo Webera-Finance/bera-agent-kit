@@ -7,6 +7,7 @@ import {
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { InfraredVaultABI } from '../../constants/infraredABI';
+import { ConfigChain } from '../../constants/chain';
 
 interface InfraredStakeIBGTArgs {
   stakeAmount: number;
@@ -30,15 +31,19 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
       },
     },
   },
-  handler: async (args: InfraredStakeIBGTArgs, walletClient?: WalletClient) => {
+  handler: async (
+    args: InfraredStakeIBGTArgs,
+    config: ConfigChain,
+    walletClient?: WalletClient,
+  ) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
       }
 
       // constants
-      const ibgtTokenAddress = TOKEN.IBGT;
-      const infraredIBGTVaultAddress = CONTRACT.InfraredIBGTVault;
+      const ibgtTokenAddress = config.TOKEN.IBGT;
+      const infraredIBGTVaultAddress = config.CONTRACT.InfraredIBGTVault;
 
       const parsedStakeAmount = await fetchTokenDecimalsAndParseAmount(
         walletClient,
@@ -52,7 +57,7 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         ibgtTokenAddress,
-        CONTRACT.InfraredIBGTVault,
+        config.CONTRACT.InfraredIBGTVault,
         parsedStakeAmount,
       );
 

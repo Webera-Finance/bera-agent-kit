@@ -1,14 +1,12 @@
-import { Address, parseUnits, WalletClient } from 'viem';
-import { createViemPublicClient } from '../../utils/createViemPublicClient';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { KodiakUniswapV2Router02ABI } from '../../constants/kodiakABI';
-import { CONTRACT } from '../../constants';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface KodiakAddLiquidityArgs {
   tokenA: Address;
@@ -72,7 +70,7 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -115,19 +113,19 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.tokenA,
-        CONTRACT.KodiakSwapRouter02,
+        config.CONTRACT.KodiakSwapRouter02,
         parsedAmountADesired,
       );
 
       await checkAndApproveAllowance(
         walletClient,
         args.tokenB,
-        CONTRACT.KodiakSwapRouter02,
+        config.CONTRACT.KodiakSwapRouter02,
         parsedAmountBDesired,
       );
 
       const tx = await walletClient.writeContract({
-        address: CONTRACT.KodiakSwapRouter02,
+        address: config.CONTRACT.KodiakSwapRouter02,
         abi: KodiakUniswapV2Router02ABI,
         functionName: 'addLiquidity',
         args: [

@@ -1,4 +1,4 @@
-import { Address, createPublicClient, PublicClient, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { formatEther } from 'viem';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';

@@ -1,9 +1,8 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { CONTRACT } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { log } from '../../utils/logger';
 import { pot2pumpFactoryABI } from '../../constants/honeypotFinanceABI';
+import { ConfigChain } from '../../constants/chain';
 
 interface Pot2PumpLaunchArgs {
   raisedToken: Address;
@@ -44,7 +43,7 @@ export const pot2pumpLaunchTool: ToolConfig<Pot2PumpLaunchArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -52,7 +51,7 @@ export const pot2pumpLaunchTool: ToolConfig<Pot2PumpLaunchArgs> = {
 
       // Execute launch
       const hash = await walletClient.writeContract({
-        address: CONTRACT.Pot2PumpFactory,
+        address: config.CONTRACT.Pot2PumpFactory,
         abi: pot2pumpFactoryABI,
         functionName: 'createPair',
         args: [
@@ -60,7 +59,7 @@ export const pot2pumpLaunchTool: ToolConfig<Pot2PumpLaunchArgs> = {
             raisedToken: args.raisedToken,
             name: args.name,
             symbol: args.symbol,
-            swapHandler: CONTRACT.HoneypotNonfungiblePositionManager,
+            swapHandler: config.CONTRACT.HoneypotNonfungiblePositionManager,
           },
         ],
         chain: walletClient.chain,

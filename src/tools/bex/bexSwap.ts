@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { Address, WalletClient, zeroAddress } from 'viem';
+import { Address, PublicClient, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BeraCrocMultiSwapABI } from '../../constants/bexABI';
-import { CONTRACT, TOKEN, URL } from '../../constants';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
+import { ConfigChain } from '../../constants/chain';
+import { SupportedChainId } from '../../utils/enum';
 
 interface BexSwapArgs {
   base: Address;
@@ -47,13 +48,20 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (
+    args,
+    config: ConfigChain,
+    walletClient?: WalletClient,
+    publicClient?: PublicClient,
+  ) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
       }
 
-      const publicClient = createViemPublicClient();
+      const envType =
+        walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
+      const newPublicClient = publicClient ?? createViemPublicClient(envType);
       log.info(
         `[INFO] Initiating Bex swap: ${args.amount} ${args.quote} for ${args.base}`,
       );
@@ -68,15 +76,15 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.quote,
-        CONTRACT.BeraCrocMultiSwap,
+        config.CONTRACT.BeraCrocMultiSwap,
         parsedAmount,
       );
 
       const quoteBexRouteAddress =
-        args.quote === zeroAddress ? TOKEN.WBERA : args.quote;
+        args.quote === zeroAddress ? config.TOKEN.WBERA : args.quote;
 
       // Fetch swap route
-      const routeApiUrl = `${URL.BEXRouteURL}?fromAsset=${quoteBexRouteAddress}&toAsset=${args.base}&amount=${parsedAmount.toString()}`;
+      const routeApiUrl = `${config.URL.BEXRouteURL}?fromAsset=${quoteBexRouteAddress}&toAsset=${args.base}&amount=${parsedAmount.toString()}`;
       log.info(`[INFO] request route: ${routeApiUrl}`);
       const response = await axios.get(routeApiUrl);
 
@@ -103,8 +111,8 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
 
       const parsedMinOut = BigInt('0'); //TODO: calculate min out
 
-      const estimatedGas = await publicClient.estimateContractGas({
-        address: CONTRACT.BeraCrocMultiSwap,
+      const estimatedGas = await newPublicClient.estimateContractGas({
+        address: config.CONTRACT.BeraCrocMultiSwap,
         abi: BeraCrocMultiSwapABI,
         functionName: 'multiSwap',
         args: [steps, parsedAmount, parsedMinOut],
@@ -115,7 +123,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       });
 
       const tx = await walletClient.writeContract({
-        address: CONTRACT.BeraCrocMultiSwap,
+        address: config.CONTRACT.BeraCrocMultiSwap,
         abi: BeraCrocMultiSwapABI,
         functionName: 'multiSwap',
         args: [steps, parsedAmount, parsedMinOut],

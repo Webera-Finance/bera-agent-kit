@@ -7,12 +7,12 @@ import {
   KodiakUniswapV2Router02ABI,
 } from '../../constants/kodiakABI';
 // import { TokenABI } from '../../constants/tokenABI';
-import { CONTRACT, TOKEN } from '../../constants';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimals,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 // TODO: In the futures, we should detect tokenIn by token name or symbol. So that user can easy to use
 interface KodiakSwapArgs {
@@ -62,7 +62,7 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -92,12 +92,12 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
           Number(inputTokenDecimals),
         );
         tx = await walletClient.writeContract({
-          address: CONTRACT.KodiakUniswapV2Router02,
+          address: config.CONTRACT.KodiakUniswapV2Router02,
           abi: KodiakUniswapV2Router02ABI,
           functionName: 'swapExactETHForTokens',
           args: [
             parsedAmountOutMin,
-            [TOKEN.WBERA, args.tokenOut],
+            [config.TOKEN.WBERA, args.tokenOut],
             recipient,
             BigInt(deadline),
           ],
@@ -121,12 +121,12 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
         await checkAndApproveAllowance(
           walletClient,
           args.tokenIn!,
-          CONTRACT.KodiakSwapRouter02,
+          config.CONTRACT.KodiakSwapRouter02,
           parsedAmountIn,
         );
 
         tx = await walletClient.writeContract({
-          address: CONTRACT.KodiakSwapRouter02,
+          address: config.CONTRACT.KodiakSwapRouter02,
           abi: KodiakSwapRouter02ABI,
           functionName: 'swapExactTokensForTokens',
           args: [

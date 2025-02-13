@@ -2,10 +2,11 @@ import axios from 'axios';
 import { Address, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { sleep } from 'openai/core';
-import { URL } from '../../constants';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
+import { SupportedChainId } from '../../utils/enum';
 
 interface OogaBoogaSwapArgs {
   base: Address; // Token to swap from
@@ -19,12 +20,13 @@ interface OogaBoogaSwapToolEnvConfigs {
 }
 
 const getAllowance = async (
+  config: ConfigChain,
   walletClient: WalletClient,
   base: Address,
   headers: any,
 ): Promise<bigint> => {
   const allowanceResponse = await axios.get(
-    `${URL.OogaBoogaURL}/v1/approve/allowance`,
+    `${config.URL.OogaBoogaURL}/v1/approve/allowance`,
     {
       headers,
       params: {
@@ -37,13 +39,14 @@ const getAllowance = async (
 };
 
 async function checkAllowanceAfterApproval(
+  config: ConfigChain,
   walletClient: WalletClient,
   base: Address,
   headers: any,
   parsedAmount: bigint,
 ) {
   for (let i = 0; i < 10; i++) {
-    const allowance = await getAllowance(walletClient, base, headers);
+    const allowance = await getAllowance(config, walletClient, base, headers);
     if (BigInt(allowance) >= parsedAmount) {
       return true;
     }
@@ -54,10 +57,12 @@ async function checkAllowanceAfterApproval(
 }
 
 const checkAndApproveAllowance = async (
+  config: ConfigChain,
   walletClient: WalletClient,
   base: Address,
   parsedAmount: bigint,
   headers: any,
+  envType: boolean,
 ): Promise<void> => {
   log.info(`[INFO] Checking allowance for ${base}`);
 
@@ -65,20 +70,23 @@ const checkAndApproveAllowance = async (
     log.info(`[INFO] Skipping allowance check for zero address`);
     return;
   }
-  const publicClient = createViemPublicClient();
+  const publicClient = createViemPublicClient(envType);
 
-  const allowance = await getAllowance(walletClient, base, headers);
+  const allowance = await getAllowance(config, walletClient, base, headers);
   log.info(`[DEBUG] Allowance API response:`, allowance);
 
   if (BigInt(allowance) < parsedAmount) {
     log.info(`[INFO] Insufficient allowance. Approving ${parsedAmount}`);
-    const approveResponse = await axios.get(`${URL.OogaBoogaURL}/v1/approve`, {
-      headers,
-      params: {
-        token: base,
-        amount: parsedAmount.toString(),
+    const approveResponse = await axios.get(
+      `${config.URL.OogaBoogaURL}/v1/approve`,
+      {
+        headers,
+        params: {
+          token: base,
+          amount: parsedAmount.toString(),
+        },
       },
-    });
+    );
     log.info(`[DEBUG] Approve API response:`, approveResponse.data);
 
     const { tx } = approveResponse.data;
@@ -102,6 +110,7 @@ const checkAndApproveAllowance = async (
     );
 
     const isAllowanceSufficient = await checkAllowanceAfterApproval(
+      config,
       walletClient,
       base,
       headers,
@@ -116,12 +125,14 @@ const checkAndApproveAllowance = async (
 };
 
 const performSwap = async (
+  config: ConfigChain,
   walletClient: WalletClient,
   base: Address,
   quote: Address,
   parsedAmount: bigint,
   maxSlippage: string,
   headers: any,
+  envType: boolean,
 ): Promise<string> => {
   try {
     log.info(`[INFO] Fetching swap details from OogaBooga API`);
@@ -135,7 +146,7 @@ const performSwap = async (
 
     log.debug(`[DEBUG] swap params:`, params);
 
-    const swapResponse = await axios.get(`${URL.OogaBoogaURL}/v1/swap`, {
+    const swapResponse = await axios.get(`${config.URL.OogaBoogaURL}/v1/swap`, {
       headers,
       params,
     });
@@ -154,7 +165,7 @@ const performSwap = async (
       data: swapTx.data as `0x${string}`,
       value: swapTx.value ? BigInt(swapTx.value) : 0n,
     };
-    const publicClient = createViemPublicClient();
+    const publicClient = createViemPublicClient(envType);
     const gas = await publicClient.estimateGas({
       account: walletClient.account?.address as Address,
       ...args,
@@ -214,6 +225,7 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
   },
   handler: async (
     args,
+    config: ConfigChain,
     walletClient?: WalletClient,
     toolEnvConfigs?: Record<string, unknown>,
   ) => {
@@ -236,6 +248,9 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       `[INFO] Starting OogaBooga Swap for ${args.amount} of ${args.base} to ${args.quote}`,
     );
 
+    const envType =
+      walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
+
     const parsedAmount = await fetchTokenDecimalsAndParseAmount(
       walletClient,
       args.base,
@@ -243,19 +258,23 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
     );
 
     await checkAndApproveAllowance(
+      config,
       walletClient,
       args.base,
       parsedAmount,
       headers,
+      envType,
     );
 
     return performSwap(
+      config,
       walletClient,
       args.base,
       args.quote,
       parsedAmount,
       args.maxSlippage,
       headers,
+      envType,
     );
   },
 };

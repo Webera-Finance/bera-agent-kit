@@ -3,6 +3,7 @@ import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { ToolConfig } from '../allTools';
 import { gpt4o } from '../../utils/model';
 import { log } from '../../utils/logger';
+import { ConfigChain } from 'bera-agent-kit/constants/chain';
 
 // Initialize tools array
 const searchTools = [];
@@ -32,7 +33,7 @@ export const liveSearchTool: ToolConfig<{ query: string }> = {
       },
     },
   },
-  handler: async (args: { query: string }) => {
+  handler: async (args: { query: string }, _config: ConfigChain) => {
     const { query } = args;
     try {
       const results = await generalAgent.invoke({

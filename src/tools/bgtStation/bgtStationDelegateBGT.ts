@@ -1,9 +1,9 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BGTABI } from '../../constants/tokenABI';
-import { TOKEN } from '../../constants';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface BGTStationDelegateArgs {
   validator: Address;
@@ -34,7 +34,7 @@ export const bgtStationDelegateTool: ToolConfig<BGTStationDelegateArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -49,13 +49,13 @@ export const bgtStationDelegateTool: ToolConfig<BGTStationDelegateArgs> = {
       log.info('[INFO] Parsing amount based on token decimals...');
       const parsedAmount = await fetchTokenDecimalsAndParseAmount(
         walletClient,
-        TOKEN.BGT,
+        config.TOKEN.BGT,
         args.amount,
       );
 
       log.info('[INFO] Delegating BGT using queueBoost...');
       const delegateTx = await walletClient.writeContract({
-        address: TOKEN.BGT,
+        address: config.TOKEN.BGT,
         abi: BGTABI,
         functionName: 'queueBoost',
         args: [args.validator, parsedAmount],

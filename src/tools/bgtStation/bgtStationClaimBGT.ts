@@ -3,6 +3,7 @@ import { ToolConfig } from '../allTools';
 import { fetchVaultAndTokenAddress } from '../../utils/helpers';
 import { BerachainRewardsVaultABI } from '../../constants/bgtStationABI';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface BGTStationClaimRewardArgs {
   token?: Address; // Staking token address (optional)
@@ -36,7 +37,7 @@ export const bgtStationClaimRewardTool: ToolConfig<BGTStationClaimRewardArgs> =
         },
       },
     },
-    handler: async (args, walletClient?: WalletClient) => {
+    handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
       try {
         if (!walletClient || !walletClient.account) {
           throw new Error('Wallet client is not provided');
@@ -51,7 +52,7 @@ export const bgtStationClaimRewardTool: ToolConfig<BGTStationClaimRewardArgs> =
 
         log.info('[INFO] Detecting vault or token address...');
         const { vaultAddress, stakingTokenAddress } =
-          await fetchVaultAndTokenAddress(primaryAddress!, isVault);
+          await fetchVaultAndTokenAddress(primaryAddress!, isVault, config);
         log.info(`[INFO] Resolved Vault Address: ${vaultAddress}`);
         log.info(
           `[INFO] Resolved Staking Token Address: ${stakingTokenAddress}`,

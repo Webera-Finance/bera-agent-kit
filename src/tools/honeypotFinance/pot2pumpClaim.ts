@@ -1,13 +1,12 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { CONTRACT } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { log } from '../../utils/logger';
 import { pot2pumpFacadeABI } from '../../constants/honeypotFinanceABI';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
+import { ConfigChain } from '../../constants/chain';
 
 interface Pot2PumpClaimArgs {
   launchedToken: Address;
@@ -43,7 +42,7 @@ export const pot2pumpClaimTool: ToolConfig<Pot2PumpClaimArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (args, config: ConfigChain, walletClient?: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -59,13 +58,13 @@ export const pot2pumpClaimTool: ToolConfig<Pot2PumpClaimArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.raisedToken,
-        CONTRACT.Pot2PumpFacade,
+        config.CONTRACT.Pot2PumpFacade,
         parsedAmount,
       );
 
       // Execute deposit
       const hash = await walletClient.writeContract({
-        address: CONTRACT.Pot2PumpFacade,
+        address: config.CONTRACT.Pot2PumpFacade,
         abi: pot2pumpFacadeABI,
         functionName: 'deposit',
         args: [args.launchedToken, parsedAmount],

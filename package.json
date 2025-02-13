@@ -52,6 +52,7 @@
     "@langchain/langgraph": "^0.2.39",
     "@langchain/openai": "^0.3.17",
     "@playwright/test": "^1.42.1",
+    "arg": "^5.0.2",
     "axios": "^1.7.9",
     "chai": "^4.3.7",
     "deepmerge": "^4.3.1",
