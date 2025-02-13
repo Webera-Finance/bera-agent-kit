@@ -6,6 +6,7 @@ import { parseEther } from 'viem';
 import sinon from 'sinon';
 import { CONTRACT, TOKEN } from '../../src/constants';
 import { BEND_ABI } from '../../src/constants/bendABI';
+import { TestnetChainConfig } from '../../src/constants/chain';
 
 const mockWalletClient = {
   account: {
@@ -42,7 +43,7 @@ describe('bendRepay Tool', () => {
   });
 
   it('should successfully repay tokens to Bend with default interest rate', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
 
@@ -53,13 +54,14 @@ describe('bendRepay Tool', () => {
         asset: testAsset,
         amount: testAmount,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
-      address: CONTRACT.Bend,
+      address: TestnetChainConfig.CONTRACT.Bend,
       abi: BEND_ABI,
       functionName: 'repay',
       args: [
@@ -74,7 +76,7 @@ describe('bendRepay Tool', () => {
   });
 
   it('should successfully repay tokens with stable interest rate', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
     const stableRateMode = 1;
@@ -87,13 +89,14 @@ describe('bendRepay Tool', () => {
         amount: testAmount,
         interestRateMode: stableRateMode,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
-      address: CONTRACT.Bend,
+      address: TestnetChainConfig.CONTRACT.Bend,
       abi: BEND_ABI,
       functionName: 'repay',
       args: [
@@ -108,7 +111,7 @@ describe('bendRepay Tool', () => {
   });
 
   it('should check and approve allowance before repay', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
 
@@ -119,6 +122,7 @@ describe('bendRepay Tool', () => {
         asset: testAsset,
         amount: testAmount,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
@@ -137,7 +141,7 @@ describe('bendRepay Tool', () => {
   });
 
   it('should handle errors during repay', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const errorMessage = 'Repay failed';
 
@@ -149,6 +153,7 @@ describe('bendRepay Tool', () => {
           asset: testAsset,
           amount: testAmount,
         },
+        TestnetChainConfig,
         mockWalletClient as any,
       );
       expect.fail('Should have thrown an error');

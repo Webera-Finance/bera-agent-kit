@@ -6,6 +6,7 @@ import { parseEther } from 'viem';
 import sinon from 'sinon';
 import { CONTRACT, TOKEN } from '../../src/constants';
 import { BEND_ABI } from '../../src/constants/bendABI';
+import { TestnetChainConfig } from '../../src/constants/chain';
 
 const mockWalletClient = {
   account: {
@@ -44,7 +45,7 @@ describe('bendSupply Tool', () => {
   });
 
   it('should successfully supply tokens to Bend', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
 
@@ -55,6 +56,7 @@ describe('bendSupply Tool', () => {
         asset: testAsset,
         amount: testAmount,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
@@ -71,7 +73,7 @@ describe('bendSupply Tool', () => {
   });
 
   it('should handle errors during supply', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const errorMessage = 'Supply failed';
 
@@ -83,6 +85,7 @@ describe('bendSupply Tool', () => {
           asset: testAsset,
           amount: testAmount,
         },
+        TestnetChainConfig,
         mockWalletClient as any,
       );
       expect.fail('Should have thrown an error');
@@ -92,7 +95,7 @@ describe('bendSupply Tool', () => {
   });
 
   it('should check and approve allowance before supply', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
 
@@ -103,6 +106,7 @@ describe('bendSupply Tool', () => {
         asset: testAsset,
         amount: testAmount,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 

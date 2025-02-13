@@ -6,6 +6,7 @@ import { parseEther } from 'viem';
 import sinon from 'sinon';
 import { CONTRACT, TOKEN } from '../../src/constants';
 import { BEND_ABI } from '../../src/constants/bendABI';
+import { TestnetChainConfig } from '../../src/constants/chain';
 
 const mockWalletClient = {
   account: {
@@ -41,7 +42,7 @@ describe('bendBorrow Tool', () => {
   });
 
   it('should successfully borrow tokens from Bend with default interest rate', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
 
@@ -52,13 +53,14 @@ describe('bendBorrow Tool', () => {
         asset: testAsset,
         amount: testAmount,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
-      address: CONTRACT.Bend,
+      address: TestnetChainConfig.CONTRACT.Bend,
       abi: BEND_ABI,
       functionName: 'borrow',
       args: [
@@ -74,7 +76,7 @@ describe('bendBorrow Tool', () => {
   });
 
   it('should successfully borrow tokens with stable interest rate', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
     const stableRateMode = 1;
@@ -87,13 +89,14 @@ describe('bendBorrow Tool', () => {
         amount: testAmount,
         interestRateMode: stableRateMode,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
-      address: CONTRACT.Bend,
+      address: TestnetChainConfig.CONTRACT.Bend,
       abi: BEND_ABI,
       functionName: 'borrow',
       args: [
@@ -109,7 +112,7 @@ describe('bendBorrow Tool', () => {
   });
 
   it('should handle errors during borrow', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const errorMessage = 'Borrow failed';
 
@@ -121,6 +124,7 @@ describe('bendBorrow Tool', () => {
           asset: testAsset,
           amount: testAmount,
         },
+        TestnetChainConfig,
         mockWalletClient as any,
       );
       expect.fail('Should have thrown an error');

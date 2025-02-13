@@ -53,7 +53,7 @@ export class BeraAgent {
   }
 
   async initialize(): Promise<void> {
-    this.assistant = await createAssistant(this.openAIClient);
+    this.assistant = await createAssistant(this.openAIClient, this.configChain);
     this.thread = await createThread(this.openAIClient);
   }
 

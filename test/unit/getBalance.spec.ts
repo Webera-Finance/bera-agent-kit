@@ -3,6 +3,7 @@ import { getBalanceTool } from '../../src/tools/common/getBalance';
 import * as viemClientModule from '../../src/utils/createViemPublicClient';
 import { parseEther } from 'viem';
 import sinon from 'sinon';
+import { TestnetChainConfig } from '../../src/constants/chain';
 
 const mockPublicClient = {
   getBalance: sinon.stub(),
@@ -35,7 +36,10 @@ describe('getBalance Tool', () => {
 
     mockPublicClient.getBalance.resolves(mockBalance);
 
-    const result = await getBalanceTool.handler({ wallet: testWallet });
+    const result = await getBalanceTool.handler(
+      { wallet: testWallet },
+      TestnetChainConfig,
+    );
 
     expect(result).to.equal('1.5');
     expect(mockPublicClient.getBalance.calledOnce).to.be.true;
@@ -50,7 +54,10 @@ describe('getBalance Tool', () => {
 
     mockPublicClient.getBalance.resolves(mockBalance);
 
-    const result = await getBalanceTool.handler({ wallet: testWallet });
+    const result = await getBalanceTool.handler(
+      { wallet: testWallet },
+      TestnetChainConfig,
+    );
 
     expect(result).to.equal('0');
   });

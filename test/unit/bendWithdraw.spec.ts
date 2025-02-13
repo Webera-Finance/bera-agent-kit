@@ -6,6 +6,7 @@ import { parseEther } from 'viem';
 import sinon from 'sinon';
 import { CONTRACT, TOKEN } from '../../src/constants';
 import { BEND_ABI } from '../../src/constants/bendABI';
+import { TestnetChainConfig } from '../../src/constants/chain';
 
 const mockWalletClient = {
   account: {
@@ -38,7 +39,7 @@ describe('bendWithdraw Tool', () => {
   });
 
   it('should successfully withdraw tokens from Bend', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const mockTxHash = '0xmocktxhash';
 
@@ -49,13 +50,14 @@ describe('bendWithdraw Tool', () => {
         asset: testAsset,
         amount: testAmount,
       },
+      TestnetChainConfig,
       mockWalletClient as any,
     );
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.include({
-      address: CONTRACT.Bend,
+      address: TestnetChainConfig.CONTRACT.Bend,
       abi: BEND_ABI,
       functionName: 'withdraw',
     });
@@ -67,7 +69,7 @@ describe('bendWithdraw Tool', () => {
   });
 
   it('should handle errors during withdrawal', async () => {
-    const testAsset = TOKEN.HONEY;
+    const testAsset = TestnetChainConfig.TOKEN.HONEY;
     const testAmount = 100;
     const errorMessage = 'Withdrawal failed';
 
@@ -79,6 +81,7 @@ describe('bendWithdraw Tool', () => {
           asset: testAsset,
           amount: testAmount,
         },
+        TestnetChainConfig,
         mockWalletClient as any,
       );
       expect.fail('Should have thrown an error');
