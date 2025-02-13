@@ -1,7 +1,5 @@
-import { Address, parseUnits, WalletClient } from 'viem';
+import { WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { CONTRACT, TOKEN } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
