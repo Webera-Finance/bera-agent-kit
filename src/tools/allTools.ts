@@ -36,9 +36,9 @@ export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   };
   handler: (
     args: T,
+    config: ConfigChain,
     walletClient?: W,
     publicClient?: P,
-    config?: ConfigChain,
     toolEnvConfigs?: Record<string, unknown>,
   ) => Promise<any>;
 }

@@ -6,7 +6,7 @@ import { TokenABI } from '../../constants/tokenABI';
 import { fetchTokenDecimalsAndFormatAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
-import { ChainId, EnumTypeEnv } from '../../utils/enum';
+import { SupportedChainId } from '../../utils/enum';
 
 interface GetTokenBalanceArgs {
   wallet: Address;
@@ -39,9 +39,9 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
   },
   handler: async (
     args: GetTokenBalanceArgs,
+    config: ConfigChain,
     walletClient?: WalletClient,
     publicClient?: PublicClient,
-    config?: ConfigChain,
   ) => {
     try {
       const { wallet, tokenName } = args;
@@ -54,13 +54,11 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
       log.info(`[INFO] Getting balance for ${address} with token ${tokenName}`);
 
       const envType =
-        walletClient?.chain?.id === ChainId.Mainnet
-          ? EnumTypeEnv.Mainnet
-          : EnumTypeEnv.Testnet;
+        walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
 
       const newPublicClient = publicClient || createViemPublicClient(envType);
       // find the token address from the token name
-      const foundTokenName = Object.keys(config?.TOKEN ?? {}).find(
+      const foundTokenName = Object.keys(config.TOKEN).find(
         key => key.toLowerCase() === tokenName.toLowerCase(),
       );
 

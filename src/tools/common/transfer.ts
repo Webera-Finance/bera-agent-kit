@@ -4,6 +4,7 @@ import { parseEther } from 'viem/utils';
 import { TokenABI } from '../../constants/tokenABI';
 import { log } from '../../utils/logger';
 import { fetchTokenDecimals } from '../../utils/helpers';
+import { ConfigChain } from '../../constants/chain';
 
 interface TransferArgs {
   to: Address;
@@ -41,6 +42,7 @@ export const transferTool: ToolConfig<TransferArgs> = {
   },
   handler: async (
     { to, amount, tokenAddress },
+    _config: ConfigChain,
     walletClient?: WalletClient,
   ) => {
     try {

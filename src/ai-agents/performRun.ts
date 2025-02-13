@@ -9,9 +9,9 @@ export async function performRun(
   run: Run,
   client: OpenAI,
   thread: Thread,
+  config: ConfigChain,
   walletClient: WalletClient,
   publicClient?: PublicClient,
-  config?: ConfigChain,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<{ type: string; text: { value: string } } | null> {
   let currentRun = run;
@@ -24,9 +24,9 @@ export async function performRun(
       currentRun,
       client,
       thread,
+      config,
       walletClient,
       publicClient,
-      config,
       toolEnvConfigs,
     );
   }

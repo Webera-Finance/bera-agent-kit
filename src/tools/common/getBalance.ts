@@ -3,7 +3,8 @@ import { ToolConfig } from '../allTools';
 import { formatEther } from 'viem';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { log } from '../../utils/logger';
-import { ChainId, EnumTypeEnv } from '../../utils/enum';
+import { SupportedChainId } from '../../utils/enum';
+import { ConfigChain } from 'bera-agent-kit/constants/chain';
 
 interface GetBalanceArgs {
   wallet: Address;
@@ -32,14 +33,13 @@ export const getBalanceTool: ToolConfig<GetBalanceArgs> = {
   },
   handler: async (
     args,
+    _config: ConfigChain,
     walletClient?: WalletClient,
     publicClient?: PublicClient,
   ) => {
     const address = args.wallet || walletClient?.account?.address;
     const envType =
-      walletClient?.chain?.id === ChainId.Mainnet
-        ? EnumTypeEnv.Mainnet
-        : EnumTypeEnv.Testnet;
+      walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
     const newPublicClient = publicClient || createViemPublicClient(envType);
     log.info(`[INFO] Getting balance for ${address}`);
     const balance = await newPublicClient.getBalance({ address });

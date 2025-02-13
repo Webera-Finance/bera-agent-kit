@@ -42,9 +42,9 @@ export const bendBorrowTool: ToolConfig<BendBorrowArgs> = {
   },
   handler: async (
     args,
+    config: ConfigChain,
     walletClient?: WalletClient,
     _publicClient?: PublicClient,
-    config?: ConfigChain,
   ) => {
     try {
       if (!walletClient || !walletClient.account) {
@@ -64,7 +64,7 @@ export const bendBorrowTool: ToolConfig<BendBorrowArgs> = {
 
       // Execute borrow
       const hash = await walletClient.writeContract({
-        address: config?.CONTRACT.Bend!,
+        address: config.CONTRACT.Bend,
         abi: BEND_ABI,
         functionName: 'borrow',
         args: [

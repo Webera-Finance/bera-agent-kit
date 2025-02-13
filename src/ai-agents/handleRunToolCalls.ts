@@ -10,9 +10,9 @@ export async function handleRunToolCalls(
   run: Run,
   client: OpenAI,
   thread: Thread,
+  config: ConfigChain,
   walletClient: WalletClient,
   publicClient?: PublicClient,
-  config?: ConfigChain,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<Run> {
   const toolCalls = run.required_action?.submit_tool_outputs?.tool_calls;
@@ -34,9 +34,9 @@ export async function handleRunToolCalls(
         const args = JSON.parse(tool.function.arguments);
         const output = await toolConfig.handler(
           args,
+          config,
           walletClient,
           publicClient,
-          config,
           toolEnvConfigs,
         );
         return {

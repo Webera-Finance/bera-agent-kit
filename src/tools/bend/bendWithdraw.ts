@@ -35,9 +35,9 @@ export const bendWithdrawTool: ToolConfig<BendWithdrawArgs> = {
   },
   handler: async (
     args,
+    config: ConfigChain,
     walletClient?: WalletClient,
     _publicClient?: PublicClient,
-    config?: ConfigChain,
   ) => {
     try {
       if (!walletClient || !walletClient.account) {
@@ -55,7 +55,7 @@ export const bendWithdrawTool: ToolConfig<BendWithdrawArgs> = {
 
       // Execute withdraw
       const hash = await walletClient.writeContract({
-        address: config?.CONTRACT.Bend!,
+        address: config.CONTRACT.Bend,
         abi: BEND_ABI,
         functionName: 'withdraw',
         args: [args.asset, parsedAmount, onBehalfOf],

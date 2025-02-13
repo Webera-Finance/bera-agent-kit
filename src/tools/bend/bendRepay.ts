@@ -45,9 +45,9 @@ export const bendRepayTool: ToolConfig<BendRepayArgs> = {
   },
   handler: async (
     args,
+    config: ConfigChain,
     walletClient?: WalletClient,
     _publicClient?: PublicClient,
-    config?: ConfigChain,
   ) => {
     try {
       if (!walletClient || !walletClient.account) {
@@ -68,13 +68,13 @@ export const bendRepayTool: ToolConfig<BendRepayArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.asset,
-        config?.CONTRACT.Bend!,
+        config.CONTRACT.Bend,
         parsedAmount,
       );
 
       // Execute repay
       const hash = await walletClient.writeContract({
-        address: config?.CONTRACT.Bend!,
+        address: config.CONTRACT.Bend,
         abi: BEND_ABI,
         functionName: 'repay',
         args: [args.asset, parsedAmount, interestRateMode, onBehalfOf],

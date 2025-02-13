@@ -38,9 +38,9 @@ export const bendSupplyTool: ToolConfig<BendSupplyArgs> = {
   },
   handler: async (
     args,
+    config: ConfigChain,
     walletClient?: WalletClient,
     _publicClient?: PublicClient,
-    config?: ConfigChain,
   ) => {
     try {
       if (!walletClient || !walletClient.account) {
@@ -60,13 +60,13 @@ export const bendSupplyTool: ToolConfig<BendSupplyArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.asset,
-        config?.CONTRACT.Bend!,
+        config.CONTRACT.Bend,
         parsedAmount,
       );
 
       // Execute supply transaction
       const hash = await walletClient.writeContract({
-        address: config?.CONTRACT.Bend!,
+        address: config.CONTRACT.Bend,
         abi: BEND_ABI,
         functionName: 'supply',
         args: [args.asset, parsedAmount, onBehalfOf, 0], // referralCode set to 0

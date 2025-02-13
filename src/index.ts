@@ -14,7 +14,7 @@ import { log } from './utils/logger';
 import { createViemWalletClient } from './utils/createViemWalletClient';
 import { createViemPublicClient } from './utils/createViemPublicClient';
 import { ConfigChain, ConfigChainId } from './constants/chain';
-import { ChainId, EnumTypeEnv } from './utils/enum';
+import { SupportedChainId } from './utils/enum';
 
 export interface BeraAgentConfig {
   walletClient: WalletClient;
@@ -30,7 +30,7 @@ export class BeraAgent {
   private walletClient: WalletClient;
   private publicClient?: PublicClient;
   private toolEnvConfigs: Record<string, unknown> = {};
-  private configChain?: ConfigChain;
+  private configChain: ConfigChain;
   constructor(config: BeraAgentConfig) {
     this.openAIClient = new OpenAI(config.openAIConfig);
 
@@ -47,8 +47,7 @@ export class BeraAgent {
       throw new Error('Not supported chain');
     }
     // create public client depends on chain id from wallet
-    const envType =
-      chainID === ChainId.Mainnet ? EnumTypeEnv.Mainnet : EnumTypeEnv.Testnet;
+    const envType = chainID === SupportedChainId.Mainnet ? true : false;
     this.publicClient = createViemPublicClient(envType);
     this.configChain = ConfigChainId[chainID as keyof typeof ConfigChainId];
   }
@@ -80,9 +79,9 @@ export class BeraAgent {
       run,
       this.openAIClient,
       this.thread,
+      this.configChain,
       this.walletClient,
       this.publicClient,
-      this.configChain,
       this.toolEnvConfigs,
     );
 
