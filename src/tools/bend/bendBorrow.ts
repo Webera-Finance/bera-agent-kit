@@ -1,10 +1,9 @@
-import { Address, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BEND_ABI } from '../../constants/bendABI';
-import { CONTRACT } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface BendBorrowArgs {
   asset: Address;
@@ -41,7 +40,12 @@ export const bendBorrowTool: ToolConfig<BendBorrowArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (
+    args,
+    walletClient?: WalletClient,
+    _publicClient?: PublicClient,
+    config?: ConfigChain,
+  ) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -60,7 +64,7 @@ export const bendBorrowTool: ToolConfig<BendBorrowArgs> = {
 
       // Execute borrow
       const hash = await walletClient.writeContract({
-        address: CONTRACT.Bend,
+        address: config?.CONTRACT.Bend!,
         abi: BEND_ABI,
         functionName: 'borrow',
         args: [

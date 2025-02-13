@@ -1,13 +1,12 @@
-import { Address, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BEND_ABI } from '../../constants/bendABI';
-import { CONTRACT } from '../../constants/index';
-import { createViemWalletClient } from '../../utils/createViemWalletClient';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface BendRepayArgs {
   asset: Address;
@@ -44,7 +43,12 @@ export const bendRepayTool: ToolConfig<BendRepayArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (
+    args,
+    walletClient?: WalletClient,
+    _publicClient?: PublicClient,
+    config?: ConfigChain,
+  ) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -64,13 +68,13 @@ export const bendRepayTool: ToolConfig<BendRepayArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.asset,
-        CONTRACT.Bend,
+        config?.CONTRACT.Bend!,
         parsedAmount,
       );
 
       // Execute repay
       const hash = await walletClient.writeContract({
-        address: CONTRACT.Bend,
+        address: config?.CONTRACT.Bend!,
         abi: BEND_ABI,
         functionName: 'repay',
         args: [args.asset, parsedAmount, interestRateMode, onBehalfOf],

@@ -14,9 +14,11 @@ import { log } from './utils/logger';
 import { createViemWalletClient } from './utils/createViemWalletClient';
 import { createViemPublicClient } from './utils/createViemPublicClient';
 import { ConfigChain, ConfigChainId } from './constants/chain';
+import { ChainId, EnumTypeEnv } from './utils/enum';
+
 export interface BeraAgentConfig {
   walletClient: WalletClient;
-  publicClient: PublicClient;
+  publicClient?: PublicClient;
   openAIConfig?: ClientOptions;
   toolEnvConfigs?: Record<string, unknown>;
 }
@@ -26,7 +28,7 @@ export class BeraAgent {
   private assistant: Assistant | null = null;
   private thread: Thread | null = null;
   private walletClient: WalletClient;
-  private publicClient: PublicClient;
+  private publicClient?: PublicClient;
   private toolEnvConfigs: Record<string, unknown> = {};
   private configChain?: ConfigChain;
   constructor(config: BeraAgentConfig) {
@@ -34,7 +36,6 @@ export class BeraAgent {
 
     // Use provided wallet client or create a default one
     this.walletClient = config.walletClient || createViemWalletClient();
-    this.publicClient = config.publicClient || createViemPublicClient();
     this.toolEnvConfigs = config.toolEnvConfigs || {};
     const chainID = this.walletClient.chain?.id;
     // config chain depends on the chain id
@@ -45,7 +46,10 @@ export class BeraAgent {
     if (!(chainID in ConfigChainId)) {
       throw new Error('Not supported chain');
     }
-
+    // create public client depends on chain id from wallet
+    const envType =
+      chainID === ChainId.Mainnet ? EnumTypeEnv.Mainnet : EnumTypeEnv.Testnet;
+    this.publicClient = createViemPublicClient(envType);
     this.configChain = ConfigChainId[chainID as keyof typeof ConfigChainId];
   }
 

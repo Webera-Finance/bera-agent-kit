@@ -3,6 +3,7 @@ import { ToolConfig } from '../allTools';
 import { formatEther } from 'viem';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { log } from '../../utils/logger';
+import { ChainId, EnumTypeEnv } from '../../utils/enum';
 
 interface GetBalanceArgs {
   wallet: Address;
@@ -35,7 +36,11 @@ export const getBalanceTool: ToolConfig<GetBalanceArgs> = {
     publicClient?: PublicClient,
   ) => {
     const address = args.wallet || walletClient?.account?.address;
-    const newPublicClient = publicClient || createViemPublicClient();
+    const envType =
+      walletClient?.chain?.id === ChainId.Mainnet
+        ? EnumTypeEnv.Mainnet
+        : EnumTypeEnv.Testnet;
+    const newPublicClient = publicClient || createViemPublicClient(envType);
     log.info(`[INFO] Getting balance for ${address}`);
     const balance = await newPublicClient.getBalance({ address });
     return formatEther(balance);

@@ -11,6 +11,29 @@ export const TestnetChainConfig: ConfigChain = {
     BGTVaultURL:
       'https://bartio-pol-indexer.berachain.com/berachain/v1alpha1/beacon/vaults?pageSize=9999',
   },
+  CONTRACT: {
+    OBRouter: '0xF6eDCa3C79b4A3DFA82418e278a81604083b999D' as `0x${string}`,
+    KodiakSwapRouter02:
+      '0x496e305c03909ae382974caca4c580e1bf32afbe' as `0x${string}`,
+    KodiakUniswapV2Router02:
+      '0x406846114B2A9b65a8A2Ab702C2C57d27784dBA2' as `0x${string}`,
+    BeraCrocMultiSwap:
+      '0x21e2C0AFd058A89FCf7caf3aEA3cB84Ae977B73D' as `0x${string}`,
+    Infrared: '0xe41779952f5485db5440452DFa43350556AA4673' as `0x${string}`,
+    InfraredBribeCollector:
+      '0xeD8DAB845Ff8FFf76d59AD1eEaBE1cad6CC4F10f' as `0x${string}`,
+    InfraredBribes:
+      '0xd9D4EfC1c67CF118D76FbB32b31C695A1D5e427e' as `0x${string}`,
+    InfraredIBGTVault:
+      '0x31E6458C83C4184A23c761fDAffb61941665E012' as `0x${string}`,
+    Bend: '0x30A3039675E5b5cbEA49d9a5eacbc11f9199B86D' as `0x${string}`,
+    Pot2PumpFactory:
+      '0x30DbCcdFE17571c2Cec5caB61736a5AF194b1593' as `0x${string}`,
+    Pot2PumpFacade:
+      '0x29F4D4511dA9771F0529872923fb48F4ACfEDcc2' as `0x${string}`,
+    HoneypotNonfungiblePositionManager:
+      '0x29a738deAFdd2c6806e2f66891D812A311799828' as `0x${string}`,
+  },
 };
 
 export const MainnetChainConfig: ConfigChain = {
@@ -25,6 +48,20 @@ export const MainnetChainConfig: ConfigChain = {
     OogaBoogaURL: 'https://mainnet.api.oogabooga.io',
     BGTVaultURL: 'todo',
   },
+  CONTRACT: {
+    OBRouter: 'todo' as `0x${string}`,
+    KodiakSwapRouter02: 'todo' as `0x${string}`,
+    KodiakUniswapV2Router02: 'todo' as `0x${string}`,
+    BeraCrocMultiSwap: 'todo' as `0x${string}`,
+    Infrared: 'todo' as `0x${string}`,
+    InfraredBribeCollector: 'todo' as `0x${string}`,
+    InfraredBribes: 'todo' as `0x${string}`,
+    InfraredIBGTVault: 'todo' as `0x${string}`,
+    Bend: 'todo' as `0x${string}`,
+    Pot2PumpFactory: 'todo' as `0x${string}`,
+    Pot2PumpFacade: 'todo' as `0x${string}`,
+    HoneypotNonfungiblePositionManager: 'todo' as `0x${string}`,
+  },
 };
 
 export type ConfigChain = {
@@ -33,6 +70,20 @@ export type ConfigChain = {
     BEXRouteURL: string;
     OogaBoogaURL: string;
     BGTVaultURL: string;
+  };
+  CONTRACT: {
+    OBRouter: `0x${string}`;
+    KodiakSwapRouter02: `0x${string}`;
+    KodiakUniswapV2Router02: `0x${string}`;
+    BeraCrocMultiSwap: `0x${string}`;
+    Infrared: `0x${string}`;
+    InfraredBribeCollector: `0x${string}`;
+    InfraredBribes: `0x${string}`;
+    InfraredIBGTVault: `0x${string}`;
+    Bend: `0x${string}`;
+    Pot2PumpFactory: `0x${string}`;
+    Pot2PumpFacade: `0x${string}`;
+    HoneypotNonfungiblePositionManager: `0x${string}`;
   };
 };
 

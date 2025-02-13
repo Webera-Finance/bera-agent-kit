@@ -6,6 +6,7 @@ import { TokenABI } from '../../constants/tokenABI';
 import { fetchTokenDecimalsAndFormatAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
+import { ChainId, EnumTypeEnv } from '../../utils/enum';
 
 interface GetTokenBalanceArgs {
   wallet: Address;
@@ -52,7 +53,12 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
 
       log.info(`[INFO] Getting balance for ${address} with token ${tokenName}`);
 
-      const newPublicClient = publicClient || createViemPublicClient();
+      const envType =
+        walletClient?.chain?.id === ChainId.Mainnet
+          ? EnumTypeEnv.Mainnet
+          : EnumTypeEnv.Testnet;
+
+      const newPublicClient = publicClient || createViemPublicClient(envType);
       // find the token address from the token name
       const foundTokenName = Object.keys(config?.TOKEN ?? {}).find(
         key => key.toLowerCase() === tokenName.toLowerCase(),

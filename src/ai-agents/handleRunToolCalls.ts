@@ -11,7 +11,7 @@ export async function handleRunToolCalls(
   client: OpenAI,
   thread: Thread,
   walletClient: WalletClient,
-  publicClient: PublicClient,
+  publicClient?: PublicClient,
   config?: ConfigChain,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<Run> {

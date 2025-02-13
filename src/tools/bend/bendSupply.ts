@@ -1,12 +1,12 @@
-import { Address, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BEND_ABI } from '../../constants/bendABI';
-import { CONTRACT } from '../../constants/index';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
+import { ConfigChain } from '../../constants/chain';
 
 interface BendSupplyArgs {
   asset: Address;
@@ -36,7 +36,12 @@ export const bendSupplyTool: ToolConfig<BendSupplyArgs> = {
       },
     },
   },
-  handler: async (args, walletClient?: WalletClient) => {
+  handler: async (
+    args,
+    walletClient?: WalletClient,
+    _publicClient?: PublicClient,
+    config?: ConfigChain,
+  ) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
@@ -55,13 +60,13 @@ export const bendSupplyTool: ToolConfig<BendSupplyArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.asset,
-        CONTRACT.Bend,
+        config?.CONTRACT.Bend!,
         parsedAmount,
       );
 
       // Execute supply transaction
       const hash = await walletClient.writeContract({
-        address: CONTRACT.Bend,
+        address: config?.CONTRACT.Bend!,
         abi: BEND_ABI,
         functionName: 'supply',
         args: [args.asset, parsedAmount, onBehalfOf, 0], // referralCode set to 0

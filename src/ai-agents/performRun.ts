@@ -10,7 +10,7 @@ export async function performRun(
   client: OpenAI,
   thread: Thread,
   walletClient: WalletClient,
-  publicClient: PublicClient,
+  publicClient?: PublicClient,
   config?: ConfigChain,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<{ type: string; text: { value: string } } | null> {
