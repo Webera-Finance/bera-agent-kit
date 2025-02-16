@@ -33,6 +33,7 @@ export const TestnetChainConfig: ConfigChain = {
       '0x29F4D4511dA9771F0529872923fb48F4ACfEDcc2' as `0x${string}`,
     HoneypotNonfungiblePositionManager:
       '0x29a738deAFdd2c6806e2f66891D812A311799828' as `0x${string}`,
+    RocketLaunch: '0x20830f96Cff2eD62dc61257BF692a13AcC9755B3' as `0x${string}`
   },
 };
 
@@ -61,6 +62,7 @@ export const MainnetChainConfig: ConfigChain = {
     Pot2PumpFactory: 'todo' as `0x${string}`,
     Pot2PumpFacade: 'todo' as `0x${string}`,
     HoneypotNonfungiblePositionManager: 'todo' as `0x${string}`,
+    RocketLaunch: '0xCa2B4a5aA18CCaf46e4E98c45AfF74A325fB4c6a' as `0x${string}`
   },
 };
 
@@ -84,6 +86,7 @@ export type ConfigChain = {
     Pot2PumpFactory: `0x${string}`;
     Pot2PumpFacade: `0x${string}`;
     HoneypotNonfungiblePositionManager: `0x${string}`;
+    RocketLaunch: `0x${string}`;
   };
 };
 
