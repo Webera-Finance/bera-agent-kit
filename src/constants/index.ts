@@ -18,6 +18,7 @@ export const CONTRACT = {
   Pot2PumpFacade: '0x29F4D4511dA9771F0529872923fb48F4ACfEDcc2' as `0x${string}`,
   HoneypotNonfungiblePositionManager:
     '0x29a738deAFdd2c6806e2f66891D812A311799828' as `0x${string}`,
+  RocketLaunch: '0x20830f96Cff2eD62dc61257BF692a13AcC9755B3' as `0x${string}`
 } as const;
 
 export const TOKEN: { [tokenName: string]: `0x${string}` } = {

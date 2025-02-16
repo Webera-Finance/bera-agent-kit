@@ -16,3 +16,4 @@ export function createViemWalletClient() {
     transport: http(),
   }).extend(publicActions);
 }
+
