@@ -17,7 +17,7 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
     type: 'function',
     function: {
       name: 'get_token_balance',
-      description: 'Get the token balance of a wallet',
+      description: 'Get the ERC20 token balance of a wallet',
       parameters: {
         type: 'object',
         properties: {

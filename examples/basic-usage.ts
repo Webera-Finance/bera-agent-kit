@@ -20,13 +20,14 @@ async function example() {
     // log.info(`Balance Check Response (Agent): ${balanceResponse}`);
 
     const transfer = await agent.sendMessage(
-      `check my balance`,
+      `check my bera, honey, bgt balance`,
       // `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap and send all the honey received to address 0x7xxx`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap, swap 0.0001 bera to honey at kodiak, then send all the honey received to address 0x7xxx`,
     );
     console.info(`Transfer Response (Agent): ${transfer}`);
+    // console.info(`check my bera, honey, bgt balance`);
 
     // // Send a general message about Berachain
     // const response = await agent.sendMessage(

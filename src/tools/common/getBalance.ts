@@ -16,7 +16,7 @@ export const getBalanceTool: ToolConfig<GetBalanceArgs> = {
     function: {
       name: 'get_balance',
       description:
-        'Get the balance of a wallet. If wallet is not provided, it will use the current wallet provider',
+        'Get the native token balance of a wallet. If wallet is not provided, it will use the current wallet provider',
       parameters: {
         type: 'object',
         properties: {
