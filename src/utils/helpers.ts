@@ -91,13 +91,12 @@ export const checkAndApproveAllowance = async (
     );
 
     // Approve the required amount
+    // @ts-ignore - Ignoring TypeScript error about missing chain property. Add chain make bug with walletClient/rpc
     const approvalTx = await walletClient.writeContract({
       address: tokenAddress,
       abi: erc20Abi,
       functionName: 'approve',
       args: [spender, amount],
-      chain: walletClient.chain,
-      account: walletClient.account!.address,
     });
 
     const approvalReceipt = await publicClient.waitForTransactionReceipt({

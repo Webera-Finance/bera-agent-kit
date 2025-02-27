@@ -57,7 +57,8 @@ export const MainnetChainConfig: ConfigChain = {
     KodiakUniswapV2Router02:
       '0xd91dd58387Ccd9B66B390ae2d7c66dBD46BC6022' as `0x${string}`,
     KodiakNfPM: '0xFE5E8C83FFE4d9627A75EaA7Fee864768dB989bD' as `0x${string}`,
-    BeraCrocMultiSwap: 'todo' as `0x${string}`,
+    BeraCrocMultiSwap:
+      '0x4Be03f781C497A489E3cB0287833452cA9B9E80B' as `0x${string}`,
     Infrared: 'todo' as `0x${string}`,
     InfraredBribeCollector: 'todo' as `0x${string}`,
     InfraredBribes: 'todo' as `0x${string}`,
