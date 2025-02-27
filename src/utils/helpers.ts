@@ -11,6 +11,7 @@ import { log } from './logger';
 import { createViemPublicClient } from './createViemPublicClient';
 import { ConfigChain } from '../constants/chain';
 import { SupportedChainId } from './enum';
+import { testAbi } from '../constants/testAbi';
 
 const tokenDecimalsCache: Map<string, number> = new Map();
 
@@ -83,20 +84,34 @@ export const checkAndApproveAllowance = async (
     args: [walletClient.account!.address, spender],
   });
 
+  log.info(`[INFO] Current allowance: ${allowance}`);
+
   if (BigInt(allowance) < amount) {
     log.info(
       `[INFO] Allowance insufficient. Approving ${amount} for spender ${spender}`,
     );
 
-    // Approve the required amount
-    const approvalTx = await walletClient.writeContract({
+    console.log({
       address: token,
-      abi: TokenABI,
       functionName: 'approve',
       args: [spender, amount],
       chain: walletClient.chain,
       account: walletClient.account!.address,
     });
+
+    // Approve the required amount
+    const approvalTx = await walletClient.writeContract({
+      address: token,
+      abi: testAbi,
+      functionName: 'approve',
+      args: [spender, amount],
+      chain: walletClient.chain,
+      account: walletClient.account!.address,
+    });
+
+    log.info(
+      `[INFO] Waiting for approval transaction to be mined... ${approvalTx}`,
+    );
 
     const approvalReceipt = await publicClient.waitForTransactionReceipt({
       hash: approvalTx as `0x${string}`,
