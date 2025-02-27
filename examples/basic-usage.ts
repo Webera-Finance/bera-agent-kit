@@ -21,11 +21,16 @@ async function example() {
 
     const transfer = await agent.sendMessage(
       // `check my bera, honey, bgt balance`,
+      // `transfer 0.01 honey to 0xb6417F8a695a3470c3CB4f223f9598dc8EBe6f74`,
+      `swap 0.05 honey to bera at kodiak with slippage 1%`,
+      // `swap 0.01 BERA to honey at kodiak with slippage 1%`,
+      // 'Add liquidity V2 0.013 BERA and 0.1 honey at kodiak',
+      // 'Add liquidity V2 0.01 usdc and 0.01 honey at kodiak. Dont need to confirm',
+      // 'swap 0.01 bera to honey at bexswap',
       // `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap and send all the honey received to address 0x7xxx`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap, swap 0.0001 bera to honey at kodiak, then send all the honey received to address 0x7xxx`,
-      `check my honey-usdc.e balance, stake 0.1 honey-usdc.e infrared`,
     );
     console.info(`Transfer Response (Agent): ${transfer}`);
     // console.info(`check my bera, honey, bgt balance`);

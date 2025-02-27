@@ -21,6 +21,7 @@ export const TestnetChainConfig: ConfigChain = {
       '0x496e305c03909ae382974caca4c580e1bf32afbe' as `0x${string}`,
     KodiakUniswapV2Router02:
       '0x406846114B2A9b65a8A2Ab702C2C57d27784dBA2' as `0x${string}`,
+    KodiakNfPM: 'todo' as `0x${string}`,
     BeraCrocMultiSwap:
       '0x21e2C0AFd058A89FCf7caf3aEA3cB84Ae977B73D' as `0x${string}`,
     Infrared: '0xe41779952f5485db5440452DFa43350556AA4673' as `0x${string}`,
@@ -50,6 +51,7 @@ export const MainnetChainConfig: ConfigChain = {
     BGT: '0x656b95E550C07a9ffe548bd4085c72418Ceb1dba' as `0x${string}`,
     HONEY_BYUSD: '0xde04c469ad658163e2a5e860a03a86b52f6fa8c8',
     HONEY_USDCE: '0xf961a8f6d8c69e7321e78d254ecafbcc3a637621',
+    USDC: '0x549943e04f40284185054145c6E4e9568C1D3241' as `0x${string}`,
   },
   URL: {
     BEXRouteURL: 'todo',
@@ -60,9 +62,13 @@ export const MainnetChainConfig: ConfigChain = {
   },
   CONTRACT: {
     OBRouter: 'todo' as `0x${string}`,
-    KodiakSwapRouter02: 'todo' as `0x${string}`,
-    KodiakUniswapV2Router02: 'todo' as `0x${string}`,
-    BeraCrocMultiSwap: 'todo' as `0x${string}`,
+    KodiakSwapRouter02:
+      '0xe301E48F77963D3F7DbD2a4796962Bd7f3867Fb4' as `0x${string}`,
+    KodiakUniswapV2Router02:
+      '0xd91dd58387Ccd9B66B390ae2d7c66dBD46BC6022' as `0x${string}`,
+    KodiakNfPM: '0xFE5E8C83FFE4d9627A75EaA7Fee864768dB989bD' as `0x${string}`,
+    BeraCrocMultiSwap:
+      '0x4Be03f781C497A489E3cB0287833452cA9B9E80B' as `0x${string}`,
     Infrared: 'todo' as `0x${string}`,
     InfraredBribeCollector: 'todo' as `0x${string}`,
     InfraredBribes: 'todo' as `0x${string}`,
@@ -89,6 +95,7 @@ export type ConfigChain = {
     OBRouter: `0x${string}`;
     KodiakSwapRouter02: `0x${string}`;
     KodiakUniswapV2Router02: `0x${string}`;
+    KodiakNfPM: `0x${string}`;
     BeraCrocMultiSwap: `0x${string}`;
     Infrared: `0x${string}`;
     InfraredBribeCollector: `0x${string}`;

@@ -1,7 +1,7 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { log } from '../../utils/logger';
-import { pot2pumpFacadeABI } from '../../constants/honeypotFinanceABI';
+import { pot2pumpFacadeABI } from '../../constants/abis/honeypotFinanceABI';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,

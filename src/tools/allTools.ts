@@ -23,6 +23,7 @@ import { infraredStakeHoneyByusdTool } from './infrared/infraredStakeHoneyByusd'
 import { infraredStakeHoneyUsdceTool } from './infrared/infraredStakeHoneyUsdce';
 
 import { ConfigChain } from '../constants/chain';
+import { kodiakAddLiquidityToolV2 } from './kodiak/kodiakAddLiquidityV2';
 
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
@@ -51,6 +52,7 @@ export function createTools(): Record<string, ToolConfig<any, WalletClient>> {
     get_balance: getBalanceTool,
     transfer: transferTool,
     kodiak_swap: kodiakSwapTool,
+    kodiak_add_liquidity_v2: kodiakAddLiquidityToolV2,
     bex_swap: bexSwapTool,
     ooga_booga_swap: oogaBoogaSwapTool,
     bgt_station_stake: bgtStationStakeTool,

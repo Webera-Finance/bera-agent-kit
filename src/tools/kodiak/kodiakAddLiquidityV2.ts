@@ -1,6 +1,6 @@
-import { Address, WalletClient } from 'viem';
+import { Address, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
-import { KodiakUniswapV2Router02ABI } from '../../constants/kodiakABI';
+import { KodiakUniswapV2Router02ABI } from '../../constants/abis/kodiakABI';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
@@ -18,11 +18,11 @@ interface KodiakAddLiquidityArgs {
   to?: Address; // Optional recipient address
 }
 
-export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
+export const kodiakAddLiquidityToolV2: ToolConfig<KodiakAddLiquidityArgs> = {
   definition: {
     type: 'function',
     function: {
-      name: 'kodiak_add_liquidity',
+      name: 'kodiak_add_liquidity_v2',
       description: 'Add liquidity to a liquidity pool on Kodiak',
       parameters: {
         type: 'object',
@@ -76,8 +76,6 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
         throw new Error('Wallet client is not provided');
       }
 
-      // const publicClient = createViemPublicClient();
-
       const recipient = args.to || walletClient.account.address;
 
       log.info(
@@ -85,6 +83,7 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
       );
 
       const deadline = Math.floor(Date.now() / 1000) + 1200;
+      const isAddNative = !args.tokenA || args.tokenA === zeroAddress;
 
       const parsedAmountADesired = await fetchTokenDecimalsAndParseAmount(
         walletClient,
@@ -113,44 +112,55 @@ export const kodiakAddLiquidityTool: ToolConfig<KodiakAddLiquidityArgs> = {
       await checkAndApproveAllowance(
         walletClient,
         args.tokenA,
-        config.CONTRACT.KodiakSwapRouter02,
+        config.CONTRACT.KodiakUniswapV2Router02,
         parsedAmountADesired,
       );
 
       await checkAndApproveAllowance(
         walletClient,
         args.tokenB,
-        config.CONTRACT.KodiakSwapRouter02,
+        config.CONTRACT.KodiakUniswapV2Router02,
         parsedAmountBDesired,
       );
 
-      const tx = await walletClient.writeContract({
-        address: config.CONTRACT.KodiakSwapRouter02,
-        abi: KodiakUniswapV2Router02ABI,
-        functionName: 'addLiquidity',
-        args: [
-          args.tokenA,
-          args.tokenB,
-          parsedAmountADesired,
-          parsedAmountBDesired,
-          parsedAmountAMin,
-          parsedAmountBMin,
-          recipient,
-          BigInt(deadline),
-        ],
-        chain: walletClient.chain,
-        account: walletClient.account,
-      });
+      let tx;
 
-      // const receipt = await walletClient.waitForTransactionReceipt({
-      //   hash: tx as `0x${string}`,
-      // });
-
-      // if (receipt.status !== 'success') {
-      //   throw new Error(
-      //     `Add liquidity transaction failed with status: ${receipt.status}`,
-      //   );
-      // }
+      if (isAddNative) {
+        tx = await walletClient.writeContract({
+          address: config.CONTRACT.KodiakUniswapV2Router02,
+          abi: KodiakUniswapV2Router02ABI,
+          functionName: 'addLiquidityETH',
+          value: parsedAmountADesired,
+          args: [
+            args.tokenB,
+            parsedAmountBDesired,
+            parsedAmountAMin,
+            parsedAmountBMin,
+            recipient,
+            BigInt(deadline),
+          ],
+          chain: walletClient.chain,
+          account: walletClient.account,
+        });
+      } else {
+        tx = await walletClient.writeContract({
+          address: config.CONTRACT.KodiakUniswapV2Router02,
+          abi: KodiakUniswapV2Router02ABI,
+          functionName: 'addLiquidity',
+          args: [
+            args.tokenA,
+            args.tokenB,
+            parsedAmountADesired,
+            parsedAmountBDesired,
+            parsedAmountAMin,
+            parsedAmountBMin,
+            recipient,
+            BigInt(deadline),
+          ],
+          chain: walletClient.chain,
+          account: walletClient.account,
+        });
+      }
 
       log.info(`[INFO] Liquidity added successfully: Transaction hash: ${tx}`);
       return tx;

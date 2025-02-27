@@ -1,7 +1,6 @@
-import { Address, parseUnits, WalletClient, zeroAddress } from 'viem';
+import { Address, erc20Abi, parseUnits, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { parseEther } from 'viem/utils';
-import { TokenABI } from '../../constants/tokenABI';
 import { log } from '../../utils/logger';
 import { fetchTokenDecimals } from '../../utils/helpers';
 import { ConfigChain } from '../../constants/chain';
@@ -51,7 +50,7 @@ export const transferTool: ToolConfig<TransferArgs> = {
       }
 
       console.info(
-        `[INFO] Start transfer ${amount} ${tokenAddress === zeroAddress ? 'BERA' : tokenAddress} from ${walletClient.account?.address} to ${to} `,
+        `[INFO] Start transfer ${amount} ${tokenAddress === zeroAddress || !tokenAddress ? 'BERA' : tokenAddress} from ${walletClient.account?.address} to ${to} `,
       );
       let tx: string;
 
@@ -68,7 +67,7 @@ export const transferTool: ToolConfig<TransferArgs> = {
         const parsedAmount = parseUnits(amount.toString(), decimals);
         tx = await walletClient.writeContract({
           address: tokenAddress,
-          abi: TokenABI,
+          abi: erc20Abi,
           functionName: 'transfer',
           args: [to, parsedAmount],
           chain: walletClient.chain,
@@ -76,13 +75,6 @@ export const transferTool: ToolConfig<TransferArgs> = {
         });
       }
 
-      // const receipt = await walletClient.waitForTransactionReceipt({
-      //   hash: tx as `0x${string}`,
-      // });
-
-      // if (receipt.status !== "success") {
-      //   throw new Error(`transaction status ${receipt.status}`);
-      // }
       return tx;
     } catch (error: any) {
       log.error(
