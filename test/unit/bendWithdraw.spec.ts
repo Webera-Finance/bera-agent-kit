@@ -5,8 +5,8 @@ import * as helpersModule from '../../src/utils/helpers';
 import { parseEther } from 'viem';
 import sinon from 'sinon';
 import { CONTRACT, TOKEN } from '../../src/constants';
-import { BEND_ABI } from '../../src/constants/bendABI';
 import { TestnetChainConfig } from '../../src/constants/chain';
+import { BEND_ABI } from '../../src/constants/abis/bendABI';
 
 const mockWalletClient = {
   account: {
