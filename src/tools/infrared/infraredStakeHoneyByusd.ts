@@ -4,7 +4,7 @@ import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
-import { InfraredVaultContractABI } from '../../constants/InfraredVaultContractABI';
+import { InfraredVaultContractABI } from '../../constants/abis/InfraredVaultContractABI';
 import { ConfigChain } from '../../constants/chain';
 
 interface InfraredStakeHoneyByusdArgs {
