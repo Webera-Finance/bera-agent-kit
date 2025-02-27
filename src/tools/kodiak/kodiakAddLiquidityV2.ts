@@ -1,6 +1,6 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { KodiakUniswapV2Router02ABI } from '../../constants/kodiakABI';
+import { KodiakUniswapV2Router02ABI } from '../../constants/abis/kodiakABI';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,

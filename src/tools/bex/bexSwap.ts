@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Address, PublicClient, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
-import { BeraCrocMultiSwapABI } from '../../constants/bexABI';
+import { BeraCrocMultiSwapABI } from '../../constants/abis/bexABI';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,

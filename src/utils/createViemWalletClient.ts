@@ -1,6 +1,6 @@
 import { createWalletClient, http, publicActions } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { berachain, berachainTestnetbArtio } from 'viem/chains';
+import { berachain } from 'viem/chains';
 import 'dotenv/config';
 
 export function createViemWalletClient() {

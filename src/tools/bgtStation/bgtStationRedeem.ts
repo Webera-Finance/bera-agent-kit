@@ -1,5 +1,5 @@
 import { ToolConfig } from '../allTools';
-import { BGTABI } from '../../constants/tokenABI';
+import { BGTABI } from '../../constants/abis/bgtABI';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { WalletClient } from 'viem';

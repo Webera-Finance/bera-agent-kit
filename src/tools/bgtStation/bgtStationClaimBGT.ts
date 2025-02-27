@@ -1,7 +1,7 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { fetchVaultAndTokenAddress } from '../../utils/helpers';
-import { BerachainRewardsVaultABI } from '../../constants/bgtStationABI';
+import { BerachainRewardsVaultABI } from '../../constants/abis/bgtStationABI';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
 

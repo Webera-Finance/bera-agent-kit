@@ -1,9 +1,9 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { BGTABI } from '../../constants/tokenABI';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
+import { BGTABI } from '../../constants/abis/bgtABI';
 
 interface BGTStationDelegateArgs {
   validator: Address;

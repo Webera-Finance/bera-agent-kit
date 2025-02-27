@@ -4,8 +4,7 @@ import * as viemClientModule from '../../../src/utils/createViemWalletClient';
 import * as helpersModule from '../../../src/utils/helpers';
 import { parseEther } from 'viem';
 import sinon from 'sinon';
-import { CONTRACT, TOKEN } from '../../../src/constants';
-import { pot2pumpFacadeABI } from '../../../src/constants/honeypotFinanceABI';
+import { pot2pumpFacadeABI } from '../../../src/constants/abis/honeypotFinanceABI';
 import { TestnetChainConfig } from '../../../src/constants/chain';
 
 const mockWalletClient = {

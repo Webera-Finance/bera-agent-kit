@@ -1,7 +1,7 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { log } from '../../utils/logger';
-import { pot2pumpFactoryABI } from '../../constants/honeypotFinanceABI';
+import { pot2pumpFactoryABI } from '../../constants/abis/honeypotFinanceABI';
 import { ConfigChain } from '../../constants/chain';
 
 interface Pot2PumpLaunchArgs {

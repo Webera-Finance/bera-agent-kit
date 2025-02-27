@@ -1,12 +1,13 @@
-import { Address, parseUnits, WalletClient, zeroAddress } from 'viem';
-// import { createViemPublicClient } from '../../utils/createViemPublicClient';
-// import { createViemWalletClient } from '../../utils/createViemWalletClient';
-import { ToolConfig } from '../allTools';
 import {
-  KodiakSwapRouter02ABI,
-  KodiakUniswapV2Router02ABI,
-} from '../../constants/kodiakABI';
-// import { TokenABI } from '../../constants/tokenABI';
+  Address,
+  encodeFunctionData,
+  parseEther,
+  parseUnits,
+  WalletClient,
+  zeroAddress,
+} from 'viem';
+import { ToolConfig } from '../allTools';
+import { KodiakSwapRouter02ABI } from '../../constants/abis/kodiakABI';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimals,
@@ -17,7 +18,7 @@ import { ConfigChain } from '../../constants/chain';
 // TODO: In the futures, we should detect tokenIn by token name or symbol. So that user can easy to use
 interface KodiakSwapArgs {
   amountIn: number;
-  amountOutMin: number;
+  slippage?: number;
   tokenIn?: Address; // Optional input token, defaults to ETH if null or undefined
   tokenOut: Address; // Output token address
   to?: Address; // Optional recipient address
@@ -34,17 +35,16 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
         properties: {
           amountIn: {
             type: 'number',
-            description: 'The amount of input tokens to swap',
+            description: 'The amount of input token to swap',
           },
-          amountOutMin: {
+          slippage: {
             type: 'number',
-            description: 'The minimum amount of output tokens expected',
+            description: 'The slippage tolerance for the swap',
           },
           tokenIn: {
             type: ['string'],
             pattern: '^0x[a-fA-F0-9]{40}$',
-            description:
-              'Address of the input token (optional, defaults to bera native token if null)',
+            description: 'Address of the input token',
           },
           tokenOut: {
             type: 'string',
@@ -72,6 +72,7 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
         args.to && args.to !== zeroAddress
           ? args.to
           : walletClient.account.address;
+
       const isNativeSwap = !args.tokenIn || args.tokenIn === zeroAddress;
 
       log.info(
@@ -86,27 +87,39 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
         args.tokenIn!,
       );
 
+      const slippage = args.slippage || 0.01;
+      const amountOutMin = 0;
+
       if (isNativeSwap) {
         const parsedAmountOutMin = parseUnits(
-          args.amountOutMin.toString(),
+          amountOutMin.toString(),
           Number(inputTokenDecimals),
         );
-        tx = await walletClient.writeContract({
-          address: config.CONTRACT.KodiakUniswapV2Router02,
-          abi: KodiakUniswapV2Router02ABI,
-          functionName: 'swapExactETHForTokens',
+
+        const dataBytes = encodeFunctionData({
+          abi: KodiakSwapRouter02ABI,
+          functionName: 'exactInputSingle',
           args: [
-            parsedAmountOutMin,
-            [config.TOKEN.WBERA, args.tokenOut],
-            recipient,
-            BigInt(deadline),
+            {
+              tokenIn: config.TOKEN.WBERA,
+              tokenOut: args.tokenOut,
+              fee: 500,
+              recipient,
+              amountIn: parseEther(args.amountIn.toString()),
+              amountOutMinimum: parsedAmountOutMin,
+              sqrtPriceLimitX96: BigInt(0),
+            },
           ],
+        });
+
+        tx = await walletClient.writeContract({
+          address: config.CONTRACT.KodiakSwapRouter02,
+          abi: KodiakSwapRouter02ABI,
+          functionName: 'multicall',
+          args: [BigInt(deadline), [dataBytes]],
           chain: walletClient.chain,
           account: walletClient.account,
-          value: parseUnits(
-            args.amountIn.toString(),
-            Number(inputTokenDecimals),
-          ),
+          value: parseEther(args.amountIn.toString()),
         });
       } else {
         const parsedAmountIn = parseUnits(
@@ -114,7 +127,7 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
           Number(inputTokenDecimals),
         );
         const parsedAmountOutMin = parseUnits(
-          args.amountOutMin.toString(),
+          amountOutMin.toString(),
           Number(inputTokenDecimals),
         );
 

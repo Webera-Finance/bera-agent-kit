@@ -1,11 +1,11 @@
 import {
   Address,
+  erc20Abi,
   formatUnits,
   parseUnits,
   WalletClient,
   zeroAddress,
 } from 'viem';
-import { TokenABI } from '../constants/tokenABI';
 import axios from 'axios';
 import { log } from './logger';
 import { createViemPublicClient } from './createViemPublicClient';
@@ -16,56 +16,56 @@ const tokenDecimalsCache: Map<string, number> = new Map();
 
 export const fetchTokenDecimals = async (
   walletClient: any,
-  token: Address,
+  tokenAddress: Address,
 ): Promise<number> => {
-  if (!token || token === zeroAddress) {
+  if (!tokenAddress || tokenAddress === zeroAddress) {
     return 18;
   }
 
-  if (!tokenDecimalsCache.has(token)) {
-    if (token) {
+  if (!tokenDecimalsCache.has(tokenAddress)) {
+    if (tokenAddress) {
       const tokenDecimals = await walletClient.readContract({
-        address: token,
-        abi: TokenABI,
+        address: tokenAddress,
+        abi: erc20Abi,
         functionName: 'decimals',
         args: [],
       });
-      tokenDecimalsCache.set(token, Number(tokenDecimals));
+      tokenDecimalsCache.set(tokenAddress, Number(tokenDecimals));
     } else {
-      tokenDecimalsCache.set(token, 18);
+      tokenDecimalsCache.set(tokenAddress, 18);
     }
   }
 
-  return tokenDecimalsCache.get(token)!;
+  return tokenDecimalsCache.get(tokenAddress)!;
 };
 
 export const fetchTokenDecimalsAndFormatAmount = async (
   walletClient: any,
-  token: Address,
+  tokenAddress: Address,
   amount: bigint,
 ): Promise<string> => {
-  const tokenDecimals = await fetchTokenDecimals(walletClient, token);
+  const tokenDecimals = await fetchTokenDecimals(walletClient, tokenAddress);
   const formattedAmount = formatUnits(amount, tokenDecimals);
   return formattedAmount;
 };
 
 export const fetchTokenDecimalsAndParseAmount = async (
   walletClient: any,
-  token: Address,
+  tokenAddress: Address,
   amount: number | bigint,
 ): Promise<bigint> => {
-  const tokenDecimals = await fetchTokenDecimals(walletClient, token);
+  const tokenDecimals = await fetchTokenDecimals(walletClient, tokenAddress);
   const parsedAmount = parseUnits(amount.toString(), tokenDecimals);
   return parsedAmount;
 };
 
 export const checkAndApproveAllowance = async (
   walletClient: WalletClient,
-  token: Address,
+  tokenAddress: Address,
   spender: Address,
   amount: bigint,
 ): Promise<void> => {
-  if (!token || token === zeroAddress) {
+  if (!tokenAddress || tokenAddress === zeroAddress) {
     return;
   }
 
@@ -73,12 +73,14 @@ export const checkAndApproveAllowance = async (
     walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
   const publicClient = createViemPublicClient(envType);
 
-  log.info(`[INFO] Checking allowance for ${token} to spender ${spender}`);
+  log.info(
+    `[INFO] Checking allowance for ${tokenAddress} to spender ${spender}`,
+  );
 
   // Fetch current allowance
   const allowance = await publicClient.readContract({
-    address: token,
-    abi: TokenABI,
+    address: tokenAddress,
+    abi: erc20Abi,
     functionName: 'allowance',
     args: [walletClient.account!.address, spender],
   });
@@ -90,8 +92,8 @@ export const checkAndApproveAllowance = async (
 
     // Approve the required amount
     const approvalTx = await walletClient.writeContract({
-      address: token,
-      abi: TokenABI,
+      address: tokenAddress,
+      abi: erc20Abi,
       functionName: 'approve',
       args: [spender, amount],
       chain: walletClient.chain,
@@ -113,7 +115,7 @@ export const checkAndApproveAllowance = async (
 };
 
 export const fetchVaultAndTokenAddress = async (
-  token: Address,
+  tokenAddress: Address,
   isVault: boolean,
   config: ConfigChain,
 ): Promise<{ vaultAddress: Address; stakingTokenAddress: Address }> => {
@@ -123,13 +125,13 @@ export const fetchVaultAndTokenAddress = async (
     const vaults = response.data.vaults;
 
     for (const vault of vaults) {
-      if (isVault && vault.vaultAddress === token) {
+      if (isVault && vault.vaultAddress === tokenAddress) {
         log.info(`[INFO] Found matching vault: ${vault.vaultAddress}`);
         return {
           vaultAddress: vault.vaultAddress as Address,
           stakingTokenAddress: vault.stakingTokenAddress as Address,
         };
-      } else if (!isVault && vault.stakingTokenAddress === token) {
+      } else if (!isVault && vault.stakingTokenAddress === tokenAddress) {
         log.info(
           `[INFO] Found matching staking token: ${vault.stakingTokenAddress}`,
         );
@@ -141,7 +143,7 @@ export const fetchVaultAndTokenAddress = async (
     }
 
     throw new Error(
-      `No matching ${isVault ? 'staking token' : 'vault'} address found for ${token}`,
+      `No matching ${isVault ? 'staking token' : 'vault'} address found for ${tokenAddress}`,
     );
   } catch (error: any) {
     log.error(`[ERROR] Failed to fetch addresses: ${error.message}`);

@@ -6,7 +6,7 @@ import {
   fetchTokenDecimalsAndParseAmount,
   fetchVaultAndTokenAddress,
 } from '../../utils/helpers';
-import { BerachainRewardsVaultABI } from '../../constants/bgtStationABI';
+import { BerachainRewardsVaultABI } from '../../constants/abis/bgtStationABI';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
 

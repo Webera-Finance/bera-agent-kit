@@ -1,6 +1,6 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { BEND_ABI } from '../../constants/bendABI';
+import { BEND_ABI } from '../../constants/abis/bendABI';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';

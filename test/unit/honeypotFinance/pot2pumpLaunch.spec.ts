@@ -1,11 +1,9 @@
 import { expect } from 'chai';
 import { pot2pumpLaunchTool } from '../../../src/tools/honeypotFinance/pot2pumpLaunch';
 import * as viemClientModule from '../../../src/utils/createViemWalletClient';
-import * as helpersModule from '../../../src/utils/helpers';
-import { parseEther } from 'viem';
 import sinon from 'sinon';
-import { CONTRACT, TOKEN } from '../../../src/constants';
-import { pot2pumpFactoryABI } from '../../../src/constants/honeypotFinanceABI';
+import { CONTRACT } from '../../../src/constants';
+import { pot2pumpFactoryABI } from '../../../src/constants/abis/honeypotFinanceABI';
 import { TestnetChainConfig } from '../../../src/constants/chain';
 
 const mockWalletClient = {

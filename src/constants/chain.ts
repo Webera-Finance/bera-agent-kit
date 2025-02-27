@@ -42,6 +42,7 @@ export const MainnetChainConfig: ConfigChain = {
     IBGT: 'todo' as `0x${string}`,
     HONEY: '0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce' as `0x${string}`,
     BGT: '0x656b95E550C07a9ffe548bd4085c72418Ceb1dba' as `0x${string}`,
+    USDC: '0x549943e04f40284185054145c6E4e9568C1D3241' as `0x${string}`,
   },
   URL: {
     BEXRouteURL: 'todo',
@@ -50,8 +51,10 @@ export const MainnetChainConfig: ConfigChain = {
   },
   CONTRACT: {
     OBRouter: 'todo' as `0x${string}`,
-    KodiakSwapRouter02: 'todo' as `0x${string}`,
-    KodiakUniswapV2Router02: 'todo' as `0x${string}`,
+    KodiakSwapRouter02:
+      '0xe301E48F77963D3F7DbD2a4796962Bd7f3867Fb4' as `0x${string}`,
+    KodiakUniswapV2Router02:
+      '0x5e705e184d233ff2a7cb1553793464a9d0c3028f' as `0x${string}`,
     BeraCrocMultiSwap: 'todo' as `0x${string}`,
     Infrared: 'todo' as `0x${string}`,
     InfraredBribeCollector: 'todo' as `0x${string}`,

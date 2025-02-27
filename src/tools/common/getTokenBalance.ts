@@ -1,7 +1,6 @@
-import { Address, PublicClient, WalletClient } from 'viem';
+import { Address, erc20Abi, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
-import { TokenABI } from '../../constants/tokenABI';
 import { fetchTokenDecimalsAndFormatAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
@@ -73,7 +72,7 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
 
       const rawTokenBalanceOfWallet = await newPublicClient.readContract({
         address: tokenAddress,
-        abi: TokenABI,
+        abi: erc20Abi,
         functionName: 'balanceOf',
         args: [address],
       });
