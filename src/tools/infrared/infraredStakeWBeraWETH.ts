@@ -7,23 +7,23 @@ import {
 import { InfraredVaultContractABI } from '../../constants/InfraredVaultContractABI';
 import { ConfigChain } from '../../constants/chain';
 
-interface InfraredStakeHoneyUsdceArgs {
+interface InfraredStakeWBeraWETHArgs {
   stakeAmount: number;
 }
 
-export const infraredStakeHoneyUsdceTool: ToolConfig<InfraredStakeHoneyUsdceArgs> =
+export const infraredStakeWBeraWETHTool: ToolConfig<InfraredStakeWBeraWETHArgs> =
   {
     definition: {
       type: 'function',
       function: {
-        name: 'infrared_stake_honey_usdce',
-        description: 'Stake Honey-Usdce on Infrared',
+        name: 'infrared_stake_wbera_weth',
+        description: 'Stake WBera-WETH on Infrared',
         parameters: {
           type: 'object',
           properties: {
             stakeAmount: {
               type: 'number',
-              description: 'The amount of Honey-Usdce to stake',
+              description: 'The amount of WBera-WETH to stake',
             },
           },
           required: ['stakeAmount'],
@@ -31,7 +31,7 @@ export const infraredStakeHoneyUsdceTool: ToolConfig<InfraredStakeHoneyUsdceArgs
       },
     },
     handler: async (
-      args: InfraredStakeHoneyUsdceArgs,
+      args: InfraredStakeWBeraWETHArgs,
       config: ConfigChain,
       walletClient?: WalletClient,
     ) => {
@@ -42,28 +42,26 @@ export const infraredStakeHoneyUsdceTool: ToolConfig<InfraredStakeHoneyUsdceArgs
 
         const parsedStakeAmount = await fetchTokenDecimalsAndParseAmount(
           walletClient,
-          config.TOKEN.HONEY_USDCE,
+          config.TOKEN.WBERA_WETH,
           args.stakeAmount,
         );
 
-        console.log(
-          `[INFO] Checking allowance for ${config.TOKEN.HONEY_USDCE} to spender ${config.CONTRACT.InfraredHoneyUsdce}`,
-        );
-        //
+        console.log(`[INFO] Checking allowance for ${config.TOKEN.WBERA_WETH}`);
+
         // check allowance
         await checkAndApproveAllowance(
           walletClient,
-          config.TOKEN.HONEY_USDCE,
-          config.CONTRACT.InfraredHoneyUsdce,
+          config.TOKEN.WBERA_WETH,
+          config.CONTRACT.InfraredWberaWETH,
           parsedStakeAmount,
         );
 
         console.log(
-          `[INFO] Staking ${parsedStakeAmount.toString()} ${config.TOKEN.HONEY_USDCE} to ${config.CONTRACT.InfraredHoneyUsdce}`,
+          `[INFO] Staking ${parsedStakeAmount.toString()} ${config.TOKEN.WBERA_WETH} to ${config.CONTRACT.InfraredWberaWETH}`,
         );
 
         const tx = await walletClient.writeContract({
-          address: config.CONTRACT.InfraredHoneyUsdce,
+          address: config.CONTRACT.InfraredWberaWETH,
           abi: InfraredVaultContractABI,
           functionName: 'stake',
           args: [parsedStakeAmount],

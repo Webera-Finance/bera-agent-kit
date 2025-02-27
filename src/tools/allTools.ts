@@ -24,6 +24,9 @@ import { infraredStakeHoneyUsdceTool } from './infrared/infraredStakeHoneyUsdce'
 
 import { ConfigChain } from '../constants/chain';
 import { kodiakAddLiquidityToolV2 } from './kodiak/kodiakAddLiquidityV2';
+import { infraredStakeHoneyWBeraTool } from './infrared/infraredStakeHoneyWBera';
+import { infraredStakeWBeraWBTCTool } from './infrared/infraredStakeWBeraWBTC';
+import { infraredStakeWBeraWETHTool } from './infrared/infraredStakeWBeraWETH';
 
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
@@ -72,5 +75,8 @@ export function createTools(): Record<string, ToolConfig<any, WalletClient>> {
     pot2pump_deposit: pot2pumpDepositTool,
     infrared_stake_honey_byusd: infraredStakeHoneyByusdTool,
     infrared_stake_honey_usdce: infraredStakeHoneyUsdceTool,
+    infrared_stake_honey_wbera: infraredStakeHoneyWBeraTool,
+    infrared_stake_wbera_wbtc: infraredStakeWBeraWBTCTool,
+    infrared_stake_wbera_weth: infraredStakeWBeraWETHTool,
   };
 }

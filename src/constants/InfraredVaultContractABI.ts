@@ -1,476 +1,38 @@
 export const InfraredVaultContractABI = [
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_stakingToken',
+        type: 'address',
+      },
+      { internalType: 'uint256', name: '_rewardsDuration', type: 'uint256' },
+    ],
     stateMutability: 'nonpayable',
     type: 'constructor',
   },
-  { inputs: [], name: 'AmountLessThanMinIncentiveRate', type: 'error' },
+  { inputs: [], name: 'EnforcedPause', type: 'error' },
   {
     inputs: [],
-    name: 'CannotRecoverIncentiveToken',
+    name: 'ExpectedPause',
     type: 'error',
   },
-  { inputs: [], name: 'CannotRecoverRewardToken', type: 'error' },
-  {
-    inputs: [],
-    name: 'CannotRecoverStakingToken',
-    type: 'error',
-  },
-  { inputs: [], name: 'DepositNotMultipleOfGwei', type: 'error' },
-  {
-    inputs: [],
-    name: 'DepositValueTooHigh',
-    type: 'error',
-  },
-  { inputs: [], name: 'DonateAmountLessThanPayoutAmount', type: 'error' },
-  {
-    inputs: [],
-    name: 'EnforcedPause',
-    type: 'error',
-  },
-  { inputs: [], name: 'ExpectedPause', type: 'error' },
-  {
-    inputs: [],
-    name: 'IncentiveRateTooHigh',
-    type: 'error',
-  },
-  { inputs: [], name: 'IndexOutOfRange', type: 'error' },
-  {
-    inputs: [],
-    name: 'InsolventReward',
-    type: 'error',
-  },
-  { inputs: [], name: 'InsufficientDelegateStake', type: 'error' },
-  {
-    inputs: [],
-    name: 'InsufficientDeposit',
-    type: 'error',
-  },
-  { inputs: [], name: 'InsufficientSelfStake', type: 'error' },
-  {
-    inputs: [],
-    name: 'InsufficientStake',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidActivateBoostDelay', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidBaseRate',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidBoostMultiplier', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidCredentialsLength',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidDropBoostDelay', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidInitialization',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidMaxIncentiveTokensCount', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidMinBoostedRewardRate',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidProof', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidPubKeyLength',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidRewardAllocationWeights', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidRewardConvexity',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidRewardRate', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidSignatureLength',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidStartBlock', type: 'error' },
-  {
-    inputs: [],
-    name: 'InvalidateDefaultRewardAllocation',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvariantCheckFailed', type: 'error' },
-  {
-    inputs: [],
-    name: 'MaxNumWeightsPerRewardAllocationIsZero',
-    type: 'error',
-  },
-  { inputs: [], name: 'MinIncentiveRateIsZero', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotAContract',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotApprovedSender', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotBGT',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotBlockRewardController', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotDelegate',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotDistributor', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotEnoughBalance',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotEnoughBoostedBalance', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotEnoughTime',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotFactoryVault', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotFeeCollector',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotIncentiveManager', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotInitializing',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotNewOperator', type: 'error' },
-  {
-    inputs: [],
-    name: 'NotOperator',
-    type: 'error',
-  },
-  { inputs: [], name: 'NotWhitelistedVault', type: 'error' },
-  {
-    inputs: [],
-    name: 'OperatorAlreadySet',
-    type: 'error',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-    name: 'OwnableUnauthorizedAccount',
-    type: 'error',
-  },
-  { inputs: [], name: 'PayoutAmountIsZero', type: 'error' },
+  { inputs: [], name: 'MaxNumberOfRewards', type: 'error' },
   {
     inputs: [],
     name: 'ReentrancyGuardReentrantCall',
     type: 'error',
   },
-  { inputs: [], name: 'RewardAllocationAlreadyQueued', type: 'error' },
+  {
+    inputs: [{ internalType: 'address', name: 'sender', type: 'address' }],
+    name: 'Unauthorized',
+    type: 'error',
+  },
+  { inputs: [], name: 'ZeroAddress', type: 'error' },
   {
     inputs: [],
-    name: 'RewardAllocationBlockDelayTooLarge',
+    name: 'ZeroAmount',
     type: 'error',
-  },
-  { inputs: [], name: 'RewardCycleNotEnded', type: 'error' },
-  {
-    inputs: [],
-    name: 'RewardsDurationIsZero',
-    type: 'error',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'token', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-    type: 'error',
-  },
-  { inputs: [], name: 'StakeAmountIsZero', type: 'error' },
-  {
-    inputs: [],
-    name: 'TimestampAlreadyProcessed',
-    type: 'error',
-  },
-  { inputs: [], name: 'TokenAlreadyWhitelistedOrLimitReached', type: 'error' },
-  {
-    inputs: [],
-    name: 'TokenNotWhitelisted',
-    type: 'error',
-  },
-  { inputs: [], name: 'TooManyWeights', type: 'error' },
-  {
-    inputs: [],
-    name: 'TotalSupplyOverflow',
-    type: 'error',
-  },
-  { inputs: [], name: 'WithdrawAmountIsZero', type: 'error' },
-  {
-    inputs: [],
-    name: 'ZeroAddress',
-    type: 'error',
-  },
-  { inputs: [], name: 'ZeroOperatorOnFirstDeposit', type: 'error' },
-  {
-    inputs: [],
-    name: 'ZeroPercentageWeight',
-    type: 'error',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'delegate',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'DelegateStaked',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'delegate',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'DelegateWithdrawn',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'distributor',
-        type: 'address',
-      },
-    ],
-    name: 'DistributorSet',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'sender',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'incentiveRate',
-        type: 'uint256',
-      },
-    ],
-    name: 'IncentiveAdded',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'newManager',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'oldManager',
-        type: 'address',
-      },
-    ],
-    name: 'IncentiveManagerChanged',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-    ],
-    name: 'IncentiveTokenRemoved',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'minIncentiveRate',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'manager',
-        type: 'address',
-      },
-    ],
-    name: 'IncentiveTokenWhitelisted',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'bytes', name: 'pubkey', type: 'bytes' },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'bgtEmitted',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'IncentivesProcessFailed',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'bytes', name: 'pubkey', type: 'bytes' },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'bgtEmitted',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'IncentivesProcessed',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'uint64',
-        name: 'version',
-        type: 'uint64',
-      },
-    ],
-    name: 'Initialized',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'uint8',
-        name: 'maxIncentiveTokensCount',
-        type: 'uint8',
-      },
-    ],
-    name: 'MaxIncentiveTokensCountUpdated',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
-      },
-    ],
-    name: 'OperatorSet',
-    type: 'event',
   },
   {
     anonymous: false,
@@ -508,6 +70,12 @@ export const InfraredVaultContractABI = [
     anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: 'address',
+        name: 'rewardsToken',
+        type: 'address',
+      },
+      {
         indexed: false,
         internalType: 'uint256',
         name: 'reward',
@@ -520,16 +88,11 @@ export const InfraredVaultContractABI = [
   {
     anonymous: false,
     inputs: [
+      { indexed: true, internalType: 'address', name: 'user', type: 'address' },
       {
         indexed: true,
         internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'to',
+        name: 'rewardsToken',
         type: 'address',
       },
       {
@@ -546,6 +109,63 @@ export const InfraredVaultContractABI = [
     anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: 'address',
+        name: 'rewardsToken',
+        type: 'address',
+      },
+    ],
+    name: 'RewardRemoved',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'rewardsToken',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'rewardsDuration',
+        type: 'uint256',
+      },
+    ],
+    name: 'RewardStored',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'rewardsToken',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newDistributor',
+        type: 'address',
+      },
+    ],
+    name: 'RewardsDistributorUpdated',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'token',
+        type: 'address',
+      },
+      {
         indexed: false,
         internalType: 'uint256',
         name: 'newDuration',
@@ -558,12 +178,7 @@ export const InfraredVaultContractABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
+      { indexed: true, internalType: 'address', name: 'user', type: 'address' },
       {
         indexed: false,
         internalType: 'uint256',
@@ -590,12 +205,7 @@ export const InfraredVaultContractABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
+      { indexed: true, internalType: 'address', name: 'user', type: 'address' },
       {
         indexed: false,
         internalType: 'uint256',
@@ -607,16 +217,22 @@ export const InfraredVaultContractABI = [
     type: 'event',
   },
   {
+    inputs: [],
+    name: 'MAX_NUM_REWARD_TOKENS',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
-      { internalType: 'address', name: 'token', type: 'address' },
+      { internalType: 'address', name: '_rewardsToken', type: 'address' },
       {
         internalType: 'uint256',
-        name: 'amount',
+        name: '_rewardsDuration',
         type: 'uint256',
       },
-      { internalType: 'uint256', name: 'incentiveRate', type: 'uint256' },
     ],
-    name: 'addIncentive',
+    name: 'addReward',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -624,16 +240,7 @@ export const InfraredVaultContractABI = [
   {
     inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
     name: 'balanceOf',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'beaconDepositContract',
-    outputs: [
-      { internalType: 'contract IBeaconDeposit', name: '', type: 'address' },
-    ],
+    outputs: [{ internalType: 'uint256', name: '_balance', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
@@ -641,46 +248,18 @@ export const InfraredVaultContractABI = [
     inputs: [
       { internalType: 'address', name: 'account', type: 'address' },
       {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
+        internalType: 'address',
+        name: '_rewardsToken',
+        type: 'address',
       },
     ],
-    name: 'delegateStake',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: 'account', type: 'address' },
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'delegateWithdraw',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'distributor',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
     name: 'earned',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'recipient', type: 'address' }],
+    inputs: [],
     name: 'exit',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -688,155 +267,77 @@ export const InfraredVaultContractABI = [
   },
   {
     inputs: [],
-    name: 'factory',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'getAllRewardTokens',
+    outputs: [{ internalType: 'address[]', name: '', type: 'address[]' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [
-      { internalType: 'address', name: 'account', type: 'address' },
+    inputs: [{ internalType: 'address', name: '_user', type: 'address' }],
+    name: 'getAllRewardsForUser',
+    outputs: [
       {
-        internalType: 'address',
-        name: 'delegate',
-        type: 'address',
+        components: [
+          {
+            internalType: 'address',
+            name: 'token',
+            type: 'address',
+          },
+          { internalType: 'uint256', name: 'amount', type: 'uint256' },
+        ],
+        internalType: 'struct IInfraredVault.UserReward[]',
+        name: '',
+        type: 'tuple[]',
       },
     ],
-    name: 'getDelegateStake',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: 'account', type: 'address' },
-      {
-        internalType: 'address',
-        name: 'recipient',
-        type: 'address',
-      },
-    ],
-    name: 'getReward',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
     inputs: [],
+    name: 'getReward',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_rewardsToken', type: 'address' },
+    ],
     name: 'getRewardForDuration',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-    name: 'getTotalDelegateStaked',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'getWhitelistedTokens',
-    outputs: [{ internalType: 'address[]', name: '', type: 'address[]' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'getWhitelistedTokensCount',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'token', type: 'address' }],
-    name: 'incentives',
-    outputs: [
-      { internalType: 'uint256', name: 'minIncentiveRate', type: 'uint256' },
-      {
-        internalType: 'uint256',
-        name: 'incentiveRate',
-        type: 'uint256',
-      },
-      { internalType: 'uint256', name: 'amountRemaining', type: 'uint256' },
-      {
-        internalType: 'address',
-        name: 'manager',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_beaconDepositContract',
-        type: 'address',
-      },
-      { internalType: 'address', name: '_bgt', type: 'address' },
-      {
-        internalType: 'address',
-        name: '_distributor',
-        type: 'address',
-      },
-      { internalType: 'address', name: '_stakingToken', type: 'address' },
-    ],
-    name: 'initialize',
+    inputs: [{ internalType: 'address', name: '_user', type: 'address' }],
+    name: 'getRewardForUser',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
-    name: 'isFactoryOwner',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
-    name: 'isFactoryVaultManager',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
-    name: 'isFactoryVaultPauser',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [],
+    name: 'infrared',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_rewardsToken', type: 'address' },
+    ],
     name: 'lastTimeRewardApplicable',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'lastUpdateTime',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'maxIncentiveTokensCount',
-    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [
-      { internalType: 'bytes', name: 'pubkey', type: 'bytes' },
+      { internalType: 'address', name: '_rewardToken', type: 'address' },
       {
         internalType: 'uint256',
-        name: 'reward',
+        name: '_reward',
         type: 'uint256',
       },
     ],
@@ -846,15 +347,8 @@ export const InfraredVaultContractABI = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-    name: 'operator',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [],
-    name: 'pause',
+    name: 'pauseStaking',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -867,20 +361,14 @@ export const InfraredVaultContractABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'periodFinish',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [
-      { internalType: 'address', name: 'tokenAddress', type: 'address' },
+      { internalType: 'address', name: '_to', type: 'address' },
       {
-        internalType: 'uint256',
-        name: 'tokenAmount',
-        type: 'uint256',
+        internalType: 'address',
+        name: '_token',
+        type: 'address',
       },
+      { internalType: 'uint256', name: '_amount', type: 'uint256' },
     ],
     name: 'recoverERC20',
     outputs: [],
@@ -888,42 +376,74 @@ export const InfraredVaultContractABI = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'token', type: 'address' }],
-    name: 'removeIncentiveToken',
+    inputs: [
+      { internalType: 'address', name: '_rewardsToken', type: 'address' },
+    ],
+    name: 'removeReward',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [],
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'rewardData',
+    outputs: [
+      {
+        internalType: 'address',
+        name: 'rewardsDistributor',
+        type: 'address',
+      },
+      { internalType: 'uint256', name: 'rewardsDuration', type: 'uint256' },
+      {
+        internalType: 'uint256',
+        name: 'periodFinish',
+        type: 'uint256',
+      },
+      { internalType: 'uint256', name: 'rewardRate', type: 'uint256' },
+      {
+        internalType: 'uint256',
+        name: 'lastUpdateTime',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'rewardPerTokenStored',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'rewardResidual',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_rewardsToken', type: 'address' },
+    ],
     name: 'rewardPerToken',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'rewardPerTokenStored',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'rewardTokens',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'rewardRate',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'rewardToken',
-    outputs: [{ internalType: 'contract IERC20', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+    inputs: [
+      { internalType: 'address', name: '', type: 'address' },
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
     name: 'rewards',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
@@ -931,47 +451,11 @@ export const InfraredVaultContractABI = [
   },
   {
     inputs: [],
-    name: 'rewardsDuration',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'rewardsVault',
+    outputs: [
+      { internalType: 'contract IRewardVault', name: '', type: 'address' },
+    ],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: '_rewardDistribution', type: 'address' },
-    ],
-    name: 'setDistributor',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint8',
-        name: '_maxIncentiveTokensCount',
-        type: 'uint8',
-      },
-    ],
-    name: 'setMaxIncentiveTokensCount',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: '_operator', type: 'address' }],
-    name: 'setOperator',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_rewardsDuration', type: 'uint256' },
-    ],
-    name: 'setRewardsDuration',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -983,8 +467,8 @@ export const InfraredVaultContractABI = [
   },
   {
     inputs: [],
-    name: 'stakeToken',
-    outputs: [{ internalType: 'contract IERC20', name: '', type: 'address' }],
+    name: 'stakingToken',
+    outputs: [{ internalType: 'contract ERC20', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
@@ -997,58 +481,36 @@ export const InfraredVaultContractABI = [
   },
   {
     inputs: [],
-    name: 'undistributedRewards',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'unpause',
+    name: 'unpauseStaking',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
     inputs: [
-      { internalType: 'address', name: 'token', type: 'address' },
+      { internalType: 'address', name: '_rewardsToken', type: 'address' },
+      {
+        internalType: 'uint256',
+        name: '_rewardsDuration',
+        type: 'uint256',
+      },
+    ],
+    name: 'updateRewardsDuration',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '', type: 'address' },
       {
         internalType: 'address',
-        name: 'newManager',
+        name: '',
         type: 'address',
       },
     ],
-    name: 'updateIncentiveManager',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
     name: 'userRewardPerTokenPaid',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: 'token', type: 'address' },
-      {
-        internalType: 'uint256',
-        name: 'minIncentiveRate',
-        type: 'uint256',
-      },
-      { internalType: 'address', name: 'manager', type: 'address' },
-    ],
-    name: 'whitelistIncentiveToken',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    name: 'whitelistedTokens',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },

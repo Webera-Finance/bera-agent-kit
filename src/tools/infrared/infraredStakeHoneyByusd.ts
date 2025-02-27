@@ -54,7 +54,7 @@ export const infraredStakeHoneyByusdTool: ToolConfig<InfraredStakeHoneyByusdArgs
         await checkAndApproveAllowance(
           walletClient,
           config.TOKEN.HONEY_BYUSD,
-          '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1',
+          config.CONTRACT.InfraredHoneyByusd,
           parsedStakeAmount,
         );
 
