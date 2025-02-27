@@ -23,6 +23,7 @@ async function example() {
       // `check my bera, honey, bgt balance`,
       // `transfer 0.01 honey to 0xb6417F8a695a3470c3CB4f223f9598dc8EBe6f74`,
       // `swap 0.05 honey to bera at kodiak with slippage 1%`,
+      `swap 0.05 honey to usdc at kodiak with slippage 1%`,
       // `swap 0.01 BERA to honey at kodiak with slippage 1%`,
       // 'Add liquidity V2 0.013 BERA and 0.1 honey at kodiak',
       // 'Add liquidity V2 0.01 usdc and 0.01 honey at kodiak. Dont need to confirm',

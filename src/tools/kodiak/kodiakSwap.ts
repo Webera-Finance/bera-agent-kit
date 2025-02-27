@@ -19,7 +19,7 @@ import { ConfigChain } from '../../constants/chain';
 interface KodiakSwapArgs {
   amountIn: number;
   slippage?: number;
-  tokenIn?: Address; // Optional input token, defaults to ETH if null or undefined
+  tokenIn: Address; // Optional input token, defaults to ETH if null or undefined
   tokenOut: Address; // Output token address
   to?: Address; // Optional recipient address
 }
@@ -58,7 +58,7 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
               "The optional recipient's public address for the output tokens. Default is the wallet address",
           },
         },
-        required: ['amountIn', 'amountOutMin', 'tokenOut'],
+        required: ['amountIn', 'amountOutMin', 'tokenIn', 'tokenOut'],
       },
     },
   },
@@ -74,6 +74,9 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
           : walletClient.account.address;
 
       const isNativeSwap = !args.tokenIn || args.tokenIn === zeroAddress;
+
+      log.info('Token In: ', args.tokenIn);
+      log.info('Token Out: ', args.tokenOut);
 
       log.info(
         `[INFO] Initiating Kodiak swap: ${args.amountIn} ${isNativeSwap ? 'BERA' : args.tokenIn} for ${args.tokenOut} to ${recipient}`,
@@ -138,19 +141,47 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
           parsedAmountIn,
         );
 
-        tx = await walletClient.writeContract({
-          address: config.CONTRACT.KodiakSwapRouter02,
-          abi: KodiakSwapRouter02ABI,
-          functionName: 'swapExactTokensForTokens',
-          args: [
-            parsedAmountIn,
-            parsedAmountOutMin,
-            [args.tokenIn!, args.tokenOut] as const,
-            recipient,
-          ],
-          chain: walletClient.chain,
-          account: walletClient.account,
-        });
+        if (args.tokenOut === zeroAddress) {
+          const dataBytes = encodeFunctionData({
+            abi: KodiakSwapRouter02ABI,
+            functionName: 'exactInputSingle',
+            args: [
+              {
+                tokenIn: args.tokenIn,
+                tokenOut: config.TOKEN.WBERA,
+                fee: 500,
+                recipient: '0x0000000000000000000000000000000000000002',
+                amountIn: parseEther(args.amountIn.toString()),
+                amountOutMinimum: parsedAmountOutMin,
+                sqrtPriceLimitX96: BigInt(0),
+              },
+            ],
+          });
+
+          tx = await walletClient.writeContract({
+            address: config.CONTRACT.KodiakSwapRouter02,
+            abi: KodiakSwapRouter02ABI,
+            functionName: 'multicall',
+            args: [BigInt(deadline), [dataBytes]],
+            chain: walletClient.chain,
+            account: walletClient.account,
+            value: parseEther(args.amountIn.toString()),
+          });
+        } else {
+          tx = await walletClient.writeContract({
+            address: config.CONTRACT.KodiakSwapRouter02,
+            abi: KodiakSwapRouter02ABI,
+            functionName: 'swapExactTokensForTokens',
+            args: [
+              parsedAmountIn,
+              parsedAmountOutMin,
+              [args.tokenIn!, args.tokenOut] as const,
+              recipient,
+            ],
+            chain: walletClient.chain,
+            account: walletClient.account,
+          });
+        }
       }
 
       // const receipt = await walletClient.waitForTransactionReceipt({
