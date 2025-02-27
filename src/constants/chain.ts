@@ -17,6 +17,7 @@ export const TestnetChainConfig: ConfigChain = {
       '0x496e305c03909ae382974caca4c580e1bf32afbe' as `0x${string}`,
     KodiakUniswapV2Router02:
       '0x406846114B2A9b65a8A2Ab702C2C57d27784dBA2' as `0x${string}`,
+    KodiakNfPM: 'todo' as `0x${string}`,
     BeraCrocMultiSwap:
       '0x21e2C0AFd058A89FCf7caf3aEA3cB84Ae977B73D' as `0x${string}`,
     Infrared: '0xe41779952f5485db5440452DFa43350556AA4673' as `0x${string}`,
@@ -54,7 +55,8 @@ export const MainnetChainConfig: ConfigChain = {
     KodiakSwapRouter02:
       '0xe301E48F77963D3F7DbD2a4796962Bd7f3867Fb4' as `0x${string}`,
     KodiakUniswapV2Router02:
-      '0x5e705e184d233ff2a7cb1553793464a9d0c3028f' as `0x${string}`,
+      '0xd91dd58387Ccd9B66B390ae2d7c66dBD46BC6022' as `0x${string}`,
+    KodiakNfPM: '0xFE5E8C83FFE4d9627A75EaA7Fee864768dB989bD' as `0x${string}`,
     BeraCrocMultiSwap: 'todo' as `0x${string}`,
     Infrared: 'todo' as `0x${string}`,
     InfraredBribeCollector: 'todo' as `0x${string}`,
@@ -78,6 +80,7 @@ export type ConfigChain = {
     OBRouter: `0x${string}`;
     KodiakSwapRouter02: `0x${string}`;
     KodiakUniswapV2Router02: `0x${string}`;
+    KodiakNfPM: `0x${string}`;
     BeraCrocMultiSwap: `0x${string}`;
     Infrared: `0x${string}`;
     InfraredBribeCollector: `0x${string}`;

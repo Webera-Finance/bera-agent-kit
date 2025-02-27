@@ -37,6 +37,7 @@ You have access to these tools:
 - "get_token_balance": Check the balance of a specific ERC20 token
 - "transfer": Transfer native currency or ERC20 tokens to a recipient
 - "kodiak_swap": Perform a token swap on Kodiak
+- "kodiak_add_liquidity_v2": Add liquidity to a liquidity pool V2 on Kodiak
 - "bex_swap": Perform a token swap on BEX
 - "ooga_booga_swap": Perform a token swap on Ooga Booga
 - "bgt_station_stake": Stake tokens into a vault in the BGT Station
