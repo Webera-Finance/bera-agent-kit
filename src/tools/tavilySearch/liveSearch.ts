@@ -47,10 +47,10 @@ export const liveSearchTool: ToolConfig<{
   handler: async (
     args: { 
       query: string; 
-      searchDepth?: string; 
-      topic?: string; 
-      timeRange?: string; 
-      includeAnswer?: string; 
+      searchDepth?: 'basic' | 'advanced'; 
+      topic?: 'general' | 'news' | 'finacial'; 
+      timeRange?: 'day' | 'week' | 'month' | 'year'; 
+      includeAnswer?: 'basic' | 'advanced'; 
     }, 
     _config: ConfigChain
   ) => {
