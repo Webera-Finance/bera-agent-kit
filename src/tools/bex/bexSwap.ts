@@ -51,17 +51,14 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
   handler: async (
     args,
     config: ConfigChain,
-    walletClient?: WalletClient,
-    publicClient?: PublicClient,
+    walletClient: WalletClient,
+    publicClient: PublicClient,
   ) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');
       }
 
-      const envType =
-        walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
-      const newPublicClient = publicClient ?? createViemPublicClient(envType);
       log.info(
         `[INFO] Initiating Bex swap: ${args.amount} ${args.quote} for ${args.base}`,
       );
@@ -111,7 +108,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
 
       const parsedMinOut = BigInt('0'); //TODO: calculate min out
 
-      const estimatedGas = await newPublicClient.estimateContractGas({
+      const estimatedGas = await publicClient.estimateContractGas({
         address: config.CONTRACT.BeraCrocMultiSwap,
         abi: BeraCrocMultiSwapABI,
         functionName: 'multiSwap',

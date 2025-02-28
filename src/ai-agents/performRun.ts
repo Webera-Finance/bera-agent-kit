@@ -11,7 +11,7 @@ export async function performRun(
   thread: Thread,
   config: ConfigChain,
   walletClient: WalletClient,
-  publicClient?: PublicClient,
+  publicClient: PublicClient,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<{ type: string; text: { value: string } } | null> {
   let currentRun = run;

@@ -28,7 +28,7 @@ export class BeraAgent {
   private assistant: Assistant | null = null;
   private thread: Thread | null = null;
   private walletClient: WalletClient;
-  private publicClient?: PublicClient;
+  private publicClient: PublicClient;
   private toolEnvConfigs: Record<string, unknown> = {};
   private configChain: ConfigChain;
   constructor(config: BeraAgentConfig) {

@@ -69,9 +69,8 @@ export const checkAndApproveAllowance = async (
     return;
   }
 
-  const envType =
-    walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
-  const publicClient = createViemPublicClient(envType);
+  const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
+  const publicClient = createViemPublicClient(isTestnet);
 
   log.info(
     `[INFO] Checking allowance for ${tokenAddress} to spender ${spender}`,
