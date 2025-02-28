@@ -62,7 +62,8 @@ export class BeraAgent {
       throw new Error('BeraAgent not initialized. Call initialize() first.');
     }
     log.info(
-      `Sending message: ${message} for wallet ${this.walletClient.account?.address}`,
+      // `Sending message: ${message} for wallet ${this.walletClient.account?.address}`,
+      `Sending message: ${message}`,
     );
     await this.openAIClient.beta.threads.messages.create(this.thread.id, {
       role: 'user',
