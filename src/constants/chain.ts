@@ -50,7 +50,7 @@ export const TestnetChainConfig: ConfigChain = {
 export const MainnetChainConfig: ConfigChain = {
   TOKEN: {
     WBERA: '0x6969696969696969696969696969696969696969' as `0x${string}`,
-    IBGT: 'todo' as `0x${string}`,
+    IBGT: '0xac03caba51e17c86c921e1f6cbfbdc91f8bb2e6b',
     HONEY: '0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce' as `0x${string}`,
     BGT: '0x656b95E550C07a9ffe548bd4085c72418Ceb1dba' as `0x${string}`,
     USDC: '0x549943e04f40284185054145c6E4e9568C1D3241' as `0x${string}`,
@@ -59,6 +59,7 @@ export const MainnetChainConfig: ConfigChain = {
     HONEY_WBERA: '0x2c4a603A2aA5596287A06886862dc29d56DbC354',
     WBERA_WBTC: '0x38fdd999fe8783037db1bbfe465759e312f2d809',
     WBERA_WETH: '0xdd70a5ef7d8cfe5c5134b5f9874b09fb5ce812b4',
+    IBERA: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5',
   },
   URL: {
     BEXRouteURL: 'todo',
@@ -77,7 +78,7 @@ export const MainnetChainConfig: ConfigChain = {
     Infrared: 'todo' as `0x${string}`,
     InfraredBribeCollector: 'todo' as `0x${string}`,
     InfraredBribes: 'todo' as `0x${string}`,
-    InfraredIBGTVault: 'todo' as `0x${string}`,
+    InfraredIBGTVault: '0x75f3be06b02e235f6d0e7ef2d462b29739168301',
     Bend: 'todo' as `0x${string}`,
     Pot2PumpFactory: 'todo' as `0x${string}`,
     Pot2PumpFacade: 'todo' as `0x${string}`,

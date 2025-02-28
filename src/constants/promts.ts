@@ -59,6 +59,8 @@ You have access to these tools:
 - "infrared_stake_honey_usdce": Stake honey-wbera into a vault in the Infrared protocol
 - "infrared_stake_wbera_wbtc": Stake wbera-wbtc into a vault in the Infrared protocol
 - "infrared_stake_wbera_weth": Stake wbera-weth into a vault in the Infrared protocol
+- "infrared_stake_ibera": Stake IBERA tokens into a vault in the Infrared protocol
+
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://berascan.com/tx/{txHash}.
