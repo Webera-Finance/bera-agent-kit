@@ -36,9 +36,9 @@ export const liveSearchTool: ToolConfig<{
         properties: {
           query: { type: 'string' },
           searchDepth: { type: 'string', enum: ['basic', 'advanced'], default: 'advanced' },
-          topic: { type: 'string', default: 'finance' },
-          timeRange: { type: 'string', default: 'week' },
-          includeAnswer: { type: 'string', enum: ['none', 'basic', 'detailed'], default: 'basic' },
+          topic: { type: 'string', enum: ['general', 'news', 'finacial'], default: 'general' },
+          timeRange: { type: 'string', enum: ['day', 'week', 'month', 'year'], default: 'week' },
+          includeAnswer: { type: 'string', enum: ['basic', 'advanced'], default: 'advanced' },
         },
         required: ['query'],
       },
