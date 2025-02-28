@@ -29,6 +29,7 @@ import { infraredStakeWBeraWBTCTool } from './infrared/infraredStakeWBeraWBTC';
 import { infraredStakeWBeraWETHTool } from './infrared/infraredStakeWBeraWETH';
 import { infraredStakeBeraTool } from './infrared/infraredStakeBera';
 import { memeSwapStakeBeraTool } from './memeswap/memeswapStakeBera';
+import { ToolEnvConfigs } from '../constants/types';
 
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
@@ -48,7 +49,7 @@ export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
     config: ConfigChain,
     walletClient: W,
     publicClient: P,
-    toolEnvConfigs?: Record<string, unknown>,
+    toolEnvConfigs?: ToolEnvConfigs,
   ) => Promise<any>;
 }
 

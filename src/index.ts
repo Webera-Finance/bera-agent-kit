@@ -1,6 +1,6 @@
 // Main exports
 import 'dotenv/config';
-import OpenAI, { ClientOptions } from 'openai';
+import OpenAI from 'openai';
 import { Thread } from 'openai/resources/beta/threads';
 import { Assistant } from 'openai/resources/beta/assistants';
 import { PublicClient, WalletClient } from 'viem';
@@ -15,13 +15,7 @@ import { createViemWalletClient } from './utils/createViemWalletClient';
 import { createViemPublicClient } from './utils/createViemPublicClient';
 import { ConfigChain, ConfigChainId } from './constants/chain';
 import { SupportedChainId } from './utils/enum';
-
-export interface BeraAgentConfig {
-  walletClient: WalletClient;
-  publicClient?: PublicClient;
-  openAIConfig?: ClientOptions;
-  toolEnvConfigs?: Record<string, unknown>;
-}
+import { BeraAgentConfig, ToolEnvConfigs } from './constants/types';
 
 export class BeraAgent {
   private openAIClient: OpenAI;
@@ -29,7 +23,7 @@ export class BeraAgent {
   private thread: Thread | null = null;
   private walletClient: WalletClient;
   private publicClient: PublicClient;
-  private toolEnvConfigs: Record<string, unknown> = {};
+  private toolEnvConfigs: ToolEnvConfigs = {};
   private configChain: ConfigChain;
   constructor(config: BeraAgentConfig) {
     this.openAIClient = new OpenAI(config.openAIConfig);
@@ -42,7 +36,6 @@ export class BeraAgent {
     if (!chainID) {
       throw new Error('Chain ID is not defined');
     }
-
     if (!(chainID in ConfigChainId)) {
       throw new Error('Not supported chain');
     }

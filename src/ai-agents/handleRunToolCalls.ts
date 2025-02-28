@@ -5,6 +5,7 @@ import { PublicClient, WalletClient } from 'viem';
 import { createTools } from '../tools/allTools';
 import { log } from '../utils/logger';
 import { ConfigChain } from '../constants/chain';
+import { ToolEnvConfigs } from '../constants/types';
 
 export async function handleRunToolCalls(
   run: Run,
@@ -13,7 +14,7 @@ export async function handleRunToolCalls(
   config: ConfigChain,
   walletClient: WalletClient,
   publicClient: PublicClient,
-  toolEnvConfigs?: Record<string, unknown>,
+  toolEnvConfigs?: ToolEnvConfigs,
 ): Promise<Run> {
   const toolCalls = run.required_action?.submit_tool_outputs?.tool_calls;
   if (!toolCalls || toolCalls.length === 0) return run;
