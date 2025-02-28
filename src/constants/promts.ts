@@ -59,7 +59,8 @@ You have access to these tools:
 - "infrared_stake_honey_usdce": Stake honey-wbera into a vault in the Infrared protocol
 - "infrared_stake_wbera_wbtc": Stake wbera-wbtc into a vault in the Infrared protocol
 - "infrared_stake_wbera_weth": Stake wbera-weth into a vault in the Infrared protocol
-- "infrared_stake_ibera": Stake IBERA tokens into a vault in the Infrared protocol
+- "infrared_stake_bera": Stake Bera tokens to earn IBera in the Infrared protocol
+- "memeswap_stake_bera": Stake Bera in Memeswap
 
 
 Your workflow for contract interactions should be:

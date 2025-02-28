@@ -1,25 +1,26 @@
 import { WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
+import { getNativeTokenBalance } from '../../utils/helpers';
 import { ConfigChain } from '../../constants/chain';
 import { InfraredIBeraContractABI } from '../../constants/abis/infraredIBeraContractABI';
+import { parseEther } from 'viem/utils';
 
-interface InfraredStakeIBeraArgs {
+interface InfraredStakeBeraArgs {
   stakeAmount: number;
 }
 
-export const infraredStakeIBeraTool: ToolConfig<InfraredStakeIBeraArgs> = {
+export const infraredStakeBeraTool: ToolConfig<InfraredStakeBeraArgs> = {
   definition: {
     type: 'function',
     function: {
-      name: 'infrared_stake_ibera',
-      description: 'Stake iBera on Infrared',
+      name: 'infrared_stake_bera',
+      description: 'Stake Bera to receive iBera on Infrared',
       parameters: {
         type: 'object',
         properties: {
           stakeAmount: {
             type: 'number',
-            description: 'The amount of iBera to stake',
+            description: 'The amount of Bera to stake',
           },
         },
         required: ['stakeAmount'],
@@ -27,7 +28,7 @@ export const infraredStakeIBeraTool: ToolConfig<InfraredStakeIBeraArgs> = {
     },
   },
   handler: async (
-    args: InfraredStakeIBeraArgs,
+    args: InfraredStakeBeraArgs,
     config: ConfigChain,
     walletClient?: WalletClient,
   ) => {
@@ -37,28 +38,19 @@ export const infraredStakeIBeraTool: ToolConfig<InfraredStakeIBeraArgs> = {
       }
 
       // constants
-      const iBeraTokenAddress = config.TOKEN.IBERA;
+      const iBeraContractAddress = config.CONTRACT.IBera;
 
-      const parsedStakeAmount = await fetchTokenDecimalsAndParseAmount(
-        walletClient,
-        iBeraTokenAddress,
-        args.stakeAmount,
-      );
+      const balance = await getNativeTokenBalance(walletClient);
+      const parsedStakeAmount = parseEther(args.stakeAmount.toString());
 
-      // console.log(`[INFO] Checking allowance for ${iBeraTokenAddress}`);
-
-      // // check allowance
-      // await checkAndApproveAllowance(
-      //   walletClient,
-      //   iBeraTokenAddress,
-      //   iBeraTokenAddress,
-      //   parsedStakeAmount,
-      // );
-
-      // console.log(`[INFO] Staking ${parsedStakeAmount.toString()} iBera`);
+      if (balance < parsedStakeAmount) {
+        throw new Error(
+          `Insufficient balance. Required: ${parsedStakeAmount.toString()}, Available: ${balance.toString()}`,
+        );
+      }
 
       const tx = await walletClient.writeContract({
-        address: iBeraTokenAddress,
+        address: iBeraContractAddress,
         abi: InfraredIBeraContractABI,
         functionName: 'mint',
         args: [walletClient.account.address],
@@ -66,16 +58,6 @@ export const infraredStakeIBeraTool: ToolConfig<InfraredStakeIBeraArgs> = {
         account: walletClient.account,
         value: parsedStakeAmount,
       });
-
-      // const receipt = await walletClient.waitForTransactionReceipt({
-      //   hash: tx as `0x${string}`,
-      // });
-
-      // if (receipt.status !== 'success') {
-      //   throw new Error(
-      //     `Stake transaction failed with status: ${receipt.status}`,
-      //   );
-      // }
 
       console.log(`[INFO] Stake successful: Transaction hash: ${tx}`);
       return tx;

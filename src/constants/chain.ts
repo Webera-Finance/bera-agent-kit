@@ -44,6 +44,8 @@ export const TestnetChainConfig: ConfigChain = {
     InfraredHoneyWBera: 'todo' as `0x${string}`,
     InfraredWberaWBTC: 'todo' as `0x${string}`,
     InfraredWberaWETH: 'todo' as `0x${string}`,
+    IBera: 'todo' as `0x${string}`,
+    MemeswapStakeBera: 'todo' as `0x${string}`,
   },
 };
 
@@ -59,7 +61,6 @@ export const MainnetChainConfig: ConfigChain = {
     HONEY_WBERA: '0x2c4a603A2aA5596287A06886862dc29d56DbC354',
     WBERA_WBTC: '0x38fdd999fe8783037db1bbfe465759e312f2d809',
     WBERA_WETH: '0xdd70a5ef7d8cfe5c5134b5f9874b09fb5ce812b4',
-    IBERA: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5',
   },
   URL: {
     BEXRouteURL: 'todo',
@@ -88,6 +89,8 @@ export const MainnetChainConfig: ConfigChain = {
     InfraredHoneyWBera: '0xe2d8941dfb85435419D90397b09D18024ebeef2C',
     InfraredWberaWBTC: '0x78beda3a06443f51718d746aDe95b5fAc094633E',
     InfraredWberaWETH: '0x0dF14916796854d899576CBde69a35bAFb923c22',
+    IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5',
+    MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d',
   },
 };
 
@@ -117,6 +120,8 @@ export type ConfigChain = {
     InfraredHoneyWBera: `0x${string}`;
     InfraredWberaWBTC: `0x${string}`;
     InfraredWberaWETH: `0x${string}`;
+    IBera: `0x${string}`;
+    MemeswapStakeBera: `0x${string}`;
   };
 };
 
