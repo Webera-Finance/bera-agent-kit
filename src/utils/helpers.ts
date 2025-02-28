@@ -148,3 +148,22 @@ export const fetchVaultAndTokenAddress = async (
     throw error;
   }
 };
+
+export const getNativeTokenBalance = async (walletClient: WalletClient) => {
+  try {
+    const envType =
+      walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
+    const publicClient = createViemPublicClient(envType);
+
+    log.info(
+      `[INFO] Fetching native token balance for address: ${walletClient.account!.address}`,
+    );
+
+    return await publicClient.getBalance({
+      address: walletClient.account!.address,
+    });
+  } catch (error: any) {
+    log.error(`[ERROR] Failed to fetch native token balance: ${error.message}`);
+    throw error;
+  }
+};

@@ -44,13 +44,15 @@ export const TestnetChainConfig: ConfigChain = {
     InfraredHoneyWBera: 'todo' as `0x${string}`,
     InfraredWberaWBTC: 'todo' as `0x${string}`,
     InfraredWberaWETH: 'todo' as `0x${string}`,
+    IBera: 'todo' as `0x${string}`,
+    MemeswapStakeBera: 'todo' as `0x${string}`,
   },
 };
 
 export const MainnetChainConfig: ConfigChain = {
   TOKEN: {
     WBERA: '0x6969696969696969696969696969696969696969' as `0x${string}`,
-    IBGT: 'todo' as `0x${string}`,
+    IBGT: '0xac03caba51e17c86c921e1f6cbfbdc91f8bb2e6b',
     HONEY: '0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce' as `0x${string}`,
     BGT: '0x656b95E550C07a9ffe548bd4085c72418Ceb1dba' as `0x${string}`,
     USDC: '0x549943e04f40284185054145c6E4e9568C1D3241' as `0x${string}`,
@@ -77,7 +79,7 @@ export const MainnetChainConfig: ConfigChain = {
     Infrared: 'todo' as `0x${string}`,
     InfraredBribeCollector: 'todo' as `0x${string}`,
     InfraredBribes: 'todo' as `0x${string}`,
-    InfraredIBGTVault: 'todo' as `0x${string}`,
+    InfraredIBGTVault: '0x75f3be06b02e235f6d0e7ef2d462b29739168301',
     Bend: 'todo' as `0x${string}`,
     Pot2PumpFactory: 'todo' as `0x${string}`,
     Pot2PumpFacade: 'todo' as `0x${string}`,
@@ -87,6 +89,8 @@ export const MainnetChainConfig: ConfigChain = {
     InfraredHoneyWBera: '0xe2d8941dfb85435419D90397b09D18024ebeef2C',
     InfraredWberaWBTC: '0x78beda3a06443f51718d746aDe95b5fAc094633E',
     InfraredWberaWETH: '0x0dF14916796854d899576CBde69a35bAFb923c22',
+    IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5',
+    MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d',
   },
 };
 
@@ -116,6 +120,8 @@ export type ConfigChain = {
     InfraredHoneyWBera: `0x${string}`;
     InfraredWberaWBTC: `0x${string}`;
     InfraredWberaWETH: `0x${string}`;
+    IBera: `0x${string}`;
+    MemeswapStakeBera: `0x${string}`;
   };
 };
 
