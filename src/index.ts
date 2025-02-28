@@ -45,9 +45,13 @@ export class BeraAgent {
     this.configChain = ConfigChainId[chainID as keyof typeof ConfigChainId];
   }
 
-  async initialize(): Promise<void> {
+  async initialize(threadID: string): Promise<void> {
     this.assistant = await createAssistant(this.openAIClient, this.configChain);
-    this.thread = await createThread(this.openAIClient);
+    if (!threadID){
+      this.thread = await createThread(this.openAIClient);
+    } else {
+      this.thread = await this.openAIClient.beta.threads.retrieve(threadID);
+    }
   }
 
   async sendMessage(message: string): Promise<string> {
