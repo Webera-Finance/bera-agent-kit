@@ -12,7 +12,7 @@ export async function handleRunToolCalls(
   thread: Thread,
   config: ConfigChain,
   walletClient: WalletClient,
-  publicClient?: PublicClient,
+  publicClient: PublicClient,
   toolEnvConfigs?: Record<string, unknown>,
 ): Promise<Run> {
   const toolCalls = run.required_action?.submit_tool_outputs?.tool_calls;

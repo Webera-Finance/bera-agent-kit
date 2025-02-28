@@ -38,7 +38,7 @@ async function example() {
       // `check my IBGT balance and stake 0.01 IBGT tokens into a vault in the Infrared protocol`,
       // `check my IBGT staked balance in the infrared protocol and withdraw 0.01`,
       // 'stake 0.01 Bera at infrared protocol',
-      'stake 0.01 Bera at memeswap',
+      //'stake 0.01 Bera at memeswap',
     );
     console.info(`Transfer Response (Agent): ${transfer}`);
     // console.info(`check my bera, honey, bgt balance`);
