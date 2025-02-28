@@ -23,18 +23,20 @@ async function example() {
       // `check my bera, honey, bgt balance`,
       // `transfer 0.01 honey to 0xb6417F8a695a3470c3CB4f223f9598dc8EBe6f74`,
       // `swap 0.05 honey to bera at kodiak with slippage 1%`,
-      `swap 0.05 honey to usdc at kodiak with slippage 1%`,
+      // `swap 0.05 honey to usdc at kodiak with slippage 1%`,
       // `swap 0.01 BERA to honey at kodiak with slippage 1%`,
       // 'Add liquidity V2 0.013 BERA and 0.1 honey at kodiak',
       // 'Add liquidity V2 0.01 usdc and 0.01 honey at kodiak. Dont need to confirm',
-      // 'swap 0.01 bera to honey at bexswap',
+      // 'swap 0.01 bera to honey at bexswap with slippage 1%',
+      // 'swap 0.001 honey to bera at bexswap with slippage 1%',
+      'swap 0.01 usdc to honey at bexswap with slippage 1%',
       // `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap and send all the honey received to address 0x7xxx`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap, swap 0.0001 bera to honey at kodiak, then send all the honey received to address 0x7xxx`,
       // `check my honey-usdc.e balance and stake 0.01 honey-usdc.e at infrared`,
       // `check my honey-wbera balance and stake 0.1 honey-wbera at infrared`,
-      `check my wbera-weth balance and stake 0.0011 wbera-weth at infrared`,
+      // `check my wbera-weth balance and stake 0.0011 wbera-weth at infrared`,
     );
     console.info(`Transfer Response (Agent): ${transfer}`);
     // console.info(`check my bera, honey, bgt balance`);

@@ -2,148 +2,45 @@ export const BeraCrocMultiSwapABI = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_crocSwapDex',
-        type: 'address',
+        components: [
+          { internalType: 'bytes32', name: 'poolId', type: 'bytes32' },
+          { internalType: 'enum IVault.SwapKind', name: 'kind', type: 'uint8' },
+          { internalType: 'contract IAsset', name: 'assetIn', type: 'address' },
+          {
+            internalType: 'contract IAsset',
+            name: 'assetOut',
+            type: 'address',
+          },
+          { internalType: 'uint256', name: 'amount', type: 'uint256' },
+          { internalType: 'bytes', name: 'userData', type: 'bytes' },
+        ],
+        internalType: 'struct IVault.SingleSwap',
+        name: 'singleSwap',
+        type: 'tuple',
       },
-      {
-        internalType: 'address',
-        name: '_crocImpact',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_crocQuery',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
-  },
-  {
-    inputs: [],
-    name: 'crocSwapDex',
-    outputs: [
-      {
-        internalType: 'contract CrocSwapDex',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
       {
         components: [
+          { internalType: 'address', name: 'sender', type: 'address' },
+          { internalType: 'bool', name: 'fromInternalBalance', type: 'bool' },
           {
-            internalType: 'uint256',
-            name: 'poolIdx',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'base',
+            internalType: 'address payable',
+            name: 'recipient',
             type: 'address',
           },
-          {
-            internalType: 'address',
-            name: 'quote',
-            type: 'address',
-          },
-          {
-            internalType: 'bool',
-            name: 'isBuy',
-            type: 'bool',
-          },
+          { internalType: 'bool', name: 'toInternalBalance', type: 'bool' },
         ],
-        internalType: 'struct SwapHelpers.SwapStep[]',
-        name: '_steps',
-        type: 'tuple[]',
+        internalType: 'struct IVault.FundManagement',
+        name: 'funds',
+        type: 'tuple',
       },
-      {
-        internalType: 'uint128',
-        name: '_amount',
-        type: 'uint128',
-      },
-      {
-        internalType: 'uint128',
-        name: '_minOut',
-        type: 'uint128',
-      },
+      { internalType: 'uint256', name: 'limit', type: 'uint256' },
+      { internalType: 'uint256', name: 'deadline', type: 'uint256' },
     ],
-    name: 'multiSwap',
+    name: 'swap',
     outputs: [
-      {
-        internalType: 'uint128',
-        name: 'out',
-        type: 'uint128',
-      },
+      { internalType: 'uint256', name: 'amountCalculated', type: 'uint256' },
     ],
     stateMutability: 'payable',
     type: 'function',
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: 'uint256',
-            name: 'poolIdx',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'base',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'quote',
-            type: 'address',
-          },
-          {
-            internalType: 'bool',
-            name: 'isBuy',
-            type: 'bool',
-          },
-        ],
-        internalType: 'struct SwapHelpers.SwapStep[]',
-        name: '_steps',
-        type: 'tuple[]',
-      },
-      {
-        internalType: 'uint128',
-        name: '_amount',
-        type: 'uint128',
-      },
-    ],
-    name: 'previewMultiSwap',
-    outputs: [
-      {
-        internalType: 'uint128',
-        name: 'out',
-        type: 'uint128',
-      },
-      {
-        internalType: 'uint256',
-        name: 'predictedQty',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'retire',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    stateMutability: 'payable',
-    type: 'receive',
   },
 ] as const;
