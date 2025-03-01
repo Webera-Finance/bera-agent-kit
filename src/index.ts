@@ -45,9 +45,13 @@ export class BeraAgent {
     this.configChain = ConfigChainId[chainID as keyof typeof ConfigChainId];
   }
 
-  async initialize(): Promise<void> {
+  async initialize(threadID: string): Promise<void> {
     this.assistant = await createAssistant(this.openAIClient, this.configChain);
-    this.thread = await createThread(this.openAIClient);
+    if (!threadID){
+      this.thread = await createThread(this.openAIClient);
+    } else {
+      this.thread = await this.openAIClient.beta.threads.retrieve(threadID);
+    }
   }
 
   async sendMessage(message: string): Promise<string> {
@@ -96,6 +100,22 @@ export class BeraAgent {
 
   getWalletClient(): WalletClient {
     return this.walletClient;
+  }
+
+  async getMessage(): Promise<any> {
+    const messages= await this.openAIClient.beta.threads.messages.list(
+        this.thread?.id || ""
+    );
+    const data = messages.body.data
+    return data.map(msg => {
+      // Assuming each msg.content is an array of objects that have a text property with a value.
+      const textValue = msg.content[0]?.text?.value || '';
+      return {
+        created_at: msg.created_at,
+        role: msg.role,
+        content: textValue
+      };
+    });
   }
 }
 

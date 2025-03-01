@@ -11,7 +11,7 @@ async function example() {
 
   try {
     // Initialize the agents
-    await agent.initialize();
+    await agent.initialize("");
 
     // const balanceResponse = await agent.sendMessage(
     //   `Check my wallet balance with the wallet address ${agent.getWalletClient().account!.address}`,
