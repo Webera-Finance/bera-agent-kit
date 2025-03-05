@@ -3,6 +3,7 @@ import { ToolConfig } from '../allTools';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
+  getTokenBalance,
 } from '../../utils/helpers';
 import { InfraredVaultContractABI } from '../../constants/abis/InfraredVaultContractABI';
 import { ConfigChain } from '../../constants/chain';
@@ -46,6 +47,17 @@ export const infraredStakeWBeraWETHTool: ToolConfig<InfraredStakeWBeraWETHArgs> 
           args.stakeAmount,
         );
 
+        const balance = await getTokenBalance(
+          walletClient,
+          config.TOKEN.WBERA_WETH,
+        );
+
+        if (balance < parsedStakeAmount) {
+          throw new Error(
+            `Insufficient balance. Required: ${parsedStakeAmount.toString()}, Available: ${balance.toString()}`,
+          );
+        }
+        
         console.log(`[INFO] Checking allowance for ${config.TOKEN.WBERA_WETH}`);
 
         // check allowance

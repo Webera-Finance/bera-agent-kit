@@ -149,21 +149,32 @@ export const fetchVaultAndTokenAddress = async (
   }
 };
 
-export const getNativeTokenBalance = async (walletClient: WalletClient) => {
+export const getTokenBalance = async (walletClient: WalletClient, tokenAddress?: Address) => {
   try {
-    const envType =
+    const envType = 
       walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
     const publicClient = createViemPublicClient(envType);
 
-    log.info(
-      `[INFO] Fetching native token balance for address: ${walletClient.account!.address}`,
-    );
-
-    return await publicClient.getBalance({
-      address: walletClient.account!.address,
-    });
+    if (tokenAddress) {
+      // Get ERC20 token balance
+      const balance = await publicClient.readContract({
+        address: tokenAddress,
+        abi: erc20Abi,
+        functionName: 'balanceOf',
+        args: [walletClient.account!.address],
+      });
+      return balance;
+    } else {
+      // Get native token balance
+      log.info(
+        `[INFO] Fetching native token balance for address: ${walletClient.account!.address}`,
+      );
+      return await publicClient.getBalance({
+        address: walletClient.account!.address,
+      });
+    }
   } catch (error: any) {
-    log.error(`[ERROR] Failed to fetch native token balance: ${error.message}`);
+    log.error(`[ERROR] Failed to fetch token balance: ${error.message}`);
     throw error;
   }
 };

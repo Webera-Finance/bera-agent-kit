@@ -3,6 +3,7 @@ import { ToolConfig } from '../allTools';
 import {
   checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
+  getTokenBalance,
 } from '../../utils/helpers';
 import { InfraredVaultABI } from '../../constants/abis/infraredABI';
 import { ConfigChain } from '../../constants/chain';
@@ -48,6 +49,17 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
         ibgtTokenAddress,
         args.stakeAmount,
       );
+
+      const balance = await getTokenBalance(
+        walletClient,
+        ibgtTokenAddress,
+      );
+
+      if (balance < parsedStakeAmount) {
+        throw new Error(
+          `Insufficient balance. Required: ${parsedStakeAmount.toString()}, Available: ${balance.toString()}`,
+        );
+      }
 
       console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
 
