@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Address, WalletClient, zeroAddress } from 'viem';
+import { Address, PublicClient, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { sleep } from 'openai/core';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
@@ -7,16 +7,13 @@ import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
 import { SupportedChainId } from '../../utils/enum';
+import { EnvConfig, ToolEnvConfigs } from '../../constants/types';
 
 interface OogaBoogaSwapArgs {
   base: Address; // Token to swap from
   quote: Address; // Token to swap to
   amount: number; // Human-readable amount to swap
   maxSlippage: string; // Slippage tolerance, e.g., 0.01 for 1%
-}
-
-interface OogaBoogaSwapToolEnvConfigs {
-  OOGA_BOOGA_API_KEY: string;
 }
 
 const getAllowance = async (
@@ -226,15 +223,11 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
   handler: async (
     args,
     config: ConfigChain,
-    walletClient?: WalletClient,
-    toolEnvConfigs?: Record<string, unknown>,
+    walletClient: WalletClient,
+    publicClient: PublicClient,
+    toolEnvConfigs?: ToolEnvConfigs,
   ) => {
-    const configs: OogaBoogaSwapToolEnvConfigs = {
-      OOGA_BOOGA_API_KEY: process.env.OOGA_BOOGA_API_KEY || '',
-      ...toolEnvConfigs,
-    };
-
-    if (!configs.OOGA_BOOGA_API_KEY) {
+    if (!toolEnvConfigs?.[EnvConfig.OOGA_BOOGA_API_KEY]) {
       throw new Error('OOGA_BOOGA_API_KEY is required.');
     }
 
@@ -242,7 +235,9 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       throw new Error('Wallet client is not provided');
     }
 
-    const headers = { Authorization: `Bearer ${configs.OOGA_BOOGA_API_KEY}` };
+    const headers = {
+      Authorization: `Bearer ${toolEnvConfigs?.[EnvConfig.OOGA_BOOGA_API_KEY]}`,
+    };
 
     log.info(
       `[INFO] Starting OogaBooga Swap for ${args.amount} of ${args.base} to ${args.quote}`,

@@ -75,9 +75,6 @@ export const kodiakSwapTool: ToolConfig<KodiakSwapArgs> = {
 
       const isNativeSwap = !args.tokenIn || args.tokenIn === zeroAddress;
 
-      log.info('Token In: ', args.tokenIn);
-      log.info('Token Out: ', args.tokenOut);
-
       log.info(
         `[INFO] Initiating Kodiak swap: ${args.amountIn} ${isNativeSwap ? 'BERA' : args.tokenIn} for ${args.tokenOut} to ${recipient}`,
       );
