@@ -2,7 +2,7 @@ import { WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { ConfigChain } from '../../constants/chain';
 import { parseEther } from 'viem/utils';
-import { getNativeTokenBalance } from '../../utils/helpers';
+import { getTokenBalance } from '../../utils/helpers';
 import { MemeSwapContractABI } from '../../constants/abis/memeSwapContractABI';
 
 interface MemeSwapStakeBeraArgs {
@@ -40,7 +40,7 @@ export const memeSwapStakeBeraTool: ToolConfig<MemeSwapStakeBeraArgs> = {
       // constants
       const memeSwapContractAddress = config.CONTRACT.MemeswapStakeBera;
 
-      const balance = await getNativeTokenBalance(walletClient);
+      const balance = await getTokenBalance(walletClient);
       const parsedStakeAmount = parseEther(args.stakeAmount.toString());
 
       if (balance < parsedStakeAmount) {

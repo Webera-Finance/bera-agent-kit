@@ -2,8 +2,8 @@ import { WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import {
   checkAndApproveAllowance,
+  checkBalance,
   fetchTokenDecimalsAndParseAmount,
-  getTokenBalance,
 } from '../../utils/helpers';
 import { InfraredVaultContractABI } from '../../constants/abis/InfraredVaultContractABI';
 import { ConfigChain } from '../../constants/chain';
@@ -47,16 +47,11 @@ export const infraredStakeWBeraWETHTool: ToolConfig<InfraredStakeWBeraWETHArgs> 
           args.stakeAmount,
         );
 
-        const balance = await getTokenBalance(
+        await checkBalance(
           walletClient,
+          parsedStakeAmount,
           config.TOKEN.WBERA_WETH,
         );
-
-        if (balance < parsedStakeAmount) {
-          throw new Error(
-            `Insufficient balance. Required: ${parsedStakeAmount.toString()}, Available: ${balance.toString()}`,
-          );
-        }
         
         console.log(`[INFO] Checking allowance for ${config.TOKEN.WBERA_WETH}`);
 

@@ -4,6 +4,7 @@ import { log } from '../../utils/logger';
 import { pot2pumpFacadeABI } from '../../constants/abis/honeypotFinanceABI';
 import {
   checkAndApproveAllowance,
+  checkBalance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { ConfigChain } from '../../constants/chain';
@@ -53,6 +54,12 @@ export const pot2pumpDepositTool: ToolConfig<Pot2PumpDepositArgs> = {
         walletClient,
         args.raisedToken,
         args.raisedTokenAmount,
+      );
+
+      await checkBalance(
+        walletClient,
+        parsedAmount,
+        args.raisedToken,
       );
 
       // Check and approve token allowance

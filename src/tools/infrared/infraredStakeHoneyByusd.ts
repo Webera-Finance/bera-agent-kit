@@ -3,8 +3,8 @@ import { InfraredVaultContractABI } from '../../constants/abis/InfraredVaultCont
 import { ConfigChain } from '../../constants/chain';
 import {
   checkAndApproveAllowance,
-  fetchTokenDecimalsAndParseAmount,
-  getTokenBalance
+  checkBalance,
+  fetchTokenDecimalsAndParseAmount
 } from '../../utils/helpers';
 import { ToolConfig } from '../allTools';
 
@@ -47,16 +47,11 @@ export const infraredStakeHoneyByusdTool: ToolConfig<InfraredStakeHoneyByusdArgs
           args.stakeAmount,
         );
 
-        const balance = await getTokenBalance(
+        await checkBalance( 
           walletClient,
+          parsedStakeAmount,
           config.TOKEN.HONEY_BYUSD,
         );
-
-        if (balance < parsedStakeAmount) {
-          throw new Error(
-            `Insufficient balance. Required: ${parsedStakeAmount.toString()}, Available: ${balance.toString()}`,
-          );
-        }
 
         console.log(
           `[INFO] Checking allowance for ${config.TOKEN.HONEY_BYUSD}`,

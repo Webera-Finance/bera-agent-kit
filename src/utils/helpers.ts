@@ -1,4 +1,5 @@
 import {
+  Abi,
   Address,
   erc20Abi,
   formatUnits,
@@ -65,50 +66,57 @@ export const checkAndApproveAllowance = async (
   spender: Address,
   amount: bigint,
 ): Promise<void> => {
-  if (!tokenAddress || tokenAddress === zeroAddress) {
-    return;
-  }
-
-  const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
-  const publicClient = createViemPublicClient(isTestnet);
-
-  log.info(
-    `[INFO] Checking allowance for ${tokenAddress} to spender ${spender}`,
-  );
-
-  // Fetch current allowance
-  const allowance = await publicClient.readContract({
-    address: tokenAddress,
-    abi: erc20Abi,
-    functionName: 'allowance',
-    args: [walletClient.account!.address, spender],
-  });
-
-  if (BigInt(allowance) < amount) {
-    log.info(
-      `[INFO] Allowance insufficient. Approving ${amount} for spender ${spender}`,
-    );
-
-    // Approve the required amount
-    // @ts-ignore - Ignoring TypeScript error about missing chain property. Add chain make bug with walletClient/rpc
-    const approvalTx = await walletClient.writeContract({
-      address: tokenAddress,
-      abi: erc20Abi,
-      functionName: 'approve',
-      args: [spender, amount],
-    });
-
-    const approvalReceipt = await publicClient.waitForTransactionReceipt({
-      hash: approvalTx as `0x${string}`,
-    });
-
-    if (approvalReceipt.status !== 'success') {
-      throw new Error('Approval transaction failed');
+  try {
+    if (!tokenAddress || tokenAddress === zeroAddress) {
+      return;
     }
 
-    log.info(`[INFO] Approval successful`);
-  } else {
-    log.info(`[INFO] Sufficient allowance available`);
+    const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
+    const publicClient = createViemPublicClient(isTestnet);
+
+    log.info(
+      `[INFO] Checking allowance for ${tokenAddress} to spender ${spender}`,
+    );
+
+    // Fetch current allowance
+    const allowance = await publicClient.readContract({
+      address: tokenAddress,
+      abi: erc20Abi,
+      functionName: 'allowance',
+      args: [walletClient.account!.address, spender],
+    });
+
+    if (BigInt(allowance) < amount) {
+      log.info(
+        `[INFO] Allowance insufficient. Approving ${amount} for spender ${spender}`,
+      );
+
+      // Approve the required amount
+      // @ts-ignore - Ignoring TypeScript error about missing chain property. Add chain make bug with walletClient/rpc
+      const approvalTx = await walletClient.writeContract({
+        address: tokenAddress,
+        abi: erc20Abi,
+        functionName: 'approve',
+        args: [spender, amount],
+        chain: walletClient.chain,
+        account: walletClient.account!.address,
+      });
+
+      const approvalReceipt = await publicClient.waitForTransactionReceipt({
+        hash: approvalTx as `0x${string}`,
+      });
+
+      if (approvalReceipt.status !== 'success') {
+        throw new Error('Approval transaction failed');
+      }
+
+      log.info(`[INFO] Approval successful`);
+    } else {
+      log.info(`[INFO] Sufficient allowance available`);
+    }
+  } catch (error: any) {
+    log.error(`[ERROR] Token approval failed: ${error.message}`);
+    throw new Error(`Token approval failed: ${error.message}`);
   }
 };
 
@@ -149,32 +157,59 @@ export const fetchVaultAndTokenAddress = async (
   }
 };
 
-export const getTokenBalance = async (walletClient: WalletClient, tokenAddress?: Address) => {
+export const getTokenBalance = async (
+  walletClient: WalletClient,
+  tokenAddress?: Address,
+  contractAbi?: Abi,
+): Promise<bigint> => {
   try {
-    const envType = 
-      walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
-    const publicClient = createViemPublicClient(envType);
+    if (!walletClient.account) {
+      throw new Error('Wallet account not found');
+    }
 
-    if (tokenAddress) {
-      // Get ERC20 token balance
-      const balance = await publicClient.readContract({
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: 'balanceOf',
-        args: [walletClient.account!.address],
-      });
-      return balance;
-    } else {
+    const abi = contractAbi ?? erc20Abi;
+
+    const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
+    const publicClient = createViemPublicClient(isTestnet);
+
+
+    if (!tokenAddress) {
       // Get native token balance
-      log.info(
-        `[INFO] Fetching native token balance for address: ${walletClient.account!.address}`,
-      );
       return await publicClient.getBalance({
-        address: walletClient.account!.address,
+        address: walletClient.account.address,
       });
     }
+
+    // Get ERC20 token balance
+    const balance = (await publicClient.readContract({
+      address: tokenAddress,
+      abi: abi,
+      functionName: 'balanceOf',
+      args: [walletClient.account.address],
+    })) as bigint;
+
+    return balance;
   } catch (error: any) {
-    log.error(`[ERROR] Failed to fetch token balance: ${error.message}`);
-    throw error;
+    log.error(`[ERROR] Failed to get token balance: ${error.message}`);
+    throw new Error(`Failed to get token balance: ${error.message}`);
   }
 };
+
+export const checkBalance = async (
+  walletClient: WalletClient,
+  requiredAmount: bigint,
+  tokenAddress?: Address,
+  contractAbi?: Abi,
+): Promise<void> => {
+  const balance = await getTokenBalance(walletClient, tokenAddress, contractAbi);
+  
+  if (balance < requiredAmount) {
+    throw new Error(
+      `Insufficient balance. Required: ${requiredAmount.toString()}, Available: ${balance.toString()}`,
+    );
+  }
+  
+  log.info(`[INFO] Sufficient balance available`);
+};
+
+

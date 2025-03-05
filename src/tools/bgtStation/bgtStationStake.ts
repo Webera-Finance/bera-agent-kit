@@ -3,9 +3,9 @@ import { ToolConfig } from '../allTools';
 
 import {
   checkAndApproveAllowance,
+  checkBalance,
   fetchTokenDecimalsAndParseAmount,
   fetchVaultAndTokenAddress,
-  getTokenBalance,
 } from '../../utils/helpers';
 import { BerachainRewardsVaultABI } from '../../constants/abis/bgtStationABI';
 import { log } from '../../utils/logger';
@@ -71,16 +71,11 @@ export const bgtStationStakeTool: ToolConfig<BGTStationStakeArgs> = {
         args.amount,
       );
 
-      const balance = await getTokenBalance(
+      await checkBalance(
         walletClient,
+        parsedAmount,
         stakingTokenAddress,
       );
-
-      if (balance < parsedAmount) {
-        throw new Error(
-          `Insufficient balance. Required: ${parsedAmount.toString()}, Available: ${balance.toString()}`,
-        );
-      }
 
       await checkAndApproveAllowance(
         walletClient,

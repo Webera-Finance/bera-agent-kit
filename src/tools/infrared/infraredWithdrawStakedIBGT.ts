@@ -1,13 +1,12 @@
-import { PublicClient, WalletClient } from 'viem';
-import { ToolConfig } from '../allTools';
+import { Abi, PublicClient, WalletClient } from 'viem';
+import { InfraredVaultABI } from '../../constants/abis/infraredABI';
+import { ConfigChain } from '../../constants/chain';
 import {
+  checkBalance,
   // checkAndApproveAllowance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
-import { InfraredVaultABI } from '../../constants/abis/infraredABI';
-import { createViemPublicClient } from '../../utils/createViemPublicClient';
-import { ConfigChain } from '../../constants/chain';
-import { SupportedChainId } from '../../utils/enum';
+import { ToolConfig } from '../allTools';
 
 interface InfraredWithdrawStakedIBGTArgs {
   withdrawAmount: number;
@@ -43,10 +42,6 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
           throw new Error('Wallet client is not provided');
         }
 
-        const envType =
-          walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
-        const newPublicClient = publicClient ?? createViemPublicClient(envType);
-        // constants
         const ibgtTokenAddress = config.TOKEN.IBGT;
         const infraredIBGTVaultAddress = config.CONTRACT.InfraredIBGTVault;
 
@@ -57,22 +52,29 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         );
 
         console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
+        
+        await checkBalance(
+          walletClient,
+          parsedWithdrawAmount,
+          infraredIBGTVaultAddress,
+          InfraredVaultABI as Abi,
+        );
 
         // check staked iBGT amount
-        const stakedIBGT = (await newPublicClient.readContract({
-          address: infraredIBGTVaultAddress,
-          abi: InfraredVaultABI,
-          functionName: 'balanceOf',
-          args: [walletClient.account.address],
-        })) as bigint;
+        // const stakedIBGT = (await newPublicClient.readContract({
+        //   address: infraredIBGTVaultAddress,
+        //   abi: InfraredVaultABI,
+        //   functionName: 'balanceOf',
+        //   args: [walletClient.account.address],
+        // })) as bigint;
 
-        if (parsedWithdrawAmount > stakedIBGT) {
-          throw new Error(
-            `Withdraw amount exceeds staked iBGT amount: 
-            - staked iBGT: ${stakedIBGT.toString()}
-            - withdraw amount: ${parsedWithdrawAmount.toString()}`,
-          );
-        }
+        // if (parsedWithdrawAmount > stakedIBGT) {
+        //   throw new Error(
+        //     `Withdraw amount exceeds staked iBGT amount: 
+        //     - staked iBGT: ${stakedIBGT.toString()}
+        //     - withdraw amount: ${parsedWithdrawAmount.toString()}`,
+        //   );
+        // }
 
         console.log(
           `[INFO] Withdrawing ${parsedWithdrawAmount.toString()} iBGT`,
