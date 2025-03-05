@@ -4,6 +4,7 @@ import { Thread } from 'openai/resources/beta/threads';
 import { PublicClient, WalletClient } from 'viem';
 import { handleRunToolCalls } from './handleRunToolCalls';
 import { ConfigChain } from '../constants/chain';
+import { ToolEnvConfigs } from '../constants/types';
 
 export async function performRun(
   run: Run,
@@ -12,7 +13,7 @@ export async function performRun(
   config: ConfigChain,
   walletClient: WalletClient,
   publicClient: PublicClient,
-  toolEnvConfigs?: Record<string, unknown>,
+  toolEnvConfigs?: ToolEnvConfigs,
 ): Promise<{ type: string; text: { value: string } } | null> {
   let currentRun = run;
 

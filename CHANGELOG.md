@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.0.10...v1.1.0) (2025-02-28)
+
+
+### Bug Fixes
+
+* approve token error by ts check with add chain property ([#98](https://github.com/Webera-Finance/bera-agent-kit/issues/98)) ([4980386](https://github.com/Webera-Finance/bera-agent-kit/commit/49803862726e1497405887496ef5b11465f17815))
+* recheck native/erc20 balance on mainnet ([#96](https://github.com/Webera-Finance/bera-agent-kit/issues/96)) ([8c31cb8](https://github.com/Webera-Finance/bera-agent-kit/commit/8c31cb89e99d257cfc4ed1e68811f3fe3903e7d5))
+
+
+### Features
+
+* bexswap token on mainnet ([#104](https://github.com/Webera-Finance/bera-agent-kit/issues/104)) ([3005edd](https://github.com/Webera-Finance/bera-agent-kit/commit/3005edd5962322d5376eea80cd3bc9ef8da2961a))
+* config multiple env for Bera mainnet/testnet ([#94](https://github.com/Webera-Finance/bera-agent-kit/issues/94)) ([ee4e960](https://github.com/Webera-Finance/bera-agent-kit/commit/ee4e9604668f28e340ab7ae1ad0e21c827520eb9))
+* enhance Kodiak swap functionality for native and token swaps ([#99](https://github.com/Webera-Finance/bera-agent-kit/issues/99)) ([587d959](https://github.com/Webera-Finance/bera-agent-kit/commit/587d9598b74ce36ada037d1214f9a110906c85c1))
+
 ## [1.0.10](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.0.9...v1.0.10) (2025-02-05)
 
 
