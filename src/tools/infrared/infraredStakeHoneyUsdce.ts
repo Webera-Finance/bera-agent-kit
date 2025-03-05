@@ -45,7 +45,6 @@ export const infraredStakeHoneyUsdceTool: ToolConfig<InfraredStakeHoneyUsdceArgs
           walletClient,
           config.TOKEN.HONEY_USDCE,
         );
-
         const parsedStakeAmount = await fetchTokenDecimalsAndParseAmount(
           walletClient,
           config.TOKEN.HONEY_USDCE,
