@@ -173,7 +173,7 @@ export const getTokenBalance = async (
     const publicClient = createViemPublicClient(isTestnet);
 
 
-    if (!tokenAddress) {
+    if (!tokenAddress || tokenAddress === zeroAddress) {
       // Get native token balance
       return await publicClient.getBalance({
         address: walletClient.account.address,
