@@ -98,8 +98,6 @@ export const checkAndApproveAllowance = async (
         abi: erc20Abi,
         functionName: 'approve',
         args: [spender, amount],
-        chain: walletClient.chain,
-        account: walletClient.account!.address,
       });
 
       const approvalReceipt = await publicClient.waitForTransactionReceipt({
@@ -172,7 +170,6 @@ export const getTokenBalance = async (
     const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
     const publicClient = createViemPublicClient(isTestnet);
 
-
     if (!tokenAddress || tokenAddress === zeroAddress) {
       // Get native token balance
       return await publicClient.getBalance({
@@ -201,15 +198,17 @@ export const checkBalance = async (
   tokenAddress?: Address,
   contractAbi?: Abi,
 ): Promise<void> => {
-  const balance = await getTokenBalance(walletClient, tokenAddress, contractAbi);
-  
+  const balance = await getTokenBalance(
+    walletClient,
+    tokenAddress,
+    contractAbi,
+  );
+
   if (balance < requiredAmount) {
     throw new Error(
       `Insufficient balance. Required: ${requiredAmount.toString()}, Available: ${balance.toString()}`,
     );
   }
-  
+
   log.info(`[INFO] Sufficient balance available`);
 };
-
-
