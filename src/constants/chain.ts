@@ -100,7 +100,7 @@ export const MainnetChainConfig: ConfigChain = {
     WeberaRouterVault: '0xf44328d75638eec3E2f7075846c7596E92774aD2',
     WeberaHoneyVault: '0x4eAD3867554E597C7B0d511dC68ceaD59286870D',
     WeberaBeraVault: '0x55a050f76541C2554e9dfA3A0b4e665914bF92EA',
-    WeberaBeraLstVault: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8',
+    WeberaBeraLstVault: '0xCf1bfB3F9dc663F6775f999239E646e0021CCc0B',
   },
 };
 
