@@ -61,6 +61,8 @@ You have access to these tools:
 - "infrared_stake_wbera_weth": Stake wbera-weth into a vault in the Infrared protocol
 - "infrared_stake_bera": Stake Bera tokens to earn IBera in the Infrared protocol
 - "memeswap_stake_bera": Stake Bera in Memeswap
+- "webera_deposit": Deposit Bera/Honey tokens to Webera Finance vault
+- "webera_withdraw": Withdraw Bera/Honey tokens from Webera Finance vault
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://berascan.com/tx/{txHash}.

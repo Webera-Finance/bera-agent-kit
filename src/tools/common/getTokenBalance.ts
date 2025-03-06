@@ -1,7 +1,10 @@
 import { Address, erc20Abi, PublicClient, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
 import { createViemPublicClient } from '../../utils/createViemPublicClient';
-import { fetchTokenDecimalsAndFormatAmount } from '../../utils/helpers';
+import {
+  fetchTokenDecimalsAndFormatAmount,
+  getTokenBalance,
+} from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
 import { SupportedChainId } from '../../utils/enum';
@@ -70,12 +73,11 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
         throw new Error(`Token ${foundTokenName} address not found`);
       }
 
-      const rawTokenBalanceOfWallet = await newPublicClient.readContract({
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: 'balanceOf',
-        args: [address],
-      });
+      const rawTokenBalanceOfWallet = await getTokenBalance(
+        newPublicClient,
+        tokenAddress,
+        address,
+      );
 
       const formattedTokenBalanceOfWallet =
         await fetchTokenDecimalsAndFormatAmount(

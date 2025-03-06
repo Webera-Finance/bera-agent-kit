@@ -1,5 +1,6 @@
 export const TestnetChainConfig: ConfigChain = {
   TOKEN: {
+    BERA: '0x0000000000000000000000000000000000000000' as `0x${string}`,
     WBERA: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8' as `0x${string}`,
     IBGT: '0x46eFC86F0D7455F135CC9df501673739d513E982' as `0x${string}`,
     HONEY: '0x0E4aaF1351de4c0264C5c7056Ef3777b41BD8e03' as `0x${string}`,
@@ -46,11 +47,16 @@ export const TestnetChainConfig: ConfigChain = {
     InfraredWberaWETH: '0x0dF14916796854d899576CBde69a35bAFb923c22' as `0x${string}`,
     IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5' as `0x${string}`,
     MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d' as `0x${string}`,
+    WeberaRouterVault: 'todo' as `0x${string}`,
+    WeberaHoneyVault: 'todo' as `0x${string}`,
+    WeberaBeraVault: 'todo' as `0x${string}`,
+    WeberaBeraLstVault: 'todo' as `0x${string}`,
   },
 };
 
 export const MainnetChainConfig: ConfigChain = {
   TOKEN: {
+    BERA: '0x0000000000000000000000000000000000000000' as `0x${string}`,
     WBERA: '0x6969696969696969696969696969696969696969' as `0x${string}`,
     IBGT: '0xac03caba51e17c86c921e1f6cbfbdc91f8bb2e6b',
     HONEY: '0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce' as `0x${string}`,
@@ -91,6 +97,10 @@ export const MainnetChainConfig: ConfigChain = {
     InfraredWberaWETH: '0x0dF14916796854d899576CBde69a35bAFb923c22',
     IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5',
     MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d',
+    WeberaRouterVault: '0xf44328d75638eec3E2f7075846c7596E92774aD2',
+    WeberaHoneyVault: '0x4eAD3867554E597C7B0d511dC68ceaD59286870D',
+    WeberaBeraVault: '0x55a050f76541C2554e9dfA3A0b4e665914bF92EA',
+    WeberaBeraLstVault: '0x7507c1dc16935B82698e4C63f2746A2fCf994dF8',
   },
 };
 
@@ -122,6 +132,10 @@ export type ConfigChain = {
     InfraredWberaWETH: `0x${string}`;
     IBera: `0x${string}`;
     MemeswapStakeBera: `0x${string}`;
+    WeberaRouterVault: `0x${string}`;
+    WeberaHoneyVault: `0x${string}`;
+    WeberaBeraVault: `0x${string}`;
+    WeberaBeraLstVault: `0x${string}`;
   };
 };
 

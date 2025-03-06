@@ -29,6 +29,8 @@ async function example() {
       // 'swap 0.01 bera to honey at bexswap with slippage 1%',
       // 'swap 0.001 honey to bera at bexswap with slippage 1%',
       // 'swap 0.01 usdc to honey at bexswap with slippage 1%',
+      // 'deposit 0.01 bera to bera vault at Webera',
+      'withdraw 0.01 bera from bera vault at Webera',
       // `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap and send all the honey received to address 0x7xxx`,
@@ -37,9 +39,9 @@ async function example() {
       // `stake 10 honey-wbera at infrared`,
       // `check my wbera-weth balance and stake 0.0011 wbera-weth at infrared`,
       // "Which protocols on Berachain offer both yield and governance incentives?"
-      "withdraw 0.1 IBGT staked balance in the infrared protocol"
+      // "withdraw 0.1 IBGT staked balance in the infrared protocol"
     );
-    console.info('Live Search Result:', response);
+    console.info('Result:', response);
 
     // const transfer = await agent.sendMessage(
     //   // `check my bera, honey, bgt balance`,
