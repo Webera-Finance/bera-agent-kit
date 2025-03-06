@@ -155,7 +155,6 @@ export const fetchVaultAndTokenAddress = async (
   }
 };
 
-
 export const getNativeTokenBalance = async (
   walletClient: WalletClient,
 ): Promise<bigint> => {
@@ -209,13 +208,11 @@ export const checkBalance = async (
   requiredAmount: bigint,
   tokenAddress?: Address,
   contractAbi?: Abi,
-): Promise<void> =>
-{
-  const balance = !tokenAddress || tokenAddress === zeroAddress ? await getNativeTokenBalance(walletClient) : await getTokenBalance(
-    walletClient,
-    tokenAddress,
-    contractAbi,
-  );
+): Promise<void> => {
+  const balance =
+    !tokenAddress || tokenAddress === zeroAddress
+      ? await getNativeTokenBalance(walletClient)
+      : await getTokenBalance(walletClient, tokenAddress, contractAbi);
 
   if (balance < requiredAmount) {
     throw new Error(
