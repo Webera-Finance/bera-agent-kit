@@ -1,9 +1,9 @@
 import { WalletClient } from 'viem';
-import { ToolConfig } from '../allTools';
-import { ConfigChain } from '../../constants/chain';
 import { parseEther } from 'viem/utils';
-import { getTokenBalance } from '../../utils/helpers';
 import { MemeSwapContractABI } from '../../constants/abis/memeSwapContractABI';
+import { ConfigChain } from '../../constants/chain';
+import { checkBalance } from '../../utils/helpers';
+import { ToolConfig } from '../allTools';
 
 interface MemeSwapStakeBeraArgs {
   stakeAmount: number;
@@ -40,14 +40,9 @@ export const memeSwapStakeBeraTool: ToolConfig<MemeSwapStakeBeraArgs> = {
       // constants
       const memeSwapContractAddress = config.CONTRACT.MemeswapStakeBera;
 
-      const balance = await getTokenBalance(walletClient);
       const parsedStakeAmount = parseEther(args.stakeAmount.toString());
 
-      if (balance < parsedStakeAmount) {
-        throw new Error(
-          `Insufficient balance. Required: ${parsedStakeAmount.toString()}, Available: ${balance.toString()}`,
-        );
-      }
+      await checkBalance(walletClient, parsedStakeAmount);
 
       const tx = await walletClient.writeContract({
         address: memeSwapContractAddress,
