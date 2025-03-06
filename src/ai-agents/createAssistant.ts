@@ -19,7 +19,7 @@ export async function createAssistant(
   return await client.beta.assistants.create({
     model: 'gpt-4o-mini',
     temperature: 0.3,
-    name: 'My Assistant',
+    name: 'Bera Agent Kit',
     instructions: promtInstructions(config),
     tools: Object.values(tools).map(tool => tool.definition),
   });

@@ -5,7 +5,7 @@ import * as helpersModule from '../../../src/utils/helpers';
 import { parseEther } from 'viem';
 import sinon from 'sinon';
 import { pot2pumpFacadeABI } from '../../../src/constants/abis/honeypotFinanceABI';
-import { TestnetChainConfig } from '../../../src/constants/chain';
+import { MainnetChainConfig } from '../../../src/constants/chain';
 
 const mockWalletClient = {
   account: {
@@ -15,6 +15,11 @@ const mockWalletClient = {
     id: 1,
   },
   writeContract: sinon.stub(),
+};
+
+const mockPublicClient = {
+  getBalance: sinon.stub(),
+  readContract: sinon.stub(),
 };
 
 describe('pot2pumpDeposit Tool', () => {
@@ -27,6 +32,7 @@ describe('pot2pumpDeposit Tool', () => {
       .stub(helpersModule, 'fetchTokenDecimalsAndParseAmount')
       .resolves(parseEther('100'));
     sinon.stub(helpersModule, 'checkAndApproveAllowance').resolves();
+    sinon.stub(helpersModule, 'checkBalance').resolves();
   });
 
   afterEach(() => {
@@ -43,8 +49,8 @@ describe('pot2pumpDeposit Tool', () => {
 
   it('should successfully deposit into pot2pump project', async () => {
     // const testRaisedToken = TOKEN.HONEY;
-    const testRaisedToken = TestnetChainConfig.TOKEN.HONEY;
-    const testLaunchedToken = TestnetChainConfig.TOKEN.IBGT;
+    const testRaisedToken = MainnetChainConfig.TOKEN.HONEY;
+    const testLaunchedToken = MainnetChainConfig.TOKEN.IBGT;
     const mockTxHash = '0xmocktxhash';
 
     mockWalletClient.writeContract.resolves(mockTxHash);
@@ -55,14 +61,21 @@ describe('pot2pumpDeposit Tool', () => {
         raisedToken: testRaisedToken,
         raisedTokenAmount: 100,
       },
-      TestnetChainConfig,
+      MainnetChainConfig,
       mockWalletClient as any,
+      mockPublicClient as any,
     );
+
+    expect((helpersModule.checkBalance as sinon.SinonStub).calledOnce).to.be
+      .true;
+    expect(
+      (helpersModule.checkBalance as sinon.SinonStub).firstCall.args,
+    ).to.deep.equal([mockWalletClient, parseEther('100'), testRaisedToken]);
 
     expect(result).to.equal(mockTxHash);
     expect(mockWalletClient.writeContract.calledOnce).to.be.true;
     expect(mockWalletClient.writeContract.firstCall.args[0]).to.deep.equal({
-      address: TestnetChainConfig.CONTRACT.Pot2PumpFacade,
+      address: MainnetChainConfig.CONTRACT.Pot2PumpFacade,
       abi: pot2pumpFacadeABI,
       functionName: 'deposit',
       args: [testLaunchedToken, parseEther('100')],
@@ -72,8 +85,8 @@ describe('pot2pumpDeposit Tool', () => {
   });
 
   it('should handle errors during pot2pump deposit', async () => {
-    const testLaunchedToken = TestnetChainConfig.TOKEN.IBGT;
-    const testRaisedToken = TestnetChainConfig.TOKEN.HONEY;
+    const testLaunchedToken = MainnetChainConfig.TOKEN.IBGT;
+    const testRaisedToken = MainnetChainConfig.TOKEN.HONEY;
     const errorMessage = 'Pot2Pump deposit failed';
 
     mockWalletClient.writeContract.rejects(new Error(errorMessage));
@@ -85,12 +98,38 @@ describe('pot2pumpDeposit Tool', () => {
           raisedToken: testRaisedToken,
           raisedTokenAmount: 100,
         },
-        TestnetChainConfig,
+        MainnetChainConfig,
         mockWalletClient as any,
+        mockPublicClient as any,
       );
       expect.fail('Should have thrown an error');
     } catch (error: any) {
       expect(error.message).to.include(errorMessage);
+    }
+  });
+
+  it('should fail when checkBalance throws error', async () => {
+    const testRaisedToken = MainnetChainConfig.TOKEN.HONEY;
+    const testLaunchedToken = MainnetChainConfig.TOKEN.IBGT;
+
+    (helpersModule.checkBalance as sinon.SinonStub).rejects(
+      new Error('Insufficient balance'),
+    );
+
+    try {
+      await pot2pumpDepositTool.handler(
+        {
+          launchedToken: testLaunchedToken,
+          raisedToken: testRaisedToken,
+          raisedTokenAmount: 100,
+        },
+        MainnetChainConfig,
+        mockWalletClient as any,
+        mockPublicClient as any,
+      );
+      expect.fail('Should have thrown an error');
+    } catch (error: any) {
+      expect(error.message).to.include('Insufficient balance');
     }
   });
 });

@@ -40,7 +40,7 @@ export class BeraAgent {
       throw new Error('Not supported chain');
     }
     // create public client depends on chain id from wallet
-    const envType = chainID === SupportedChainId.Mainnet ? true : false;
+    const envType = chainID === SupportedChainId.Testnet;
     this.publicClient = createViemPublicClient(envType);
     this.configChain = ConfigChainId[chainID as keyof typeof ConfigChainId];
   }
@@ -102,10 +102,6 @@ export class BeraAgent {
 // Utility exports
 export { createViemWalletClient } from './utils/createViemWalletClient';
 export { createViemPublicClient } from './utils/createViemPublicClient';
-export { log } from './utils/logger';
-
-// Tool exports
-export { createTools } from './tools/allTools';
 
 // Agent-related exports
 export { createAssistant } from './ai-agents/createAssistant';
@@ -115,4 +111,3 @@ export { performRun } from './ai-agents/performRun';
 
 // Constants and types
 export * from './constants';
-export * from './tools/allTools';

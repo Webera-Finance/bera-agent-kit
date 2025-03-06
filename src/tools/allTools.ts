@@ -30,6 +30,8 @@ import { infraredStakeWBeraWETHTool } from './infrared/infraredStakeWBeraWETH';
 import { infraredStakeBeraTool } from './infrared/infraredStakeBera';
 import { memeSwapStakeBeraTool } from './memeswap/memeswapStakeBera';
 import { ToolEnvConfigs } from '../constants/types';
+import { weberaDepositTool } from './webera/deposit';
+import { weberaWithdrawTool } from './webera/withdraw';
 
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
@@ -53,7 +55,10 @@ export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   ) => Promise<any>;
 }
 
-export function createTools(): Record<string, ToolConfig<any, WalletClient>> {
+export function createTools(): Record<
+  string,
+  ToolConfig<any, WalletClient, PublicClient>
+> {
   return {
     get_balance: getBalanceTool,
     transfer: transferTool,
@@ -83,5 +88,7 @@ export function createTools(): Record<string, ToolConfig<any, WalletClient>> {
     infrared_stake_wbera_weth: infraredStakeWBeraWETHTool,
     infrared_stake_bera: infraredStakeBeraTool,
     memeswap_stake_bera: memeSwapStakeBeraTool,
+    webera_deposit: weberaDepositTool,
+    webera_withdraw: weberaWithdrawTool,
   };
 }
