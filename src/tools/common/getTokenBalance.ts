@@ -1,13 +1,11 @@
-import { Address, erc20Abi, PublicClient, WalletClient } from 'viem';
+import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import {
   fetchTokenDecimalsAndFormatAmount,
   getTokenBalance,
 } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
-import { SupportedChainId } from '../../utils/enum';
 
 interface GetTokenBalanceArgs {
   wallet: Address;
@@ -42,7 +40,6 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
     args: GetTokenBalanceArgs,
     config: ConfigChain,
     walletClient?: WalletClient,
-    publicClient?: PublicClient,
   ) => {
     try {
       const { wallet, tokenName } = args;
@@ -54,10 +51,6 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
 
       log.info(`[INFO] Getting balance for ${address} with token ${tokenName}`);
 
-      const envType =
-        walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
-
-      const newPublicClient = publicClient ?? createViemPublicClient(envType);
       // find the token address from the token name
       const foundTokenName = Object.keys(config.TOKEN).find(
         key => key.toLowerCase() === tokenName.toLowerCase(),
@@ -74,14 +67,13 @@ export const getTokenBalanceTool: ToolConfig<GetTokenBalanceArgs> = {
       }
 
       const rawTokenBalanceOfWallet = await getTokenBalance(
-        newPublicClient,
+        walletClient as WalletClient,
         tokenAddress,
-        address,
       );
 
       const formattedTokenBalanceOfWallet =
         await fetchTokenDecimalsAndFormatAmount(
-          publicClient,
+          walletClient as WalletClient,
           tokenAddress,
           rawTokenBalanceOfWallet,
         );
