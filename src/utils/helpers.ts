@@ -209,6 +209,7 @@ export const checkBalance = async (
   tokenAddress?: Address,
   contractAbi?: Abi,
 ): Promise<void> => {
+
   const balance =
     !tokenAddress || tokenAddress === zeroAddress
       ? await getNativeTokenBalance(walletClient)
