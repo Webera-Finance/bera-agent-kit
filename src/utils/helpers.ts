@@ -98,6 +98,8 @@ export const checkAndApproveAllowance = async (
         abi: erc20Abi,
         functionName: 'approve',
         args: [spender, amount],
+        chain: walletClient.chain,
+        account: walletClient.account!.address,
       });
 
       const approvalReceipt = await publicClient.waitForTransactionReceipt({
