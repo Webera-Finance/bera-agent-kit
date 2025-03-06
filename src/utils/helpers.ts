@@ -155,9 +155,29 @@ export const fetchVaultAndTokenAddress = async (
   }
 };
 
+
+export const getNativeTokenBalance = async (
+  walletClient: WalletClient,
+): Promise<bigint> => {
+  try {
+    if (!walletClient.account) {
+      throw new Error('Wallet account not found');
+    }
+    const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
+    const publicClient = createViemPublicClient(isTestnet);
+    const balance = await publicClient.getBalance({
+      address: walletClient.account.address,
+    });
+    return balance;
+  } catch (error: any) {
+    log.error(`[ERROR] Failed to get native token balance: ${error.message}`);
+    throw new Error(`Failed to get native token balance: ${error.message}`);
+  }
+};
+
 export const getTokenBalance = async (
   walletClient: WalletClient,
-  tokenAddress?: Address,
+  tokenAddress: Address,
   contractAbi?: Abi,
 ): Promise<bigint> => {
   try {
@@ -166,16 +186,8 @@ export const getTokenBalance = async (
     }
 
     const abi = contractAbi ?? erc20Abi;
-
     const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
     const publicClient = createViemPublicClient(isTestnet);
-
-    if (!tokenAddress || tokenAddress === zeroAddress) {
-      // Get native token balance
-      return await publicClient.getBalance({
-        address: walletClient.account.address,
-      });
-    }
 
     // Get ERC20 token balance
     const balance = (await publicClient.readContract({
@@ -197,8 +209,9 @@ export const checkBalance = async (
   requiredAmount: bigint,
   tokenAddress?: Address,
   contractAbi?: Abi,
-): Promise<void> => {
-  const balance = await getTokenBalance(
+): Promise<void> =>
+{
+  const balance = !tokenAddress || tokenAddress === zeroAddress ? await getNativeTokenBalance(walletClient) : await getTokenBalance(
     walletClient,
     tokenAddress,
     contractAbi,
