@@ -1,6 +1,5 @@
 import { WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-
 import { BeraborrowPoolABI } from '../../constants/abis/beraborrowPoolABI';
 import { ConfigChain } from '../../constants/chain';
 import {
@@ -46,14 +45,7 @@ export const beraborrowDepositNectTool: ToolConfig<BeraborrowDepositNectArgs> =
 
         await checkBalance(walletClient, parsedAmount, config.TOKEN.NECTAR);
 
-        //   await checkAndApproveAllowance(
-        //     walletClient,
-        //     stakingTokenAddress,
-        //     vaultAddress,
-        //     parsedAmount,
-        //   );
-
-        // Stake the token into the vault
+        // Deposit token into the pool
         log.info('[INFO] Staking token into vault...');
         const stakeTx = await walletClient.writeContract({
           address: config.CONTRACT.BeraBorrowPool,
