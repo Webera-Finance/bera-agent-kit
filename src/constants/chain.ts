@@ -51,6 +51,7 @@ export const TestnetChainConfig: ConfigChain = {
     WeberaHoneyVault: 'todo' as `0x${string}`,
     WeberaBeraVault: 'todo' as `0x${string}`,
     WeberaBeraLstVault: 'todo' as `0x${string}`,
+    BeraBorrowPool: 'todo' as `0x${string}`,
   },
 };
 
@@ -67,6 +68,7 @@ export const MainnetChainConfig: ConfigChain = {
     HONEY_WBERA: '0x2c4a603A2aA5596287A06886862dc29d56DbC354',
     WBERA_WBTC: '0x38fdd999fe8783037db1bbfe465759e312f2d809',
     WBERA_WETH: '0xdd70a5ef7d8cfe5c5134b5f9874b09fb5ce812b4',
+    NECTAR: '0x1ce0a25d13ce4d52071ae7e02cf1f6606f4c79d3' as `0x${string}`,
   },
   URL: {
     BEXRouteURL: 'todo',
@@ -101,6 +103,7 @@ export const MainnetChainConfig: ConfigChain = {
     WeberaHoneyVault: '0x4eAD3867554E597C7B0d511dC68ceaD59286870D',
     WeberaBeraVault: '0x55a050f76541C2554e9dfA3A0b4e665914bF92EA',
     WeberaBeraLstVault: '0xCf1bfB3F9dc663F6775f999239E646e0021CCc0B',
+    BeraBorrowPool: '0x597877ccf65be938bd214c4c46907669e3e62128',
   },
 };
 
@@ -136,6 +139,7 @@ export type ConfigChain = {
     WeberaHoneyVault: `0x${string}`;
     WeberaBeraVault: `0x${string}`;
     WeberaBeraLstVault: `0x${string}`;
+    BeraBorrowPool: `0x${string}`;
   };
 };
 
