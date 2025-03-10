@@ -63,6 +63,7 @@ You have access to these tools:
 - "memeswap_stake_bera": Stake Bera in Memeswap
 - "webera_deposit": Deposit Bera/Honey tokens to Webera Finance vault
 - "webera_withdraw": Withdraw Bera/Honey tokens from Webera Finance vault
+- "beraborrow_deposit_nect": Deposit Nectar into the Beraborrow Pool
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://berascan.com/tx/{txHash}.

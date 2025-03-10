@@ -33,7 +33,7 @@ async function example() {
       // 'deposit 0.01 honey to honey vault at Webera',
       // 'withdraw 0.01 bera from bera vault at Webera',
       // 'withdraw 0.01 honey from honey vault at Webera',
-      'deposit 0.01 bera to beralst vault at Webera',
+      // 'deposit 0.01 bera to beralst vault at Webera',
       // `Transfer 100 bera to 0x1234567890123456789012345678901234567890`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap`,
       // `check my bera balance and swap 0.0001 bera to honey at bexswap and send all the honey received to address 0x7xxx`,
@@ -43,6 +43,7 @@ async function example() {
       // `check my wbera-weth balance and stake 0.0011 wbera-weth at infrared`,
       // "Which protocols on Berachain offer both yield and governance incentives?"
       // "withdraw 0.1 IBGT staked balance in the infrared protocol"
+      'deposit 0.01 nectar into the beraborrow pool'
     );
     console.info('Result:', response);
 

@@ -32,7 +32,7 @@ import { memeSwapStakeBeraTool } from './memeswap/memeswapStakeBera';
 import { ToolEnvConfigs } from '../constants/types';
 import { weberaDepositTool } from './webera/deposit';
 import { weberaWithdrawTool } from './webera/withdraw';
-
+import { beraborrowDepositNectTool } from './beraborrow/beraborrowDepositNect';
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
     type: 'function';
@@ -90,5 +90,6 @@ export function createTools(): Record<
     memeswap_stake_bera: memeSwapStakeBeraTool,
     webera_deposit: weberaDepositTool,
     webera_withdraw: weberaWithdrawTool,
+    beraborrow_deposit_nect: beraborrowDepositNectTool,
   };
 }
