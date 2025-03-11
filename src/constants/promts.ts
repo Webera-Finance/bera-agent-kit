@@ -64,11 +64,7 @@ You have access to these tools:
 - "webera_deposit": Deposit Bera/Honey tokens to Webera Finance vault
 - "webera_withdraw": Withdraw Bera/Honey tokens from Webera Finance vault
 - "beraborrow_deposit_nect": Deposit Nectar into the Beraborrow Pool
-- "berahub_stake_wbera_honey": Stake WBera-Honey into the Berahub vault
-- "berahub_stake_wbtc_wbera": Stake WBTC-WBera into the Berahub vault
-- "berahub_stake_weth_wbera": Stake WETH-WBera into the Berahub vault
-- "berahub_stake_byusd_honey": Stake BYUSD-Honey into the Berahub vault
-- "berahub_stake_usdce_honey": Stake HONEY-USDCE into the Berahub vault
+- "berahub_stake_lp": Stake LP tokens on Berahub (supports WBERA_HONEY, WBTC_WBERA, WETH_WBERA, BYUSD_HONEY, USDCE_HONEY pairs)
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://berascan.com/tx/{txHash}.

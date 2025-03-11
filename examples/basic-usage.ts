@@ -48,7 +48,7 @@ async function example() {
       // 'stake 0.0001 wbtc-wbera into the berahub vault',
       // 'stake 0.001 weth-wbera into the berahub vault',
       // 'stake 0.1 byusd-honey into the berahub vault',
-      'stake 0.1 usdce-honey into the berahub vault',
+      'stake 0.1 USDCE_HONEY into the berahub vault',
     );
     console.info('Result:', response);
 

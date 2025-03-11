@@ -33,11 +33,7 @@ import { ToolEnvConfigs } from '../constants/types';
 import { weberaDepositTool } from './webera/deposit';
 import { weberaWithdrawTool } from './webera/withdraw';
 import { beraborrowDepositNectTool } from './beraborrow/beraborrowDepositNect';
-import { berahubStakeWBeraHoneyTool } from './berahub/berahubStakeWBeraHoney';
-import { berahubStakeWBTCWBeraTool } from './berahub/berahubStakeWBTCWBera';
-import { berahubStakeWETHWBeraTool } from './berahub/berahubStakeWETHWBera';
-import { berahubStakeBYUSDHoneyTool } from './berahub/berahubStakeBYUSDHoney';
-import { berahubStakeUSDCEHoneyTool } from './berahub/berahubStakeUSDCEHoney';
+import { beraHubStakeLPTokenTool } from './berahub/beraHubStakeLPToken';
 
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
@@ -97,10 +93,6 @@ export function createTools(): Record<
     webera_deposit: weberaDepositTool,
     webera_withdraw: weberaWithdrawTool,
     beraborrow_deposit_nect: beraborrowDepositNectTool,
-    berahub_stake_wbera_honey: berahubStakeWBeraHoneyTool,
-    berahub_stake_wbtc_wbera: berahubStakeWBTCWBeraTool,
-    berahub_stake_weth_wbera: berahubStakeWETHWBeraTool,
-    berahub_stake_byusd_honey: berahubStakeBYUSDHoneyTool,
-    berahub_stake_usdce_honey: berahubStakeUSDCEHoneyTool,
+    berahub_stake_lp: beraHubStakeLPTokenTool,
   };
 }
