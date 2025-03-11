@@ -1,3 +1,4 @@
+import { log } from '../src/utils/logger';
 import { BeraAgent, createViemWalletClient } from '../src';
 
 async function example() {
@@ -50,7 +51,7 @@ async function example() {
       // 'stake 0.1 byusd-honey into the berahub vault',
       'stake 0.1 USDCE_HONEY into the berahub vault',
     );
-    console.info('Result:', response);
+    log.info('Result:', response);
 
     // const transfer = await agent.sendMessage(
     //   // `check my bera, honey, bgt balance`,
