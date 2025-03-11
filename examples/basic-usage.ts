@@ -43,7 +43,12 @@ async function example() {
       // `check my wbera-weth balance and stake 0.0011 wbera-weth at infrared`,
       // "Which protocols on Berachain offer both yield and governance incentives?"
       // "withdraw 0.1 IBGT staked balance in the infrared protocol"
-      'deposit 0.01 nectar into the beraborrow pool'
+      // 'deposit 0.01 nectar into the beraborrow pool'
+      // 'stake 0.01 wbera-honey into the berahub vault'
+      // 'stake 0.0001 wbtc-wbera into the berahub vault',
+      // 'stake 0.001 weth-wbera into the berahub vault',
+      // 'stake 0.1 byusd-honey into the berahub vault',
+      'stake 0.1 USDCE_HONEY into the berahub vault',
     );
     console.info('Result:', response);
 

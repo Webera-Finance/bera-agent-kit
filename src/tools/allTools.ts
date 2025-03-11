@@ -33,6 +33,8 @@ import { ToolEnvConfigs } from '../constants/types';
 import { weberaDepositTool } from './webera/deposit';
 import { weberaWithdrawTool } from './webera/withdraw';
 import { beraborrowDepositNectTool } from './beraborrow/beraborrowDepositNect';
+import { beraHubStakeLPTokenTool } from './berahub/beraHubStakeLPToken';
+
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
     type: 'function';
@@ -91,5 +93,6 @@ export function createTools(): Record<
     webera_deposit: weberaDepositTool,
     webera_withdraw: weberaWithdrawTool,
     beraborrow_deposit_nect: beraborrowDepositNectTool,
+    berahub_stake_lp: beraHubStakeLPTokenTool,
   };
 }

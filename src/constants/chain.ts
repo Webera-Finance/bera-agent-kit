@@ -52,6 +52,11 @@ export const TestnetChainConfig: ConfigChain = {
     WeberaBeraVault: 'todo' as `0x${string}`,
     WeberaBeraLstVault: 'todo' as `0x${string}`,
     BeraBorrowPool: 'todo' as `0x${string}`,
+    BeraHubHoneyWBera: 'todo' as `0x${string}`,
+    BeraHubWBTCWBera: 'todo' as `0x${string}`,
+    BeraHubWETHWBera: 'todo' as `0x${string}`,
+    BeraHubBYUSDHoney: 'todo' as `0x${string}`,
+    BeraHubUSDCEHoney: 'todo' as `0x${string}`,
   },
 };
 
@@ -104,6 +109,11 @@ export const MainnetChainConfig: ConfigChain = {
     WeberaBeraVault: '0x55a050f76541C2554e9dfA3A0b4e665914bF92EA',
     WeberaBeraLstVault: '0xCf1bfB3F9dc663F6775f999239E646e0021CCc0B',
     BeraBorrowPool: '0x597877ccf65be938bd214c4c46907669e3e62128',
+    BeraHubHoneyWBera: '0xC2BaA8443cDA8EBE51a640905A8E6bc4e1f9872c',
+    BeraHubWBTCWBera: '0x086f82fa0cA310Cc835a9DB4f53697687ef149c7',
+    BeraHubWETHWBera: '0x17376aD6167a5592FbEAA42e6068c132474a513d',
+    BeraHubBYUSDHoney: '0x6649Bc987a7c0fB0199c523de1b1b330cd0457A8',
+    BeraHubUSDCEHoney: '0xF99be47baf0c22B7eB5EAC42c8D91b9942Dc7e84',
   },
 };
 
@@ -140,6 +150,11 @@ export type ConfigChain = {
     WeberaBeraVault: `0x${string}`;
     WeberaBeraLstVault: `0x${string}`;
     BeraBorrowPool: `0x${string}`;
+    BeraHubHoneyWBera: `0x${string}`;
+    BeraHubWBTCWBera: `0x${string}`;
+    BeraHubWETHWBera: `0x${string}`;
+    BeraHubBYUSDHoney: `0x${string}`;
+    BeraHubUSDCEHoney: `0x${string}`;
   };
 };
 
