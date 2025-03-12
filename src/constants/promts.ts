@@ -54,11 +54,7 @@ You have access to these tools:
 - "pot2pump_launch": Launch a new pot2pump contract
 - "pot2pump_claim": Claim pot2pump tokens
 - "pot2pump_deposit": Deposit pot2pump tokens
-- "infrared_stake_honey_byusd": Stake honey-byusd into a vault in the Infrared protocol
-- "infrared_stake_honey_usdce": Stake honey-usdce into a vault in the Infrared protocol
-- "infrared_stake_honey_usdce": Stake honey-wbera into a vault in the Infrared protocol
-- "infrared_stake_wbera_wbtc": Stake wbera-wbtc into a vault in the Infrared protocol
-- "infrared_stake_wbera_weth": Stake wbera-weth into a vault in the Infrared protocol
+- "infrared_stake_lp": Stake LP tokens on Infrared Protocol (supports HONEY_WBERA, WBERA_WBTC, WBERA_WETH, HONEY_BYUSD, HONEY_USDCE pairs)
 - "infrared_stake_bera": Stake Bera tokens to earn IBera in the Infrared protocol
 - "memeswap_stake_bera": Stake Bera in Memeswap
 - "webera_deposit": Deposit Bera/Honey tokens to Webera Finance vault
