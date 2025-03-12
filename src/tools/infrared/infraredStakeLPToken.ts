@@ -1,27 +1,27 @@
-import { BerahubVaultABI } from '../../constants/abis/berahubVaultABI';
 import { WalletClient } from 'viem';
-import { ConfigChain } from '../../constants/chain';
+import { ToolConfig } from '../allTools';
 import {
   checkAndApproveAllowance,
   checkBalance,
   fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
-import { ToolConfig } from '../allTools';
+import { InfraredVaultContractABI } from '../../constants/abis/InfraredVaultContractABI';
+import { ConfigChain } from '../../constants/chain';
 import { log } from '../../utils/logger';
 import { LPTokenPair } from '../../constants/types';
 import { LP_TOKEN_CONFIG } from '../../constants';
 
-interface BeraHubStakeLPTokenArgs {
+interface InfraredStakeLPTokenArgs {
   stakeAmount: number;
   lpTokenPair: LPTokenPair;
 }
 
-export const beraHubStakeLPTokenTool: ToolConfig<BeraHubStakeLPTokenArgs> = {
+export const infraredStakeLPTokenTool: ToolConfig<InfraredStakeLPTokenArgs> = {
   definition: {
     type: 'function',
     function: {
-      name: 'berahub_stake_lp',
-      description: 'Stake LP tokens on Berahub',
+      name: 'infrared_stake_lp',
+      description: 'Stake LP tokens on Infrared Protocol',
       parameters: {
         type: 'object',
         properties: {
@@ -33,7 +33,7 @@ export const beraHubStakeLPTokenTool: ToolConfig<BeraHubStakeLPTokenArgs> = {
             type: 'string',
             enum: Object.keys(LP_TOKEN_CONFIG),
             description:
-              'The LP token pair to stake (e.g., WBERA_HONEY, WBTC_WBERA, etc.)',
+              'The LP token pair to stake (e.g., HONEY_WBERA, WBERA_WBTC, etc.)',
           },
         },
         required: ['stakeAmount', 'lpTokenPair'],
@@ -41,7 +41,7 @@ export const beraHubStakeLPTokenTool: ToolConfig<BeraHubStakeLPTokenArgs> = {
     },
   },
   handler: async (
-    args: BeraHubStakeLPTokenArgs,
+    args: InfraredStakeLPTokenArgs,
     config: ConfigChain,
     walletClient?: WalletClient,
   ) => {
@@ -56,10 +56,10 @@ export const beraHubStakeLPTokenTool: ToolConfig<BeraHubStakeLPTokenArgs> = {
       }
 
       const tokenKey = lpConfig.token as keyof typeof config.TOKEN;
-      const vaultKey = lpConfig.beraHubVault as keyof typeof config.CONTRACT;
+      const vaultKey = lpConfig.infraredVault as keyof typeof config.CONTRACT;
 
       log.info(
-        `Starting stake of ${args.stakeAmount} ${lpConfig.description} LP tokens from ${walletClient.account?.address}`,
+        `[INFO] Starting stake of ${args.stakeAmount} ${lpConfig.description} LP tokens from ${walletClient.account?.address}`,
       );
 
       const parsedStakeAmount = await fetchTokenDecimalsAndParseAmount(
@@ -68,13 +68,9 @@ export const beraHubStakeLPTokenTool: ToolConfig<BeraHubStakeLPTokenArgs> = {
         args.stakeAmount,
       );
 
-      await checkBalance(
-        walletClient,
-        parsedStakeAmount,
-        config.TOKEN[tokenKey],
-      );
+      await checkBalance(walletClient, parsedStakeAmount, config.TOKEN[tokenKey]);
 
-      log.info(`Checking allowance for ${config.TOKEN[tokenKey]}`);
+      log.info(`[INFO] Checking allowance for ${config.TOKEN[tokenKey]}`);
 
       // check allowance
       await checkAndApproveAllowance(
@@ -85,22 +81,22 @@ export const beraHubStakeLPTokenTool: ToolConfig<BeraHubStakeLPTokenArgs> = {
       );
 
       log.info(
-        `Staking ${parsedStakeAmount.toString()} ${lpConfig.description} LP tokens to ${config.CONTRACT[vaultKey]}`,
+        `[INFO] Staking ${parsedStakeAmount.toString()} ${lpConfig.description} LP tokens to ${config.CONTRACT[vaultKey]}`,
       );
 
       const tx = await walletClient.writeContract({
         address: config.CONTRACT[vaultKey],
-        abi: BerahubVaultABI,
+        abi: InfraredVaultContractABI,
         functionName: 'stake',
         args: [parsedStakeAmount],
         chain: walletClient.chain,
         account: walletClient.account,
       });
 
-      log.info(`Stake successful: Transaction hash: ${tx}`);
+      log.info(`[INFO] Stake successful: Transaction hash: ${tx}`);
       return tx;
     } catch (error: any) {
-      log.error(`Stake failed: ${error.message}`);
+      log.error(`[ERROR] Stake failed: ${error.message}`);
       throw new Error(`Stake failed: ${error.message}`);
     }
   },

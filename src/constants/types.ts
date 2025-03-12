@@ -17,3 +17,10 @@ export interface BeraAgentConfig {
   openAIConfig?: ClientOptions;
   toolEnvConfigs?: ToolEnvConfigs;
 }
+
+export type LPTokenPair =
+  | 'WBERA_HONEY'
+  | 'WBTC_WBERA'
+  | 'WETH_WBERA'
+  | 'BYUSD_HONEY'
+  | 'USDCE_HONEY';

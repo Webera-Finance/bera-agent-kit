@@ -1,3 +1,5 @@
+import { LPTokenPair } from "./types";
+
 export const CONTRACT = {
   OBRouter: '0xF6eDCa3C79b4A3DFA82418e278a81604083b999D' as `0x${string}`,
   KodiakSwapRouter02:
@@ -33,3 +35,46 @@ export const URL = {
   BGTVaultURL:
     'https://bartio-pol-indexer.berachain.com/berachain/v1alpha1/beacon/vaults?pageSize=9999',
 };
+
+export const LP_TOKEN_CONFIG: Record<
+  LPTokenPair,
+  {
+    token: string;
+    beraHubVault: string;
+    infraredVault: string;
+    description: string;
+  }
+> = {
+  WBERA_HONEY: {
+    token: 'WBERA_HONEY',
+    beraHubVault: 'BeraHubHoneyWBera',
+    infraredVault: 'InfraredHoneyWBera',
+    description: 'WBera-Honey',
+  },
+  WBTC_WBERA: {
+    token: 'WBTC_WBERA',
+    beraHubVault: 'BeraHubWBTCWBera',
+    infraredVault: 'InfraredWberaWBTC',
+    description: 'WBTC-WBera',
+  },
+  WETH_WBERA: {
+    token: 'WETH_WBERA',
+    beraHubVault: 'BeraHubWETHWBera',
+    infraredVault: 'InfraredWberaWETH',
+    description: 'WETH-WBera',
+  },
+  BYUSD_HONEY: {
+    token: 'BYUSD_HONEY',
+    beraHubVault: 'BeraHubBYUSDHoney',
+    infraredVault: 'InfraredHoneyBYUSD',
+    description: 'BYUSD-Honey',
+  },
+  USDCE_HONEY: {
+    token: 'USDCE_HONEY',
+    beraHubVault: 'BeraHubUSDCEHoney',
+    infraredVault: 'InfraredHoneyUSDCE',
+    description: 'HONEY-USDCE',
+  },
+};
+
+
