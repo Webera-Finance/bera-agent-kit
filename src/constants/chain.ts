@@ -81,7 +81,7 @@ export const MainnetChainConfig: ConfigChain = {
     BGTVaultURL: 'todo',
   },
   CONTRACT: {
-    OBRouter: 'todo' as `0x${string}`,
+    OBRouter: '0xFd88aD4849BA0F729D6fF4bC27Ff948Ab1Ac3dE7' as `0x${string}`,
     KodiakSwapRouter02:
       '0xe301E48F77963D3F7DbD2a4796962Bd7f3867Fb4' as `0x${string}`,
     KodiakUniswapV2Router02:

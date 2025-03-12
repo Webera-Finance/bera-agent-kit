@@ -29,6 +29,7 @@ import { ToolEnvConfigs } from '../constants/types';
 import { weberaDepositTool } from './webera/deposit';
 import { weberaWithdrawTool } from './webera/withdraw';
 import { beraborrowDepositNectTool } from './beraborrow/beraborrowDepositNect';
+import { oogaBoogaTokensTool } from './oogaBooga/oogaBoogaTokens';
 import { beraHubStakeLPTokenTool } from './berahub/beraHubStakeLPToken';
 import { beraHubClaimBGTTool } from './berahub/berahubClaimBGT';
 import { berahubRedeemBGTTool } from './berahub/berahubRedeemBGT';
@@ -67,6 +68,7 @@ export function createTools(): Record<
     kodiak_add_liquidity_v2: kodiakAddLiquidityToolV2,
     bex_swap: bexSwapTool,
     ooga_booga_swap: oogaBoogaSwapTool,
+    ooga_booga_tokens: oogaBoogaTokensTool,
     bgt_station_stake: bgtStationStakeTool,
     bgt_station_claim_reward: bgtStationClaimRewardTool,
     bgt_station_delegate: bgtStationDelegateTool,

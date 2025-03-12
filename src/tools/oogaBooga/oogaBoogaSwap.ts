@@ -1,19 +1,16 @@
 import axios from 'axios';
 import { Address, PublicClient, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
-import { sleep } from 'openai/core';
-import { createViemPublicClient } from '../../utils/createViemPublicClient';
 import { fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
-import { SupportedChainId } from '../../utils/enum';
 import { EnvConfig, ToolEnvConfigs } from '../../constants/types';
 
 interface OogaBoogaSwapArgs {
-  base: Address; // Token to swap from
-  quote: Address; // Token to swap to
+  tokenIn: Address; // Token to swap from
+  tokenOut: Address; // Token to swap to
   amount: number; // Human-readable amount to swap
-  maxSlippage: string; // Slippage tolerance, e.g., 0.01 for 1%
+  slippage: string; // Slippage tolerance, e.g., 0.01 for 1%
 }
 
 const getAllowance = async (
@@ -35,31 +32,13 @@ const getAllowance = async (
   return allowanceResponse.data.allowance;
 };
 
-async function checkAllowanceAfterApproval(
-  config: ConfigChain,
-  walletClient: WalletClient,
-  base: Address,
-  headers: any,
-  parsedAmount: bigint,
-) {
-  for (let i = 0; i < 10; i++) {
-    const allowance = await getAllowance(config, walletClient, base, headers);
-    if (BigInt(allowance) >= parsedAmount) {
-      return true;
-    }
-    await sleep(300);
-  }
-
-  return false;
-}
-
 const checkAndApproveAllowance = async (
   config: ConfigChain,
   walletClient: WalletClient,
+  publicClient: PublicClient,
   base: Address,
   parsedAmount: bigint,
   headers: any,
-  envType: boolean,
 ): Promise<void> => {
   log.info(`[INFO] Checking allowance for ${base}`);
 
@@ -67,7 +46,6 @@ const checkAndApproveAllowance = async (
     log.info(`[INFO] Skipping allowance check for zero address`);
     return;
   }
-  const publicClient = createViemPublicClient(envType);
 
   const allowance = await getAllowance(config, walletClient, base, headers);
   log.info(`[DEBUG] Allowance API response:`, allowance);
@@ -105,17 +83,6 @@ const checkAndApproveAllowance = async (
     log.info(
       `[INFO] Approval complete: ${receipt.transactionHash} ${receipt.status}`,
     );
-
-    const isAllowanceSufficient = await checkAllowanceAfterApproval(
-      config,
-      walletClient,
-      base,
-      headers,
-      parsedAmount,
-    );
-    if (!isAllowanceSufficient) {
-      throw new Error('Allowance not updated');
-    }
   } else {
     log.info(`[INFO] Sufficient allowance available.`);
   }
@@ -127,9 +94,8 @@ const performSwap = async (
   base: Address,
   quote: Address,
   parsedAmount: bigint,
-  maxSlippage: string,
+  slippage: string,
   headers: any,
-  envType: boolean,
 ): Promise<string> => {
   try {
     log.info(`[INFO] Fetching swap details from OogaBooga API`);
@@ -138,10 +104,8 @@ const performSwap = async (
       amount: parsedAmount.toString(),
       tokenOut: quote,
       to: walletClient.account?.address,
-      maxSlippage,
+      slippage: Number(slippage) / 100,
     };
-
-    log.debug(`[DEBUG] swap params:`, params);
 
     const swapResponse = await axios.get(`${config.URL.OogaBoogaURL}/v1/swap`, {
       headers,
@@ -155,27 +119,15 @@ const performSwap = async (
     }
 
     const { tx: swapTx } = swapResponse.data;
-    log.debug(`[DEBUG] swap transaction params:`, swapTx);
 
     const args = {
       to: swapTx.to as Address,
       data: swapTx.data as `0x${string}`,
       value: swapTx.value ? BigInt(swapTx.value) : 0n,
     };
-    const publicClient = createViemPublicClient(envType);
-    const gas = await publicClient.estimateGas({
-      account: walletClient.account?.address as Address,
-      ...args,
-    });
-
-    // Add 10% gas buffer
-    const gasWithBuffer = (gas * 11n) / 10n;
-
-    log.debug(`[DEBUG] swap gas:`, gas);
 
     const swapHash = await walletClient.sendTransaction({
       ...args,
-      gas: gasWithBuffer,
       account: swapTx.from as Address,
       chain: walletClient.chain,
     });
@@ -197,26 +149,26 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       parameters: {
         type: 'object',
         properties: {
-          base: {
+          tokenIn: {
             type: 'string',
             pattern: '^0x[a-fA-F0-9]{40}$',
-            description: 'Base token address (token to swap from)',
+            description: 'Address of the input token',
           },
-          quote: {
+          tokenOut: {
             type: 'string',
             pattern: '^0x[a-fA-F0-9]{40}$',
-            description: 'Quote token address (token to swap to)',
+            description: 'Address of the output token',
           },
           amount: {
             type: 'number',
             description: 'The amount of tokens to swap',
           },
-          maxSlippage: {
+          slippage: {
             type: 'string',
-            description: 'The allowed slippage tolerance (0.01 = 1%)',
+            description: 'The allowed slippage tolerance in percentage',
           },
         },
-        required: ['base', 'quote', 'amount'],
+        required: ['tokenIn', 'tokenOut', 'amount'],
       },
     },
   },
@@ -231,45 +183,37 @@ export const oogaBoogaSwapTool: ToolConfig<OogaBoogaSwapArgs> = {
       throw new Error('OOGA_BOOGA_API_KEY is required.');
     }
 
-    if (!walletClient || !walletClient.account) {
-      throw new Error('Wallet client is not provided');
-    }
-
     const headers = {
       Authorization: `Bearer ${toolEnvConfigs?.[EnvConfig.OOGA_BOOGA_API_KEY]}`,
     };
 
     log.info(
-      `[INFO] Starting OogaBooga Swap for ${args.amount} of ${args.base} to ${args.quote}`,
+      `[INFO] Starting OogaBooga Swap for ${args.amount} of ${args.tokenIn} to ${args.tokenOut}`,
     );
-
-    const envType =
-      walletClient?.chain?.id === SupportedChainId.Mainnet ? true : false;
 
     const parsedAmount = await fetchTokenDecimalsAndParseAmount(
       walletClient,
-      args.base,
+      args.tokenIn!,
       args.amount,
     );
 
     await checkAndApproveAllowance(
       config,
       walletClient,
-      args.base,
+      publicClient,
+      args.tokenIn!,
       parsedAmount,
       headers,
-      envType,
     );
 
     return performSwap(
       config,
       walletClient,
-      args.base,
-      args.quote,
+      args.tokenIn,
+      args.tokenOut,
       parsedAmount,
-      args.maxSlippage,
+      args.slippage || '1',
       headers,
-      envType,
     );
   },
 };

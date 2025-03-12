@@ -60,6 +60,70 @@ export const fetchTokenDecimalsAndParseAmount = async (
   return parsedAmount;
 };
 
+export const checkAllowance = async (
+  walletClient: WalletClient,
+  tokenAddress: Address,
+  spender: Address,
+  amount: bigint,
+): Promise<boolean> => {
+  if (!tokenAddress || tokenAddress === zeroAddress) {
+    return true;
+  }
+
+  const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
+  const publicClient = createViemPublicClient(isTestnet);
+
+  log.info(
+    `[INFO] Checking allowance for ${tokenAddress} to spender ${spender}`,
+  );
+
+  // Fetch current allowance
+  const allowance = await publicClient.readContract({
+    address: tokenAddress,
+    abi: erc20Abi,
+    functionName: 'allowance',
+    args: [walletClient.account!.address, spender],
+  });
+
+  return BigInt(allowance) >= amount;
+};
+
+export const approveAllowance = async (
+  walletClient: WalletClient,
+  tokenAddress: Address,
+  spender: Address,
+  amount: bigint,
+): Promise<void> => {
+  const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
+  const publicClient = createViemPublicClient(isTestnet);
+
+  log.info(`[INFO] Approving ${amount} for spender ${spender}`);
+
+  try {
+    // Approve the required amount
+    // @ts-ignore - Ignoring TypeScript error about missing chain property. Add chain make bug with walletClient/rpc
+    const approvalTx = await walletClient.writeContract({
+      address: tokenAddress,
+      abi: erc20Abi,
+      functionName: 'approve',
+      args: [spender, amount],
+    });
+
+    const approvalReceipt = await publicClient.waitForTransactionReceipt({
+      hash: approvalTx as `0x${string}`,
+    });
+
+    if (approvalReceipt.status !== 'success') {
+      throw new Error('Approval transaction failed');
+    }
+
+    log.info(`[INFO] Approval successful`);
+  } catch (error: any) {
+    log.error(`[ERROR] Token approval failed: ${error.message}`);
+    throw new Error(`Token approval failed: ${error.message}`);
+  }
+};
+
 export const checkAndApproveAllowance = async (
   walletClient: WalletClient,
   tokenAddress: Address,
@@ -71,44 +135,15 @@ export const checkAndApproveAllowance = async (
       return;
     }
 
-    const isTestnet = walletClient?.chain?.id === SupportedChainId.Testnet;
-    const publicClient = createViemPublicClient(isTestnet);
-
-    log.info(
-      `[INFO] Checking allowance for ${tokenAddress} to spender ${spender}`,
+    const hasSufficientAllowance = await checkAllowance(
+      walletClient,
+      tokenAddress,
+      spender,
+      amount,
     );
 
-    // Fetch current allowance
-    const allowance = await publicClient.readContract({
-      address: tokenAddress,
-      abi: erc20Abi,
-      functionName: 'allowance',
-      args: [walletClient.account!.address, spender],
-    });
-
-    if (BigInt(allowance) < amount) {
-      log.info(
-        `[INFO] Allowance insufficient. Approving ${amount} for spender ${spender}`,
-      );
-
-      // Approve the required amount
-      // @ts-ignore - Ignoring TypeScript error about missing chain property. Add chain make bug with walletClient/rpc
-      const approvalTx = await walletClient.writeContract({
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: 'approve',
-        args: [spender, amount],
-      });
-
-      const approvalReceipt = await publicClient.waitForTransactionReceipt({
-        hash: approvalTx as `0x${string}`,
-      });
-
-      if (approvalReceipt.status !== 'success') {
-        throw new Error('Approval transaction failed');
-      }
-
-      log.info(`[INFO] Approval successful`);
+    if (!hasSufficientAllowance) {
+      await approveAllowance(walletClient, tokenAddress, spender, amount);
     } else {
       log.info(`[INFO] Sufficient allowance available`);
     }

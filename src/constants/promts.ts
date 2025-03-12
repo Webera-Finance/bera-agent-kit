@@ -40,6 +40,7 @@ You have access to these tools:
 - "kodiak_add_liquidity_v2": Add liquidity to a liquidity pool V2 on Kodiak
 - "bex_swap": Perform a token swap on BEX
 - "ooga_booga_swap": Perform a token swap on Ooga Booga
+- "ooga_booga_tokens": Get all supported tokens from Ooga Booga
 - "bgt_station_stake": Stake tokens into a vault in the BGT Station
 - "bgt_station_claim_reward": Stake tokens into a vault in the BGT Station
 - "bgt_station_delegate": Delegate BGT to validator
