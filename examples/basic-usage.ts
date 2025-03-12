@@ -47,6 +47,11 @@ async function example() {
       // 'get all supported tokens from ooga booga',
       // 'swap 0.01 bera to honey at ooga booga with slippage 1%',
       'swap 0.012 honey to bera at ooga booga with slippage 1%',
+      // 'stake 0.01 wbera-honey into the berahub vault'
+      // 'stake 0.0001 wbtc-wbera into the berahub vault',
+      // 'stake 0.001 weth-wbera into the berahub vault',
+      // 'stake 0.1 byusd-honey into the berahub vault',
+      // 'stake 0.1 USDCE_HONEY into the berahub vault',
     );
     console.info('Result:', response);
 
