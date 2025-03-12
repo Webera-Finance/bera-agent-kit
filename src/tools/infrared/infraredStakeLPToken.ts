@@ -8,8 +8,8 @@ import {
 import { InfraredVaultContractABI } from '../../constants/abis/InfraredVaultContractABI';
 import { ConfigChain } from '../../constants/chain';
 import { log } from '../../utils/logger';
-import { LPTokenPair } from 'bera-agent-kit/constants/types';
-import { LP_TOKEN_CONFIG } from 'bera-agent-kit/constants';
+import { LPTokenPair } from '../../constants/types';
+import { LP_TOKEN_CONFIG } from '../../constants';
 
 interface InfraredStakeLPTokenArgs {
   stakeAmount: number;
@@ -56,7 +56,7 @@ export const infraredStakeLPTokenTool: ToolConfig<InfraredStakeLPTokenArgs> = {
       }
 
       const tokenKey = lpConfig.token as keyof typeof config.TOKEN;
-      const vaultKey = lpConfig.beraHubVault as keyof typeof config.CONTRACT;
+      const vaultKey = lpConfig.infraredVault as keyof typeof config.CONTRACT;
 
       log.info(
         `[INFO] Starting stake of ${args.stakeAmount} ${lpConfig.description} LP tokens from ${walletClient.account?.address}`,

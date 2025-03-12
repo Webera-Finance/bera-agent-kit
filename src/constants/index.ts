@@ -38,34 +38,39 @@ export const URL = {
 
 export const LP_TOKEN_CONFIG: Record<
   LPTokenPair,
-  { token: string; beraHubVault: string; infraredVault: string; description: string }
+  {
+    token: string;
+    beraHubVault: string;
+    infraredVault: string;
+    description: string;
+  }
 > = {
   WBERA_HONEY: {
-    token: 'HONEY_WBERA',
+    token: 'WBERA_HONEY',
     beraHubVault: 'BeraHubHoneyWBera',
     infraredVault: 'InfraredHoneyWBera',
     description: 'WBera-Honey',
   },
   WBTC_WBERA: {
-    token: 'WBERA_WBTC',
+    token: 'WBTC_WBERA',
     beraHubVault: 'BeraHubWBTCWBera',
     infraredVault: 'InfraredWberaWBTC',
     description: 'WBTC-WBera',
   },
   WETH_WBERA: {
-    token: 'WBERA_WETH',
+    token: 'WETH_WBERA',
     beraHubVault: 'BeraHubWETHWBera',
     infraredVault: 'InfraredWberaWETH',
     description: 'WETH-WBera',
   },
   BYUSD_HONEY: {
-    token: 'HONEY_BYUSD',
+    token: 'BYUSD_HONEY',
     beraHubVault: 'BeraHubBYUSDHoney',
     infraredVault: 'InfraredHoneyBYUSD',
     description: 'BYUSD-Honey',
   },
   USDCE_HONEY: {
-    token: 'HONEY_USDCE',
+    token: 'USDCE_HONEY',
     beraHubVault: 'BeraHubUSDCEHoney',
     infraredVault: 'InfraredHoneyUSDCE',
     description: 'HONEY-USDCE',
