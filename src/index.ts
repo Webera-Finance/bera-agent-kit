@@ -15,7 +15,7 @@ import { createViemWalletClient } from './utils/createViemWalletClient';
 import { createViemPublicClient } from './utils/createViemPublicClient';
 import { ConfigChain, ConfigChainId } from './constants/chain';
 import { SupportedChainId } from './utils/enum';
-import { BeraAgentConfig, ToolEnvConfigs } from './constants/types';
+import { BeraAgentConfig, EnvConfig, ToolEnvConfigs } from './constants/types';
 
 export class BeraAgent {
   private openAIClient: OpenAI;
@@ -30,7 +30,12 @@ export class BeraAgent {
 
     // Use provided wallet client or create a default one
     this.walletClient = config.walletClient || createViemWalletClient();
-    this.toolEnvConfigs = config.toolEnvConfigs || {};
+    this.toolEnvConfigs = {
+      [EnvConfig.OOGA_BOOGA_API_KEY]: process.env.OOGA_BOOGA_API_KEY || '',
+      [EnvConfig.TAVILY_SEARCH_API_KEY]:
+        process.env.TAVILY_SEARCH_API_KEY || '',
+      ...config.toolEnvConfigs,
+    };
     const chainID = this.walletClient.chain?.id;
     // config chain depends on the chain id
     if (!chainID) {
