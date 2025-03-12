@@ -49,7 +49,8 @@ async function example() {
       // 'stake 0.0001 wbtc-wbera into the berahub vault',
       // 'stake 0.001 weth-wbera into the berahub vault',
       // 'stake 0.1 byusd-honey into the berahub vault',
-      'stake 0.1 USDCE_HONEY into the berahub vault',
+      // 'stake 0.1 USDCE_HONEY into the berahub vault',
+      'claim BGT rewards from the berahub vault BYUSD_HONEY to 0x049946bdA9951b4B079F5b6dc3B5A72AC48B3D73',
     );
     log.info('Result:', response);
 
