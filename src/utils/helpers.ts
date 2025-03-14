@@ -1,17 +1,20 @@
-import {
-  Abi,
-  Address,
-  erc20Abi,
-  formatUnits,
-  parseUnits,
-  WalletClient,
-  zeroAddress,
-} from 'viem';
 import axios from 'axios';
-import { log } from './logger';
-import { createViemPublicClient } from './createViemPublicClient';
+import
+  {
+    Abi,
+    Address,
+    erc20Abi,
+    formatUnits,
+    parseUnits,
+    WalletClient,
+    zeroAddress,
+  } from 'viem';
+import { LP_TOKEN_CONFIG } from '../constants';
 import { ConfigChain } from '../constants/chain';
+import { PoolConfig } from '../constants/types';
+import { createViemPublicClient } from './createViemPublicClient';
 import { SupportedChainId } from './enum';
+import { log } from './logger';
 
 const tokenDecimalsCache: Map<string, number> = new Map();
 
@@ -244,7 +247,6 @@ export const checkBalance = async (
   tokenAddress?: Address,
   contractAbi?: Abi,
 ): Promise<void> => {
-
   const balance =
     !tokenAddress || tokenAddress === zeroAddress
       ? await getNativeTokenBalance(walletClient)
@@ -257,4 +259,58 @@ export const checkBalance = async (
   }
 
   log.info(`[INFO] Sufficient balance available`);
+};
+
+const resolveToken = (config: ConfigChain, tokenInput?: string ) => {
+  if (!tokenInput) return undefined;
+
+  if (tokenInput.startsWith('0x')) {
+    const entry = Object.entries(config.TOKEN).find(
+      ([_, address]) => address.toLowerCase() === tokenInput.toLowerCase(),
+    );
+    return entry ? entry[0] : tokenInput;
+  }
+  return tokenInput;
+};
+
+export const getConfigByToolArgs = (
+  args: { token0?: string; token1?: string; lpPair?: string },
+  config: ConfigChain,
+):
+  | undefined
+  | (PoolConfig & {
+      token0Address: Address;
+      token1Address: Address;
+    }) => {
+  // Return early if no tokens or LP pair provided
+  if (!args.token0 && !args.token1 && !args.lpPair) {
+    return undefined;
+  }
+
+  // Handle token addresses or symbols
+  const token0Symbol = resolveToken(config, args.token0);
+  const token1Symbol = resolveToken(config, args.token1);
+
+  // Determine pair name
+  const pairName =
+    token0Symbol && token1Symbol
+      ? `${token0Symbol.toUpperCase()}_${token1Symbol.toUpperCase()}`
+      : args.lpPair?.replace(/\./g, '').toUpperCase() || '';
+
+  if (!pairName) return undefined;
+
+  // Get pool configuration
+  const poolConfig = LP_TOKEN_CONFIG[pairName as keyof typeof LP_TOKEN_CONFIG];
+  if (!poolConfig) return undefined;
+
+  // Get token addresses from config
+  const [configToken0, configToken1] = poolConfig.token.split('_');
+  const token0Address = config.TOKEN[configToken0 as keyof typeof config.TOKEN];
+  const token1Address = config.TOKEN[configToken1 as keyof typeof config.TOKEN];
+
+  return {
+    ...poolConfig,
+    token0Address,
+    token1Address,
+  };
 };

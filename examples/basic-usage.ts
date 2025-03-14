@@ -54,7 +54,9 @@ async function example() {
       // 'stake 0.1 byusd-honey into the berahub vault',
       // 'stake 0.1 USDCE_HONEY into the berahub vault',
       // 'claim BGT rewards from the berahub vault BYUSD_HONEY to 0x049946bdA9951b4B079F5b6dc3B5A72AC48B3D73',
-      'stake 0.01 WBERA_HONEY into the infrared vault',
+      // 'stake 0.01 WBERA_HONEY into the infrared vault',
+      // 'Join liquidity pool USDCE_HONEY with 0.1 USDCE and 0.1 HONEY in berahub',
+      'Join liquidity pool usdc honey with 0.1 usdc and 0.1 honey in berahub',
     );
     log.info('Result:', response);
 
