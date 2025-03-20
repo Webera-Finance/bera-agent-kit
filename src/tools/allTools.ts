@@ -35,6 +35,7 @@ import { beraHubClaimBGTTool } from './berahub/berahubClaimBGT';
 import { berahubRedeemBGTTool } from './berahub/berahubRedeemBGT';
 import { berahubDelegateBGTTool } from './berahub/berahubDelegateBGT';
 import { berahubJoinPoolTool } from './berahub/berahubJoinPool';
+import { ivxPerpTool } from './ivx/ivxPerp';
 
 export interface ToolConfig<T = any, W = WalletClient, P = PublicClient> {
   definition: {
@@ -96,5 +97,6 @@ export function createTools(): Record<
     berahub_redeem_bgt: berahubRedeemBGTTool,
     berahub_delegate_bgt: berahubDelegateBGTTool,
     berahub_join_pool: berahubJoinPoolTool,
+    ivx_perp: ivxPerpTool,
   };
 }

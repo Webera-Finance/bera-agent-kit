@@ -66,6 +66,7 @@ You have access to these tools:
 - "berahub_redeem_bgt": Redeem BGT tokens to a specified receiver address (defaults to current wallet address if not provided)
 - "berahub_delegate_bgt": Delegate BGT tokens to a validator using queueBoost function
 - "berahub_join_pool": Join a liquidity pool in Berahub by providing liquidity. You can specify either token0 and token1 with their amounts (amount0In, amount1In) or use lpPair (like WBERA_HONEY, WBTC_WBERA) with corresponding amounts. Supports various LP pairs including WBERA_HONEY, WBTC_WBERA, WETH_WBERA, BYUSD_HONEY,USDC_HONEY and USDCE_HONEY
+- "ivx_perp": Perform a IVX Perp with long or short position with pair of token in USD
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://berascan.com/tx/{txHash}.
