@@ -50,11 +50,7 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
         args.stakeAmount,
       );
 
-      await checkBalance(
-        walletClient,
-        parsedStakeAmount,
-        ibgtTokenAddress,
-      );
+      await checkBalance(walletClient, parsedStakeAmount, ibgtTokenAddress);
 
       console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
 

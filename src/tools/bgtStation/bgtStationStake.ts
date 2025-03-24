@@ -71,11 +71,7 @@ export const bgtStationStakeTool: ToolConfig<BGTStationStakeArgs> = {
         args.amount,
       );
 
-      await checkBalance(
-        walletClient,
-        parsedAmount,
-        stakingTokenAddress,
-      );
+      await checkBalance(walletClient, parsedAmount, stakingTokenAddress);
 
       await checkAndApproveAllowance(
         walletClient,

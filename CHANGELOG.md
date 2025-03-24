@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.1.0...v1.2.0) (2025-03-24)
+
+
+### Bug Fixes
+
+* Remove unnecessary chain and account parameters in token allowance approval ([#109](https://github.com/Webera-Finance/bera-agent-kit/issues/109)) ([84cd28b](https://github.com/Webera-Finance/bera-agent-kit/commit/84cd28b80eb2dafa378f6724a986bfab0cf1d7fe))
+
+
+### Features
+
+* Add separate function for native token balance retrieval ([#110](https://github.com/Webera-Finance/bera-agent-kit/issues/110)) ([696a20b](https://github.com/Webera-Finance/bera-agent-kit/commit/696a20bbb9fd3af89fa8783a43f9c719ba5aff75))
+* Beraborrow deposit nect to pool ([#112](https://github.com/Webera-Finance/bera-agent-kit/issues/112)) ([3b31df4](https://github.com/Webera-Finance/bera-agent-kit/commit/3b31df411312aeeba070416de8d0b18be7a84098))
+* integration deposit/withdraw webera vault: honey, bera, beralst ([#111](https://github.com/Webera-Finance/bera-agent-kit/issues/111)) ([9ccfffc](https://github.com/Webera-Finance/bera-agent-kit/commit/9ccfffc282c8542b4813f185a6f735c959e58295))
+
 # [1.1.0](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.0.10...v1.1.0) (2025-02-28)
 
 

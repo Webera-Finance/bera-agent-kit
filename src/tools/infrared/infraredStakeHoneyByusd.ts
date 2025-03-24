@@ -4,7 +4,7 @@ import { ConfigChain } from '../../constants/chain';
 import {
   checkAndApproveAllowance,
   checkBalance,
-  fetchTokenDecimalsAndParseAmount
+  fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { ToolConfig } from '../allTools';
 
@@ -47,7 +47,7 @@ export const infraredStakeHoneyByusdTool: ToolConfig<InfraredStakeHoneyByusdArgs
           args.stakeAmount,
         );
 
-        await checkBalance( 
+        await checkBalance(
           walletClient,
           parsedStakeAmount,
           config.TOKEN.HONEY_BYUSD,

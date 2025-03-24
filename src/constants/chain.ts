@@ -40,13 +40,19 @@ export const TestnetChainConfig: ConfigChain = {
       '0x29F4D4511dA9771F0529872923fb48F4ACfEDcc2' as `0x${string}`,
     HoneypotNonfungiblePositionManager:
       '0x29a738deAFdd2c6806e2f66891D812A311799828' as `0x${string}`,
-    InfraredHoneyByusd: '0xbbB228B0D7D83F86e23a5eF3B1007D0100581613' as `0x${string}`,
-    InfraredHoneyUsdce: '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1' as `0x${string}`,
-    InfraredHoneyWBera: '0xe2d8941dfb85435419D90397b09D18024ebeef2C' as `0x${string}`,
-    InfraredWberaWBTC: '0x78beda3a06443f51718d746aDe95b5fAc094633E' as `0x${string}`,
-    InfraredWberaWETH: '0x0dF14916796854d899576CBde69a35bAFb923c22' as `0x${string}`,
+    InfraredHoneyByusd:
+      '0xbbB228B0D7D83F86e23a5eF3B1007D0100581613' as `0x${string}`,
+    InfraredHoneyUsdce:
+      '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1' as `0x${string}`,
+    InfraredHoneyWBera:
+      '0xe2d8941dfb85435419D90397b09D18024ebeef2C' as `0x${string}`,
+    InfraredWberaWBTC:
+      '0x78beda3a06443f51718d746aDe95b5fAc094633E' as `0x${string}`,
+    InfraredWberaWETH:
+      '0x0dF14916796854d899576CBde69a35bAFb923c22' as `0x${string}`,
     IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5' as `0x${string}`,
-    MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d' as `0x${string}`,
+    MemeswapStakeBera:
+      '0x21F18c02B2487024018Ef3a4D95f9D436867743d' as `0x${string}`,
     WeberaRouterVault: 'todo' as `0x${string}`,
     WeberaHoneyVault: 'todo' as `0x${string}`,
     WeberaBeraVault: 'todo' as `0x${string}`,

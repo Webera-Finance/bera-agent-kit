@@ -4,7 +4,7 @@ import { ConfigChain } from '../../constants/chain';
 import {
   checkAndApproveAllowance,
   checkBalance,
-  fetchTokenDecimalsAndParseAmount
+  fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { ToolConfig } from '../allTools';
 
@@ -52,7 +52,7 @@ export const infraredStakeHoneyWBeraTool: ToolConfig<InfraredStakeHoneyWBeraArgs
           parsedStakeAmount,
           config.TOKEN.HONEY_WBERA,
         );
-      
+
         console.log(
           `[INFO] Checking allowance for ${config.TOKEN.HONEY_WBERA}`,
         );

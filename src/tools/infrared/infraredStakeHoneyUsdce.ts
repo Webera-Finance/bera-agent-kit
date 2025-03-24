@@ -4,7 +4,7 @@ import { ConfigChain } from '../../constants/chain';
 import {
   checkAndApproveAllowance,
   checkBalance,
-  fetchTokenDecimalsAndParseAmount
+  fetchTokenDecimalsAndParseAmount,
 } from '../../utils/helpers';
 import { ToolConfig } from '../allTools';
 
@@ -40,7 +40,6 @@ export const infraredStakeHoneyUsdceTool: ToolConfig<InfraredStakeHoneyUsdceArgs
         if (!walletClient || !walletClient.account) {
           throw new Error('Wallet client is not provided');
         }
-
 
         const parsedStakeAmount = await fetchTokenDecimalsAndParseAmount(
           walletClient,

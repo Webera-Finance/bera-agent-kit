@@ -52,7 +52,7 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
         );
 
         console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
-        
+
         await checkBalance(
           walletClient,
           parsedWithdrawAmount,
@@ -70,7 +70,7 @@ export const infraredWithdrawStakedIBGTTool: ToolConfig<InfraredWithdrawStakedIB
 
         // if (parsedWithdrawAmount > stakedIBGT) {
         //   throw new Error(
-        //     `Withdraw amount exceeds staked iBGT amount: 
+        //     `Withdraw amount exceeds staked iBGT amount:
         //     - staked iBGT: ${stakedIBGT.toString()}
         //     - withdraw amount: ${parsedWithdrawAmount.toString()}`,
         //   );

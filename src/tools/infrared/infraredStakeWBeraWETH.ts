@@ -52,7 +52,7 @@ export const infraredStakeWBeraWETHTool: ToolConfig<InfraredStakeWBeraWETHArgs> 
           parsedStakeAmount,
           config.TOKEN.WBERA_WETH,
         );
-        
+
         console.log(`[INFO] Checking allowance for ${config.TOKEN.WBERA_WETH}`);
 
         // check allowance

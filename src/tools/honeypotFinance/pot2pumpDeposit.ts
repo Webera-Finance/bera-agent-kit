@@ -56,11 +56,7 @@ export const pot2pumpDepositTool: ToolConfig<Pot2PumpDepositArgs> = {
         args.raisedTokenAmount,
       );
 
-      await checkBalance(
-        walletClient,
-        parsedAmount,
-        args.raisedToken,
-      );
+      await checkBalance(walletClient, parsedAmount, args.raisedToken);
 
       // Check and approve token allowance
       await checkAndApproveAllowance(
