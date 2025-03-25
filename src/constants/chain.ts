@@ -46,7 +46,8 @@ export const TestnetChainConfig: ConfigChain = {
     InfraredWBTCWBera: '0x78beda3a06443f51718d746aDe95b5fAc094633E' as `0x${string}`,
     InfraredWETHWBera: '0x0dF14916796854d899576CBde69a35bAFb923c22' as `0x${string}`,
     IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5' as `0x${string}`,
-    MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d' as `0x${string}`,
+    MemeswapStakeBera:
+      '0x21F18c02B2487024018Ef3a4D95f9D436867743d' as `0x${string}`,
     WeberaRouterVault: 'todo' as `0x${string}`,
     WeberaHoneyVault: 'todo' as `0x${string}`,
     WeberaBeraVault: 'todo' as `0x${string}`,

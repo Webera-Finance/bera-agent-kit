@@ -41,11 +41,8 @@ export const infraredStakeBeraTool: ToolConfig<InfraredStakeBeraArgs> = {
       const iBeraContractAddress = config.CONTRACT.IBera;
 
       const parsedStakeAmount = parseEther(args.stakeAmount.toString());
-      
-      await checkBalance(
-        walletClient,
-        parsedStakeAmount,
-      );
+
+      await checkBalance(walletClient, parsedStakeAmount);
 
       const tx = await walletClient.writeContract({
         address: iBeraContractAddress,
