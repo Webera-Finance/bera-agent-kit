@@ -40,16 +40,11 @@ export const TestnetChainConfig: ConfigChain = {
       '0x29F4D4511dA9771F0529872923fb48F4ACfEDcc2' as `0x${string}`,
     HoneypotNonfungiblePositionManager:
       '0x29a738deAFdd2c6806e2f66891D812A311799828' as `0x${string}`,
-    InfraredHoneyByusd:
-      '0xbbB228B0D7D83F86e23a5eF3B1007D0100581613' as `0x${string}`,
-    InfraredHoneyUsdce:
-      '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1' as `0x${string}`,
-    InfraredHoneyWBera:
-      '0xe2d8941dfb85435419D90397b09D18024ebeef2C' as `0x${string}`,
-    InfraredWberaWBTC:
-      '0x78beda3a06443f51718d746aDe95b5fAc094633E' as `0x${string}`,
-    InfraredWberaWETH:
-      '0x0dF14916796854d899576CBde69a35bAFb923c22' as `0x${string}`,
+    InfraredByusdHoney: '0xbbB228B0D7D83F86e23a5eF3B1007D0100581613' as `0x${string}`,
+    InfraredUsdceHoney: '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1' as `0x${string}`,
+    InfraredHoneyWBera: '0xe2d8941dfb85435419D90397b09D18024ebeef2C' as `0x${string}`,
+    InfraredWBTCWBera: '0x78beda3a06443f51718d746aDe95b5fAc094633E' as `0x${string}`,
+    InfraredWETHWBera: '0x0dF14916796854d899576CBde69a35bAFb923c22' as `0x${string}`,
     IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5' as `0x${string}`,
     MemeswapStakeBera:
       '0x21F18c02B2487024018Ef3a4D95f9D436867743d' as `0x${string}`,
@@ -58,6 +53,11 @@ export const TestnetChainConfig: ConfigChain = {
     WeberaBeraVault: 'todo' as `0x${string}`,
     WeberaBeraLstVault: 'todo' as `0x${string}`,
     BeraBorrowPool: 'todo' as `0x${string}`,
+    BeraHubHoneyWBera: 'todo' as `0x${string}`,
+    BeraHubWBTCWBera: 'todo' as `0x${string}`,
+    BeraHubWETHWBera: 'todo' as `0x${string}`,
+    BeraHubBYUSDHoney: 'todo' as `0x${string}`,
+    BeraHubUSDCEHoney: 'todo' as `0x${string}`,
   },
 };
 
@@ -69,11 +69,15 @@ export const MainnetChainConfig: ConfigChain = {
     HONEY: '0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce' as `0x${string}`,
     BGT: '0x656b95E550C07a9ffe548bd4085c72418Ceb1dba' as `0x${string}`,
     USDC: '0x549943e04f40284185054145c6E4e9568C1D3241' as `0x${string}`,
-    HONEY_BYUSD: '0xde04c469ad658163e2a5e860a03a86b52f6fa8c8',
-    HONEY_USDCE: '0xf961a8f6d8c69e7321e78d254ecafbcc3a637621',
-    HONEY_WBERA: '0x2c4a603A2aA5596287A06886862dc29d56DbC354',
-    WBERA_WBTC: '0x38fdd999fe8783037db1bbfe465759e312f2d809',
-    WBERA_WETH: '0xdd70a5ef7d8cfe5c5134b5f9874b09fb5ce812b4',
+    USDCE: '0x549943e04f40284185054145c6E4e9568C1D3241' as `0x${string}`,
+    BYUSD: '0x688e72142674041f8f6Af4c808a4045cA1D6aC82' as `0x${string}`,
+    WBTC: '0x0555E30da8f98308EdB960aa94C0Db47230d2B9c' as `0x${string}`,
+    WETH: '0x2F6F07CDcf3588944Bf4C42aC74ff24bF56e7590' as `0x${string}`,
+    BYUSD_HONEY: '0xde04c469ad658163e2a5e860a03a86b52f6fa8c8',
+    USDCE_HONEY: '0xf961a8f6d8c69e7321e78d254ecafbcc3a637621',
+    WBERA_HONEY: '0x2c4a603A2aA5596287A06886862dc29d56DbC354',
+    WBTC_WBERA: '0x38fdd999fe8783037db1bbfe465759e312f2d809',
+    WETH_WBERA: '0xdd70a5ef7d8cfe5c5134b5f9874b09fb5ce812b4',
     NECTAR: '0x1ce0a25d13ce4d52071ae7e02cf1f6606f4c79d3' as `0x${string}`,
   },
   URL: {
@@ -82,7 +86,7 @@ export const MainnetChainConfig: ConfigChain = {
     BGTVaultURL: 'todo',
   },
   CONTRACT: {
-    OBRouter: 'todo' as `0x${string}`,
+    OBRouter: '0xFd88aD4849BA0F729D6fF4bC27Ff948Ab1Ac3dE7' as `0x${string}`,
     KodiakSwapRouter02:
       '0xe301E48F77963D3F7DbD2a4796962Bd7f3867Fb4' as `0x${string}`,
     KodiakUniswapV2Router02:
@@ -98,11 +102,11 @@ export const MainnetChainConfig: ConfigChain = {
     Pot2PumpFactory: 'todo' as `0x${string}`,
     Pot2PumpFacade: 'todo' as `0x${string}`,
     HoneypotNonfungiblePositionManager: 'todo' as `0x${string}`,
-    InfraredHoneyByusd: '0xbbB228B0D7D83F86e23a5eF3B1007D0100581613',
-    InfraredHoneyUsdce: '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1',
+    InfraredByusdHoney: '0xbbB228B0D7D83F86e23a5eF3B1007D0100581613',
+    InfraredUsdceHoney: '0x1419515d3703d8F2cc72Fa6A341685E4f8e7e8e1',
     InfraredHoneyWBera: '0xe2d8941dfb85435419D90397b09D18024ebeef2C',
-    InfraredWberaWBTC: '0x78beda3a06443f51718d746aDe95b5fAc094633E',
-    InfraredWberaWETH: '0x0dF14916796854d899576CBde69a35bAFb923c22',
+    InfraredWBTCWBera: '0x78beda3a06443f51718d746aDe95b5fAc094633E',
+    InfraredWETHWBera: '0x0dF14916796854d899576CBde69a35bAFb923c22',
     IBera: '0x9b6761bf2397Bb5a6624a856cC84A3A14Dcd3fe5',
     MemeswapStakeBera: '0x21F18c02B2487024018Ef3a4D95f9D436867743d',
     WeberaRouterVault: '0xf44328d75638eec3E2f7075846c7596E92774aD2',
@@ -110,6 +114,11 @@ export const MainnetChainConfig: ConfigChain = {
     WeberaBeraVault: '0x55a050f76541C2554e9dfA3A0b4e665914bF92EA',
     WeberaBeraLstVault: '0xCf1bfB3F9dc663F6775f999239E646e0021CCc0B',
     BeraBorrowPool: '0x597877ccf65be938bd214c4c46907669e3e62128',
+    BeraHubHoneyWBera: '0xC2BaA8443cDA8EBE51a640905A8E6bc4e1f9872c',
+    BeraHubWBTCWBera: '0x086f82fa0cA310Cc835a9DB4f53697687ef149c7',
+    BeraHubWETHWBera: '0x17376aD6167a5592FbEAA42e6068c132474a513d',
+    BeraHubBYUSDHoney: '0x6649Bc987a7c0fB0199c523de1b1b330cd0457A8',
+    BeraHubUSDCEHoney: '0xF99be47baf0c22B7eB5EAC42c8D91b9942Dc7e84',
   },
 };
 
@@ -134,11 +143,11 @@ export type ConfigChain = {
     Pot2PumpFactory: `0x${string}`;
     Pot2PumpFacade: `0x${string}`;
     HoneypotNonfungiblePositionManager: `0x${string}`;
-    InfraredHoneyByusd: `0x${string}`;
-    InfraredHoneyUsdce: `0x${string}`;
+    InfraredByusdHoney: `0x${string}`;
+    InfraredUsdceHoney: `0x${string}`;
     InfraredHoneyWBera: `0x${string}`;
-    InfraredWberaWBTC: `0x${string}`;
-    InfraredWberaWETH: `0x${string}`;
+    InfraredWBTCWBera: `0x${string}`;
+    InfraredWETHWBera: `0x${string}`;
     IBera: `0x${string}`;
     MemeswapStakeBera: `0x${string}`;
     WeberaRouterVault: `0x${string}`;
@@ -146,6 +155,11 @@ export type ConfigChain = {
     WeberaBeraVault: `0x${string}`;
     WeberaBeraLstVault: `0x${string}`;
     BeraBorrowPool: `0x${string}`;
+    BeraHubHoneyWBera: `0x${string}`;
+    BeraHubWBTCWBera: `0x${string}`;
+    BeraHubWETHWBera: `0x${string}`;
+    BeraHubBYUSDHoney: `0x${string}`;
+    BeraHubUSDCEHoney: `0x${string}`;
   };
 };
 

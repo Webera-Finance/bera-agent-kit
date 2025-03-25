@@ -7,6 +7,7 @@ import {
 } from '../../utils/helpers';
 import { InfraredVaultABI } from '../../constants/abis/infraredABI';
 import { ConfigChain } from '../../constants/chain';
+import { log } from '../../utils/logger';
 
 interface InfraredStakeIBGTArgs {
   stakeAmount: number;
@@ -52,7 +53,7 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
 
       await checkBalance(walletClient, parsedStakeAmount, ibgtTokenAddress);
 
-      console.log(`[INFO] Checking allowance for ${ibgtTokenAddress}`);
+      log.info(`Checking allowance for ${ibgtTokenAddress}`);
 
       // check allowance
       await checkAndApproveAllowance(
@@ -62,7 +63,7 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
         parsedStakeAmount,
       );
 
-      console.log(`[INFO] Staking ${parsedStakeAmount.toString()} iBGT`);
+      log.info(`Staking ${parsedStakeAmount.toString()} iBGT`);
 
       const tx = await walletClient.writeContract({
         address: infraredIBGTVaultAddress,
@@ -83,10 +84,10 @@ export const infraredStakeIBGTTool: ToolConfig<InfraredStakeIBGTArgs> = {
       //   );
       // }
 
-      console.log(`[INFO] Stake successful: Transaction hash: ${tx}`);
+      log.info(`Stake successful: Transaction hash: ${tx}`);
       return tx;
     } catch (error: any) {
-      console.error(`[ERROR] Stake failed: ${error.message}`);
+      log.error(`Stake failed: ${error.message}`);
       throw new Error(`Stake failed: ${error.message}`);
     }
   },

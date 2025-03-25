@@ -1,3 +1,4 @@
+import { log } from '../src/utils/logger';
 import { BeraAgent, createViemWalletClient } from '../src';
 
 async function example() {
@@ -43,9 +44,21 @@ async function example() {
       // `check my wbera-weth balance and stake 0.0011 wbera-weth at infrared`,
       // "Which protocols on Berachain offer both yield and governance incentives?"
       // "withdraw 0.1 IBGT staked balance in the infrared protocol"
-      'deposit 0.01 nectar into the beraborrow pool'
+      // 'deposit 0.01 nectar into the beraborrow pool'
+      // 'get all supported tokens from ooga booga',
+      // 'swap 0.01 bera to honey at ooga booga with slippage 1%',
+      // 'swap 0.012 honey to bera at ooga booga with slippage 1%',
+      // 'stake 0.01 wbera-honey into the berahub vault'
+      // 'stake 0.0001 wbtc-wbera into the berahub vault',
+      // 'stake 0.001 weth-wbera into the berahub vault',
+      // 'stake 0.1 byusd-honey into the berahub vault',
+      // 'stake 0.1 USDCE_HONEY into the berahub vault',
+      // 'claim BGT rewards from the berahub vault BYUSD_HONEY to 0x049946bdA9951b4B079F5b6dc3B5A72AC48B3D73',
+      // 'stake 0.01 WBERA_HONEY into the infrared vault',
+      // 'Join liquidity pool USDCE_HONEY with 0.1 USDCE and 0.1 HONEY in berahub',
+      'Join liquidity pool usdc honey with 0.1 usdc and 0.1 honey in berahub',
     );
-    console.info('Result:', response);
+    log.info('Result:', response);
 
     // const transfer = await agent.sendMessage(
     //   // `check my bera, honey, bgt balance`,

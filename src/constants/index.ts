@@ -1,3 +1,5 @@
+import { LPTokenPair, PoolConfig } from './types';
+
 export const CONTRACT = {
   OBRouter: '0xF6eDCa3C79b4A3DFA82418e278a81604083b999D' as `0x${string}`,
   KodiakSwapRouter02:
@@ -32,4 +34,58 @@ export const URL = {
   OogaBoogaURL: 'https://bartio.api.oogabooga.io',
   BGTVaultURL:
     'https://bartio-pol-indexer.berachain.com/berachain/v1alpha1/beacon/vaults?pageSize=9999',
+};
+
+export const LP_TOKEN_CONFIG: Record<
+  LPTokenPair,
+  PoolConfig
+> = {
+  WBERA_HONEY: {
+    token: 'WBERA_HONEY',
+    beraHubVault: 'BeraHubHoneyWBera',
+    infraredVault: 'InfraredHoneyWBera',
+    description: 'WBera-Honey',
+    poolId:
+      '0x2c4a603a2aa5596287a06886862dc29d56dbc354000200000000000000000002',
+  },
+  WBTC_WBERA: {
+    token: 'WBTC_WBERA',
+    beraHubVault: 'BeraHubWBTCWBera',
+    infraredVault: 'InfraredWberaWBTC',
+    description: 'WBTC-WBera',
+    poolId:
+      '0x38fdd999fe8783037db1bbfe465759e312f2d809000200000000000000000004',
+  },
+  WETH_WBERA: {
+    token: 'WETH_WBERA',
+    beraHubVault: 'BeraHubWETHWBera',
+    infraredVault: 'InfraredWberaWETH',
+    description: 'WETH-WBera',
+    poolId:
+      '0xdd70a5ef7d8cfe5c5134b5f9874b09fb5ce812b4000200000000000000000003',
+  },
+  BYUSD_HONEY: {
+    token: 'BYUSD_HONEY',
+    beraHubVault: 'BeraHubBYUSDHoney',
+    infraredVault: 'InfraredHoneyBYUSD',
+    description: 'BYUSD-Honey',
+    poolId:
+      '0xde04c469ad658163e2a5e860a03a86b52f6fa8c8000000000000000000000000',
+  },
+  USDCE_HONEY: {
+    token: 'USDCE_HONEY',
+    beraHubVault: 'BeraHubUSDCEHoney',
+    infraredVault: 'InfraredHoneyUSDCE',
+    description: 'USDCE-Honey',
+    poolId:
+      '0xf961a8f6d8c69e7321e78d254ecafbcc3a637621000000000000000000000001',
+  },
+  USDC_HONEY: {
+    token: 'USDCE_HONEY',
+    beraHubVault: 'BeraHubUSDCEHoney',
+    infraredVault: 'InfraredHoneyUSDCE',
+    description: 'USDCE-Honey',
+    poolId:
+      '0xf961a8f6d8c69e7321e78d254ecafbcc3a637621000000000000000000000001',
+  },
 };

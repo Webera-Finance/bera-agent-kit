@@ -40,6 +40,7 @@ You have access to these tools:
 - "kodiak_add_liquidity_v2": Add liquidity to a liquidity pool V2 on Kodiak
 - "bex_swap": Perform a token swap on BEX
 - "ooga_booga_swap": Perform a token swap on Ooga Booga
+- "ooga_booga_tokens": Get all supported tokens from Ooga Booga
 - "bgt_station_stake": Stake tokens into a vault in the BGT Station
 - "bgt_station_claim_reward": Stake tokens into a vault in the BGT Station
 - "bgt_station_delegate": Delegate BGT to validator
@@ -54,16 +55,17 @@ You have access to these tools:
 - "pot2pump_launch": Launch a new pot2pump contract
 - "pot2pump_claim": Claim pot2pump tokens
 - "pot2pump_deposit": Deposit pot2pump tokens
-- "infrared_stake_honey_byusd": Stake honey-byusd into a vault in the Infrared protocol
-- "infrared_stake_honey_usdce": Stake honey-usdce into a vault in the Infrared protocol
-- "infrared_stake_honey_usdce": Stake honey-wbera into a vault in the Infrared protocol
-- "infrared_stake_wbera_wbtc": Stake wbera-wbtc into a vault in the Infrared protocol
-- "infrared_stake_wbera_weth": Stake wbera-weth into a vault in the Infrared protocol
+- "infrared_stake_lp": Stake LP tokens on Infrared Protocol (supports HONEY_WBERA, WBERA_WBTC, WBERA_WETH, HONEY_BYUSD, HONEY_USDCE pairs)
 - "infrared_stake_bera": Stake Bera tokens to earn IBera in the Infrared protocol
 - "memeswap_stake_bera": Stake Bera in Memeswap
 - "webera_deposit": Deposit Bera/Honey tokens to Webera Finance vault
 - "webera_withdraw": Withdraw Bera/Honey tokens from Webera Finance vault
 - "beraborrow_deposit_nect": Deposit Nectar into the Beraborrow Pool
+- "berahub_stake_lp": Stake LP tokens on Berahub (supports WBERA_HONEY, WBTC_WBERA, WETH_WBERA, BYUSD_HONEY, USDCE_HONEY pairs)
+- "berahub_claim_bgt": Claim BGT rewards from Berahub vaults (supports WBERA_HONEY, WBTC_WBERA, WETH_WBERA, BYUSD_HONEY, USDCE_HONEY pairs) to recipient address
+- "berahub_redeem_bgt": Redeem BGT tokens to a specified receiver address (defaults to current wallet address if not provided)
+- "berahub_delegate_bgt": Delegate BGT tokens to a validator using queueBoost function
+- "berahub_join_pool": Join a liquidity pool in Berahub by providing liquidity. You can specify either token0 and token1 with their amounts (amount0In, amount1In) or use lpPair (like WBERA_HONEY, WBTC_WBERA) with corresponding amounts. Supports various LP pairs including WBERA_HONEY, WBTC_WBERA, WETH_WBERA, BYUSD_HONEY,USDC_HONEY and USDCE_HONEY
 
 Your workflow for contract interactions should be:
 - After any transaction is sent, provide the user with the transaction hash and embed explorer link via endpoint https://berascan.com/tx/{txHash}.

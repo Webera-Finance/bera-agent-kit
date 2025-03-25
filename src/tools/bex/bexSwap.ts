@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
   Address,
   parseUnits,
-  PublicClient,
   WalletClient,
   zeroAddress,
 } from 'viem';
@@ -169,7 +168,6 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
     args,
     config: ConfigChain,
     walletClient: WalletClient,
-    publicClient: PublicClient,
   ) => {
     try {
       if (!walletClient || !walletClient.account) {

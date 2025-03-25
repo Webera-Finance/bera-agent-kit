@@ -4,7 +4,7 @@ import { ConfigChain } from '../../constants/chain';
 import { InfraredIBeraContractABI } from '../../constants/abis/infraredIBeraContractABI';
 import { parseEther } from 'viem/utils';
 import { checkBalance } from '../../utils/helpers';
-
+import { log } from '../../utils/logger';
 interface InfraredStakeBeraArgs {
   stakeAmount: number;
 }
@@ -54,7 +54,7 @@ export const infraredStakeBeraTool: ToolConfig<InfraredStakeBeraArgs> = {
         value: parsedStakeAmount,
       });
 
-      console.log(`[INFO] Stake successful: Transaction hash: ${tx}`);
+      log.info(`[INFO] Stake successful: Transaction hash: ${tx}`);
       return tx;
     } catch (error: any) {
       console.error(`[ERROR] Stake failed: ${error.message}`);
