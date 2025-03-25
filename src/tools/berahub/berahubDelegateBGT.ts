@@ -1,6 +1,9 @@
 import { Address, WalletClient } from 'viem';
 import { ToolConfig } from '../allTools';
-import { checkBalance, fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
+import {
+  checkBalance,
+  fetchTokenDecimalsAndParseAmount,
+} from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ConfigChain } from '../../constants/chain';
 import { BGTABI } from '../../constants/abis/bgtABI';
@@ -52,12 +55,8 @@ export const berahubDelegateBGTTool: ToolConfig<BerahubDelegateBGTArgs> = {
         config.TOKEN.BGT,
         args.amount,
       );
-      
-      await checkBalance(
-        walletClient,
-        parsedAmount,
-        config.TOKEN.BGT,
-      );
+
+      await checkBalance(walletClient, parsedAmount, config.TOKEN.BGT);
 
       log.info('[INFO] Delegating BGT using queueBoost...');
       const delegateTx = await walletClient.writeContract({

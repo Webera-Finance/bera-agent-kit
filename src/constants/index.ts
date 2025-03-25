@@ -36,10 +36,7 @@ export const URL = {
     'https://bartio-pol-indexer.berachain.com/berachain/v1alpha1/beacon/vaults?pageSize=9999',
 };
 
-export const LP_TOKEN_CONFIG: Record<
-  LPTokenPair,
-  PoolConfig
-> = {
+export const LP_TOKEN_CONFIG: Record<LPTokenPair, PoolConfig> = {
   WBERA_HONEY: {
     token: 'WBERA_HONEY',
     beraHubVault: 'BeraHubHoneyWBera',

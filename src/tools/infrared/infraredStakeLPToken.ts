@@ -68,7 +68,11 @@ export const infraredStakeLPTokenTool: ToolConfig<InfraredStakeLPTokenArgs> = {
         args.stakeAmount,
       );
 
-      await checkBalance(walletClient, parsedStakeAmount, config.TOKEN[tokenKey]);
+      await checkBalance(
+        walletClient,
+        parsedStakeAmount,
+        config.TOKEN[tokenKey],
+      );
 
       log.info(`[INFO] Checking allowance for ${config.TOKEN[tokenKey]}`);
 

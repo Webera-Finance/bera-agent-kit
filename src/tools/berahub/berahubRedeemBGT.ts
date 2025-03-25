@@ -1,12 +1,15 @@
 import { WalletClient } from 'viem';
 import { BGTABI } from '../../constants/abis/bgtABI';
 import { ConfigChain } from '../../constants/chain';
-import { checkBalance, fetchTokenDecimalsAndParseAmount } from '../../utils/helpers';
+import {
+  checkBalance,
+  fetchTokenDecimalsAndParseAmount,
+} from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ToolConfig } from '../allTools';
 
 interface BerahubRedeemBGTArgs {
-  receiver?: string; 
+  receiver?: string;
   amount: number;
 }
 
@@ -51,12 +54,8 @@ export const berahubRedeemBGTTool: ToolConfig<BerahubRedeemBGTArgs> = {
         args.amount,
       );
 
-      await checkBalance(
-        walletClient,
-        parsedAmount,
-        config.TOKEN.BGT,
-      );
-        
+      await checkBalance(walletClient, parsedAmount, config.TOKEN.BGT);
+
       const receiver = args.receiver || walletClient.account.address;
 
       log.info(`[INFO] Redeeming BGT to receiver: ${receiver}...`);

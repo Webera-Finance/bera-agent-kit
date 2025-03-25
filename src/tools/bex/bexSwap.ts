@@ -1,10 +1,5 @@
 import axios from 'axios';
-import {
-  Address,
-  parseUnits,
-  WalletClient,
-  zeroAddress,
-} from 'viem';
+import { Address, parseUnits, WalletClient, zeroAddress } from 'viem';
 import { ToolConfig } from '../allTools';
 import { BeraCrocMultiSwapABI } from '../../constants/abis/bexABI';
 import {
@@ -164,11 +159,7 @@ export const bexSwapTool: ToolConfig<BexSwapArgs> = {
       },
     },
   },
-  handler: async (
-    args,
-    config: ConfigChain,
-    walletClient: WalletClient,
-  ) => {
+  handler: async (args, config: ConfigChain, walletClient: WalletClient) => {
     try {
       if (!walletClient || !walletClient.account) {
         throw new Error('Wallet client is not provided');

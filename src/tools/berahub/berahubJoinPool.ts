@@ -2,13 +2,12 @@ import { encodeAbiParameters, WalletClient } from 'viem';
 import { LP_TOKEN_CONFIG } from '../../constants';
 import { PoolABI } from '../../constants/abis/PoolABI';
 import { ConfigChain } from '../../constants/chain';
-import
-  {
-    checkAndApproveAllowance,
-    checkBalance,
-    fetchTokenDecimalsAndParseAmount,
-    getConfigByToolArgs,
-  } from '../../utils/helpers';
+import {
+  checkAndApproveAllowance,
+  checkBalance,
+  fetchTokenDecimalsAndParseAmount,
+  getConfigByToolArgs,
+} from '../../utils/helpers';
 import { log } from '../../utils/logger';
 import { ToolConfig } from '../allTools';
 
@@ -81,10 +80,10 @@ export const berahubJoinPoolTool: ToolConfig<BerahubJoinPoolArgs> = {
       if (!walletClient?.account) {
         throw new Error('Wallet client with account is required');
       }
-    
+
       // Get pool configuration
-      const poolConfig = getConfigByToolArgs( args, config );
-      
+      const poolConfig = getConfigByToolArgs(args, config);
+
       if (!poolConfig || !poolConfig?.poolId) {
         throw new Error(
           `Pool configuration not found for ${args.lpPair || `${args.token0}_${args.token1}`}. Available pairs: ${Object.keys(LP_TOKEN_CONFIG).join(', ')}`,

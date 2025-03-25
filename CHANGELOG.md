@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.2.0...v1.3.0) (2025-03-25)
+
+
+### Features
+
+* sync up latest ([#113](https://github.com/Webera-Finance/bera-agent-kit/issues/113)) ([31c0aef](https://github.com/Webera-Finance/bera-agent-kit/commit/31c0aef0a8fcde5f668c4e80f026b640525a0660)), closes [#4](https://github.com/Webera-Finance/bera-agent-kit/issues/4)
+
 # [1.2.0](https://github.com/Webera-Finance/bera-agent-kit/compare/v1.1.0...v1.2.0) (2025-03-24)
 
 

@@ -1,14 +1,13 @@
 import axios from 'axios';
-import
-  {
-    Abi,
-    Address,
-    erc20Abi,
-    formatUnits,
-    parseUnits,
-    WalletClient,
-    zeroAddress,
-  } from 'viem';
+import {
+  Abi,
+  Address,
+  erc20Abi,
+  formatUnits,
+  parseUnits,
+  WalletClient,
+  zeroAddress,
+} from 'viem';
 import { LP_TOKEN_CONFIG } from '../constants';
 import { ConfigChain } from '../constants/chain';
 import { PoolConfig } from '../constants/types';
@@ -261,7 +260,7 @@ export const checkBalance = async (
   log.info(`[INFO] Sufficient balance available`);
 };
 
-const resolveToken = (config: ConfigChain, tokenInput?: string ) => {
+const resolveToken = (config: ConfigChain, tokenInput?: string) => {
   if (!tokenInput) return undefined;
 
   if (tokenInput.startsWith('0x')) {
